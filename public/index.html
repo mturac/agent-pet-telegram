@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Agent Pet 🐣</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a2e;
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .screen {
+            background: #0f0f23;
+            border-radius: 20px;
+            margin: 20px;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0,255,255,0.3);
+        }
+        
+        .pet-container {
+            width: 200px;
+            height: 200px;
+            background: #16213e;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .pet {
+            font-size: 80px;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .stats {
+            width: 100%;
+            margin: 10px 0;
+        }
+        
+        .stat-row {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+        
+        .stat-label {
+            width: 60px;
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .stat-bar {
+            flex: 1;
+            height: 20px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 10px;
+        }
+        
+        .stat-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+        
+        .hunger { background: #ff6b6b; }
+        .happy { background: #4ecdc4; }
+        .energy { background: #45b7d1; }
+        
+        .stat-value {
+            width: 30px;
+            text-align: right;
+            font-size: 12px;
+        }
+        
+        .info {
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+        
+        .level {
+            font-size: 14px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px;
+        }
+        
+        .btn {
+            background: #16213e;
+            border: 2px solid #4ecdc4;
+            border-radius: 15px;
+            padding: 15px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+            background: #4ecdc4;
+        }
+        
+        .btn-label {
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .btn:active .btn-label {
+            color: #1a1a2e;
+        }
+    </style>
+</head>
+<body>
+    <div class="screen">
+        <div class="info">
+            <div class="name">Clawdy</div>
+            <div class="level">Level 1 • Egg Stage</div>
+        </div>
+        
+        <div class="pet-container">
+            <div class="pet" id="pet">🥚</div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-row">
+                <span class="stat-label">Hunger</span>
+                <div class="stat-bar">
+                    <div class="stat-fill hunger" id="hunger-bar" style="width: 50%"></div>
+                </div>
+                <span class="stat-value" id="hunger-val">50</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Happy</span>
+                <div class="stat-bar">
+                    <div class="stat-fill happy" id="happy-bar" style="width: 50%"></div>
+                </div>
+                <span class="stat-value" id="happy-val">50</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Energy</span>
+                <div class="stat-bar">
+                    <div class="stat-fill energy" id="energy-bar" style="width: 100%"></div>
+                </div>
+                <span class="stat-value" id="energy-val">100</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="buttons">
+        <button class="btn" onclick="feed()">
+            🍕
+            <span class="btn-label">Feed</span>
+        </button>
+        <button class="btn" onclick="play()">
+            🎮
+            <span class="btn-label">Play</span>
+        </button>
+        <button class="btn" onclick="code()">
+            💻
+            <span class="btn-label">Code</span>
+        </button>
+    </div>
+
+    <script>
+        // Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.ready();
+        
+        // Pet state
+        let pet = {
+            stage: 0,
+            hunger: 50,
+            happy: 50,
+            energy: 100,
+            xp: 0,
+            level: 1
+        };
+        
+        const stages = ['🥚', '🤖', '💻', '🦖', '👑'];
+        const stageNames = ['Egg', 'Baby Bot', 'Teen Coder', 'Senior Dev', '10x Legend'];
+        
+        function updateUI() {
+            document.getElementById('pet').textContent = stages[pet.stage];
+            document.querySelector('.level').textContent = `Level ${pet.level} • ${stageNames[pet.stage]}`;
+            
+            document.getElementById('hunger-bar').style.width = pet.hunger + '%';
+            document.getElementById('hunger-val').textContent = pet.hunger;
+            
+            document.getElementById('happy-bar').style.width = pet.happy + '%';
+            document.getElementById('happy-val').textContent = pet.happy;
+            
+            document.getElementById('energy-bar').style.width = pet.energy + '%';
+            document.getElementById('energy-val').textContent = pet.energy;
+            
+            // Haptic feedback
+            tg.HapticFeedback.impactOccurred('light');
+        }
+        
+        function feed() {
+            pet.hunger = Math.min(100, pet.hunger + 20);
+            pet.energy = Math.max(0, pet.energy - 5);
+            addXP(5);
+            updateUI();
+            tg.showPopup({
+                title: '🍕 Yummy!',
+                message: 'Your pet enjoyed the food!'
+            });
+        }
+        
+        function play() {
+            pet.happy = Math.min(100, pet.happy + 15);
+            pet.energy = Math.max(0, pet.energy - 10);
+            pet.hunger = Math.max(0, pet.hunger - 10);
+            addXP(10);
+            updateUI();
+            tg.showPopup({
+                title: '🎮 Fun!',
+                message: 'Your pet had a great time!'
+            });
+        }
+        
+        function code() {
+            pet.xp += 10;
+            pet.energy = Math.max(0, pet.energy - 5);
+            pet.hunger = Math.max(0, pet.hunger - 5);
+            addXP(15);
+            updateUI();
+            tg.showPopup({
+                title: '💻 Coding!',
+                message: 'Your pet is proud of you!'
+            });
+        }
+        
+        function addXP(amount) {
+            pet.xp += amount;
+            if (pet.xp >= 100) {
+                pet.level++;
+                pet.xp = 0;
+                checkEvolution();
+            }
+        }
+        
+        function checkEvolution() {
+            const oldStage = pet.stage;
+            if (pet.level >= 20) pet.stage = 4;
+            else if (pet.level >= 15) pet.stage = 3;
+            else if (pet.level >= 10) pet.stage = 2;
+            else if (pet.level >= 5) pet.stage = 1;
+            
+            if (pet.stage > oldStage) {
+                tg.showPopup({
+                    title: '✨ Evolution!',
+                    message: `Your pet evolved into ${stageNames[pet.stage]}!`
+                });
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+        }
+        
+        // Decay over time
+        setInterval(() => {
+            pet.hunger = Math.max(0, pet.hunger - 1);
+            pet.happy = Math.max(0, pet.happy - 1);
+            updateUI();
+        }, 60000); // Every minute
+        
+        updateUI();
+    </script>
+</body>
+</html>

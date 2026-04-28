@@ -1,0 +1,18 @@
+{
+  "name": "agent-pet-telegram",
+  "version": "0.1.0",
+  "description": "🐣 Tamagotchi-style pet for Telegram Web App",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "nodemon bot.js"
+  },
+  "keywords": ["telegram", "bot", "webapp", "pet", "game"],
+  "author": "TURAC",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-telegram-bot-api": "^0.63.0",
+    "dotenv": "^16.3.1"
+  }
+}
