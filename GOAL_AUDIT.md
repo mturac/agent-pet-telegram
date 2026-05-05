@@ -42,6 +42,9 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - `ffprobe submission/demo-video.mp4` reported 500x900 and 10 seconds
 - `npm run audit:submission` passed locally with production warnings
 - `npm run audit:submission -- --require-production` fails until live production inputs and tests are filled
+- `npm run check:deploy -- http://localhost:3002` passed against a live local server
+- `curl http://localhost:3002/api/health` returned `memoryConfigured: true`, `activityConfigured: true`, and `telegramEnabled: false`
+- GitHub Actions `Submission checks` completed successfully for commit `765d8ff`
 - `git diff --check`
 - GitHub Pages workflow `Deploy static demo to GitHub Pages` completed successfully for commit `2f4d878`
 - `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200
