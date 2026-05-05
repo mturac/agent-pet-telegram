@@ -17,6 +17,7 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - BotFather media packet: `BOTFATHER_PACKET.md`, `assets/openclaw-pet-avatar.png`, `assets/openclaw-pet-splash.png`
 - Screenshot capture: `npm run screenshots -- WEBAPP_URL`
 - Local screenshot evidence: `submission/screenshots/01-home.png`, `02-star-boosts.png`, `03-badges.png`, `04-support-privacy.png`
+- Static demo video capture: `npm run demo:video`, output `submission/demo-video.mp4`
 - Screenshot demo mode shows OpenClaw activity signals instead of guest fallback copy.
 - GitHub Pages static demo: `.github/workflows/pages.yml`; preview only, not production backend.
 - Deploy packet: `DEPLOYMENT.md`, `deploy/nginx/openclaw-pet.conf.example`, `deploy/systemd/openclaw-pet.service.example`
@@ -36,6 +37,8 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - `BOT_TOKEN='123456:abc_DEF-ghi' WEBAPP_URL='https://pet.example.com' OPENCLAW_PET_MEMORY_DIR='/tmp/openclaw-pet-preflight' npm run preflight`
 - `BOT_TOKEN='123456:abc_DEF-ghi' WEBAPP_URL='http://pet.example.com' OPENCLAW_PET_MEMORY_DIR='/tmp/openclaw-pet-preflight' npm run preflight` fails as expected
 - `npm run screenshots -- http://localhost:3002`
+- `npm run demo:video`
+- `ffprobe submission/demo-video.mp4` reported 500x900 and 10 seconds
 - `git diff --check`
 - GitHub Pages workflow `Deploy static demo to GitHub Pages` completed successfully for commit `2f4d878`
 - `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200

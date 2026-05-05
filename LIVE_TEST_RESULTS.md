@@ -39,6 +39,7 @@ Fill this after production deploy.
 - Current production preflight: blocked because `BOT_TOKEN` is not set in this environment
 - Screen recording:
 - Screenshots:
+- Static preview video: `submission/demo-video.mp4` generated from the GitHub Pages demo at 500x900, 10 seconds
 - Payment proof:
 - `EXPECT_TELEGRAM=1 npm run check:deploy -- <production-url>` output:
 - `npm run preflight` output:

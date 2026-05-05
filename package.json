@@ -11,7 +11,8 @@
     "preflight": "node scripts/preflight.js",
     "check:deploy": "node scripts/check-deploy.js",
     "telegram:configure": "node scripts/configure-telegram.js",
-    "screenshots": "node scripts/capture-screenshots.js"
+    "screenshots": "node scripts/capture-screenshots.js",
+    "demo:video": "node scripts/capture-demo-video.js"
   },
   "keywords": ["telegram", "bot", "webapp", "pet", "game"],
   "author": "TURAC",

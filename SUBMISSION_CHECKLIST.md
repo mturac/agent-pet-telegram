@@ -11,6 +11,7 @@
 - Test OpenClaw Sync after recent activity exists in `OPENCLAW_ACTIVITY_DIR`.
 - Confirm `npm run check` passes and `/api/health` returns `telegramEnabled: true`.
 - Run `npm run screenshots -- WEBAPP_URL` and review the 500x900 PNGs in `submission/screenshots/`.
+- Run `npm run demo:video` and review `submission/demo-video.mp4`.
 
 ## Submission Copy
 
@@ -19,6 +20,7 @@ Telegram-first coding pet with synced OpenClaw memory, daily quests, social shar
 ## Evidence To Capture
 
 - Mobile screen recording: open app, feed/play/code, claim quest, buy Stars boost, close/reopen.
+- Static preview video: `submission/demo-video.mp4`.
 - Screenshot set: home, Star Boosts, badges, support/privacy, share flow.
 - Payment support proof: bot responds to `/paysupport`.
 - Filled production evidence: `LIVE_TEST_RESULTS.md`.
