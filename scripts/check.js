@@ -11,13 +11,16 @@ if (!scriptMatch) {
   throw new Error('public/index.html must include an inline script.');
 }
 
-require('child_process').execFileSync(process.execPath, ['--check', 'bot.js'], {
-  stdio: 'inherit'
-});
+for (const file of ['bot.js', 'scripts/configure-telegram.js', 'scripts/preflight.js']) {
+  require('child_process').execFileSync(process.execPath, ['--check', file], {
+    stdio: 'inherit'
+  });
+}
 
 new Function(scriptMatch[1]);
 
 process.env.BOT_TOKEN = '123456:check-token';
+process.env.TELEGRAM_WEBHOOK_SECRET = 'check-secret';
 process.env.INIT_DATA_MAX_AGE_SECONDS = '0';
 process.env.OPENCLAW_PET_MEMORY_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'openclaw-pet-check-'));
 process.env.OPENCLAW_ACTIVITY_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'openclaw-pet-activity-'));
@@ -177,6 +180,23 @@ function signedInitData(user) {
   });
   assert.strictEqual(result.response.status, 200);
   assert.match(result.body.message, /already synced/i);
+
+  result = await fetch(`${baseUrl}/telegram/webhook`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: '{}'
+  });
+  assert.strictEqual(result.status, 401);
+
+  result = await fetch(`${baseUrl}/telegram/webhook`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Telegram-Bot-Api-Secret-Token': 'check-secret'
+    },
+    body: '{}'
+  });
+  assert.strictEqual(result.status, 200);
 
   await new Promise((resolve) => server.close(resolve));
   fs.rmSync(process.env.OPENCLAW_PET_MEMORY_DIR, { recursive: true, force: true });

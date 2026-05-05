@@ -34,6 +34,7 @@ cp .env.example .env
 ```bash
 npm install
 npm run check
+npm run telegram:configure
 npm start
 ```
 
@@ -43,6 +44,8 @@ Required production env:
 - `WEBAPP_URL`: HTTPS URL configured as the BotFather Main Mini App
 - `OPENCLAW_PET_MEMORY_DIR`: persistent OpenClaw memory folder for user state
 - `OPENCLAW_ACTIVITY_DIR`: OpenClaw activity folder used for daily sync signals
+- `TELEGRAM_UPDATE_MODE`: `polling` by default; use `webhook` only after HTTPS is live
+- `TELEGRAM_WEBHOOK_SECRET`: required by `npm run preflight` when webhook mode is enabled
 - `PORT`: server port, defaults to `3000`
 
 ## 🎯 Usage

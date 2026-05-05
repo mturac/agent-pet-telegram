@@ -23,6 +23,7 @@ const activityDir = expandHome(
   process.env.OPENCLAW_ACTIVITY_DIR ||
   '~/.openclaw/workspace/memory'
 );
+const telegramUpdateMode = (process.env.TELEGRAM_UPDATE_MODE || 'polling').toLowerCase();
 
 if (!/^\d+:[A-Za-z0-9_-]+$/.test(token)) {
   throw new Error('BOT_TOKEN does not look like a Telegram bot token.');
@@ -36,6 +37,14 @@ if (major < 18) {
 const parsedUrl = new URL(webAppUrl);
 if (parsedUrl.protocol !== 'https:') {
   throw new Error('WEBAPP_URL must be HTTPS for Telegram Apps Center.');
+}
+
+if (!['polling', 'webhook'].includes(telegramUpdateMode)) {
+  throw new Error('TELEGRAM_UPDATE_MODE must be polling or webhook.');
+}
+
+if (telegramUpdateMode === 'webhook' && !process.env.TELEGRAM_WEBHOOK_SECRET) {
+  throw new Error('TELEGRAM_WEBHOOK_SECRET is required when TELEGRAM_UPDATE_MODE=webhook.');
 }
 
 fs.mkdirSync(memoryDir, { recursive: true });

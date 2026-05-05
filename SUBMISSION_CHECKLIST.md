@@ -3,6 +3,7 @@
 ## Before Resubmission
 
 - Deploy HTTPS URL with `BOT_TOKEN`, `WEBAPP_URL`, `PORT`, and `OPENCLAW_PET_MEMORY_DIR`.
+- Run `npm run telegram:configure` after HTTPS is live to set bot commands, menu button, and polling/webhook mode.
 - In BotFather, enable Main Mini App for the same HTTPS URL.
 - Configure BotFather using `BOTFATHER_PACKET.md` and the PNG assets in `assets/`.
 - Configure splash screen, bot image, screenshots, and a short demo video.

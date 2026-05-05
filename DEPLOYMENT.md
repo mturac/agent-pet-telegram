@@ -32,13 +32,19 @@ PORT=3000
 OPENCLAW_PET_MEMORY_DIR=/home/openclaw/.openclaw/workspace/memory/openclaw-pet/users
 OPENCLAW_ACTIVITY_DIR=/home/openclaw/.openclaw/workspace/memory
 SHOW_HEALTH_DETAILS=0
+TELEGRAM_UPDATE_MODE=polling
+TELEGRAM_WEBHOOK_SECRET=
 ```
 
 After HTTPS is live:
 
 ```bash
+npm run telegram:configure
 EXPECT_TELEGRAM=1 npm run check:deploy -- https://pet.example.com
 ```
+
+For webhook mode, set `TELEGRAM_UPDATE_MODE=webhook`, add a long random
+`TELEGRAM_WEBHOOK_SECRET`, restart the service, then run `npm run telegram:configure`.
 
 ## BotFather
 

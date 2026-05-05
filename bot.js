@@ -8,6 +8,8 @@ require('dotenv').config();
 const TOKEN = process.env.BOT_TOKEN;
 const WEBAPP_URL = process.env.WEBAPP_URL || 'http://localhost:3000';
 const PORT = process.env.PORT || 3000;
+const TELEGRAM_UPDATE_MODE = (process.env.TELEGRAM_UPDATE_MODE || 'polling').toLowerCase();
+const TELEGRAM_WEBHOOK_SECRET = process.env.TELEGRAM_WEBHOOK_SECRET || '';
 const INIT_DATA_MAX_AGE_SECONDS = Number(process.env.INIT_DATA_MAX_AGE_SECONDS || 86400);
 const MEMORY_DIR = expandHome(
   process.env.OPENCLAW_PET_MEMORY_DIR ||
@@ -573,6 +575,21 @@ app.post('/api/openclaw/sync', requireTelegramUser, async (req, res) => {
   }
 });
 
+app.post('/telegram/webhook', async (req, res) => {
+  if (TELEGRAM_WEBHOOK_SECRET && req.get('x-telegram-bot-api-secret-token') !== TELEGRAM_WEBHOOK_SECRET) {
+    res.status(401).json({ error: 'Invalid Telegram webhook secret.' });
+    return;
+  }
+
+  try {
+    await handleUpdate(req.body || {});
+    res.json({ ok: true });
+  } catch (error) {
+    console.error(`Webhook error: ${error.message}`);
+    res.status(500).json({ error: 'Telegram webhook failed.' });
+  }
+});
+
 app.post('/api/create-invoice', requireTelegramUser, async (req, res) => {
   const boost = BOOSTS[req.body && req.body.sku];
   if (!boost) {
@@ -617,7 +634,13 @@ app.get('/support', (req, res) => {
 
 if (require.main === module) {
   if (TOKEN) {
-    startPolling();
+    if (TELEGRAM_UPDATE_MODE === 'webhook') {
+      console.log('Telegram bot webhook mode enabled.');
+    } else if (TELEGRAM_UPDATE_MODE === 'polling') {
+      startPolling();
+    } else {
+      throw new Error('TELEGRAM_UPDATE_MODE must be polling or webhook.');
+    }
   } else {
     console.warn('BOT_TOKEN is not set. Web app runs locally; Telegram mode and Stars checkout are disabled.');
   }
@@ -637,6 +660,7 @@ module.exports = {
   publicState,
   readState,
   scanOpenClawActivity,
+  TELEGRAM_UPDATE_MODE,
   validateInitData,
   validatePreCheckout,
   writeState

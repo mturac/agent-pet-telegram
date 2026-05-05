@@ -10,6 +10,7 @@
     "check": "node scripts/check.js && npm audit --omit=dev",
     "preflight": "node scripts/preflight.js",
     "check:deploy": "node scripts/check-deploy.js",
+    "telegram:configure": "node scripts/configure-telegram.js",
     "screenshots": "node scripts/capture-screenshots.js"
   },
   "keywords": ["telegram", "bot", "webapp", "pet", "game"],

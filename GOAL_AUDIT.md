@@ -20,6 +20,7 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - Screenshot demo mode shows OpenClaw activity signals instead of guest fallback copy.
 - GitHub Pages static demo: `.github/workflows/pages.yml`; preview only, not production backend.
 - Deploy packet: `DEPLOYMENT.md`, `deploy/nginx/openclaw-pet.conf.example`, `deploy/systemd/openclaw-pet.service.example`
+- Telegram setup automation: `npm run telegram:configure` sets commands, menu button, and polling/webhook mode.
 - Production preflight: `npm run preflight`
 - Public health endpoint avoids exposing filesystem paths unless `SHOW_HEALTH_DETAILS=1`
 - Runtime requirement: Node.js `>=18.17` in `package.json` and `DEPLOYMENT.md`
@@ -39,11 +40,14 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - GitHub Pages workflow `Deploy static demo to GitHub Pages` completed successfully for commit `2f4d878`
 - `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200
 - `npm run preflight` without production env fails at `BOT_TOKEN is required`, confirming live inputs are still required
+- `BOT_TOKEN='123456:abc_DEF-ghi' WEBAPP_URL='https://pet.example.com' TELEGRAM_UPDATE_MODE='webhook' npm run preflight` fails without `TELEGRAM_WEBHOOK_SECRET`
+- `BOT_TOKEN='123456:abc_DEF-ghi' WEBAPP_URL='https://pet.example.com' TELEGRAM_UPDATE_MODE='webhook' TELEGRAM_WEBHOOK_SECRET='dev-secret-for-check' npm run preflight` passes
 
 ## Not Complete Without Live Inputs
 
 - HTTPS production deploy with real `BOT_TOKEN` and `WEBAPP_URL`
 - `npm run preflight` must pass on production host
+- `npm run telegram:configure` must pass against the real bot token
 - BotFather Main Mini App configuration
 - Upload bot image, splash screen, screenshots, and demo video
 - Review generated screenshot files in `submission/screenshots/`

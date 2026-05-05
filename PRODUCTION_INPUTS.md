@@ -9,6 +9,8 @@ Use this handoff to finish the active goal.
 - VPS/OpenClaw machine access where Node.js 18.17+ can run.
 - Confirmation of the production OpenClaw memory folder.
 - Confirmation of the production OpenClaw activity folder.
+- Choice of `TELEGRAM_UPDATE_MODE`: `polling` or `webhook`.
+- Long random `TELEGRAM_WEBHOOK_SECRET` if webhook mode is used.
 - Telegram account/device for the real mobile Stars test.
 
 ## Required Commands After Inputs
@@ -16,6 +18,7 @@ Use this handoff to finish the active goal.
 ```bash
 npm run preflight
 npm test
+npm run telegram:configure
 EXPECT_TELEGRAM=1 npm run check:deploy -- "$WEBAPP_URL"
 npm run screenshots -- "$WEBAPP_URL"
 ```

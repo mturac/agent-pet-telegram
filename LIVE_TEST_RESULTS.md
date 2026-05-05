@@ -16,6 +16,7 @@ Fill this after production deploy.
 
 - [ ] `npm run check:deploy` passes with `EXPECT_TELEGRAM=1`
 - [ ] `npm run preflight` passes on production host
+- [ ] `npm run telegram:configure` sets commands, menu button, and update mode
 - [ ] `/api/health` returns `telegramEnabled: true`
 - [ ] BotFather Main Mini App opens production URL
 - [ ] `/start` opens the Mini App
@@ -41,6 +42,7 @@ Fill this after production deploy.
 - Payment proof:
 - `EXPECT_TELEGRAM=1 npm run check:deploy -- <production-url>` output:
 - `npm run preflight` output:
+- `npm run telegram:configure` output:
 - `/api/health` response:
 - Notes:
 
