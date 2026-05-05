@@ -36,6 +36,9 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - `BOT_TOKEN='123456:abc_DEF-ghi' WEBAPP_URL='http://pet.example.com' OPENCLAW_PET_MEMORY_DIR='/tmp/openclaw-pet-preflight' npm run preflight` fails as expected
 - `npm run screenshots -- http://localhost:3002`
 - `git diff --check`
+- GitHub Pages workflow `Deploy static demo to GitHub Pages` completed successfully for commit `2f4d878`
+- `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200
+- `npm run preflight` without production env fails at `BOT_TOKEN is required`, confirming live inputs are still required
 
 ## Not Complete Without Live Inputs
 

@@ -4,6 +4,8 @@ Fill this after production deploy.
 
 ## Environment
 
+- Static demo URL: https://mturac.github.io/agent-pet-telegram/
+- Static demo status: GitHub Pages returned HTTP 200 on 2026-05-06
 - Production URL:
 - Bot username:
 - Test device:
@@ -30,6 +32,10 @@ Fill this after production deploy.
 
 ## Evidence Links Or Files
 
+- GitHub Pages run: `Deploy static demo to GitHub Pages` completed successfully for commit `2f4d878`
+- Static demo smoke: `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200
+- Local test smoke: `npm test` passed and `npm audit --omit=dev` found 0 vulnerabilities
+- Current production preflight: blocked because `BOT_TOKEN` is not set in this environment
 - Screen recording:
 - Screenshots:
 - Payment proof:
