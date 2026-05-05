@@ -2,7 +2,7 @@
 
 > Telegram-first coding pet with synced OpenClaw memory, daily quests, social sharing, and Telegram Stars boosts.
 
-![Demo](demo.png)
+![OpenClaw Pet demo](submission/screenshots/01-home.png)
 
 ## 🎮 Features
 
