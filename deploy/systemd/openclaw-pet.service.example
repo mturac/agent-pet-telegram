@@ -1,0 +1,16 @@
+[Unit]
+Description=OpenClaw Pet Telegram Mini App
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/openclaw-pet
+EnvironmentFile=/opt/openclaw-pet/.env
+ExecStart=/usr/bin/node bot.js
+Restart=always
+RestartSec=5
+User=openclaw
+Group=openclaw
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,43 @@
+# Live Test Results
+
+Fill this after production deploy.
+
+## Environment
+
+- Production URL:
+- Bot username:
+- Test device:
+- Test Telegram account:
+- Test date:
+
+## Results
+
+- [ ] `npm run check:deploy` passes with `EXPECT_TELEGRAM=1`
+- [ ] `npm run preflight` passes on production host
+- [ ] `/api/health` returns `telegramEnabled: true`
+- [ ] BotFather Main Mini App opens production URL
+- [ ] `/start` opens the Mini App
+- [ ] `/paysupport` returns support/payment help
+- [ ] `/privacy` returns privacy/storage note
+- [ ] Feed, Play, and Code actions update server state
+- [ ] OpenClaw Sync reads recent activity and awards daily XP
+- [ ] Daily quest can be claimed after 3 actions
+- [ ] Closing and reopening preserves progress
+- [ ] Telegram Stars invoice opens
+- [ ] Successful Stars payment applies exactly one boost
+- [ ] WhatsApp share opens a share link back to the Telegram app
+- [ ] Screenshots and demo video captured for Apps Center
+
+## Evidence Links Or Files
+
+- Screen recording:
+- Screenshots:
+- Payment proof:
+- `EXPECT_TELEGRAM=1 npm run check:deploy -- <production-url>` output:
+- `npm run preflight` output:
+- `/api/health` response:
+- Notes:
+
+## Completion Approval
+
+Only mark the goal complete after every checkbox above is checked and the evidence fields are filled with production results.

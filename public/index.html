@@ -2,311 +2,1108 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Agent Pet 🐣</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>OpenClaw Pet</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        :root {
+            color-scheme: dark;
+            --bg: #10131a;
+            --panel: #181d27;
+            --panel-2: #202635;
+            --line: #30384a;
+            --text: #f7f9ff;
+            --muted: #9aa6bb;
+            --cyan: #43d6c5;
+            --green: #7bd66f;
+            --amber: #ffc857;
+            --rose: #ff6f91;
+            --blue: #74a7ff;
+        }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
-        
+
+        html,
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #1a1a2e;
-            color: white;
-            height: 100vh;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        body {
+            min-height: 100dvh;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            background:
+                radial-gradient(circle at 50% -10%, rgba(67, 214, 197, .18), transparent 32%),
+                linear-gradient(180deg, #151924 0%, var(--bg) 100%);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-        
-        .screen {
-            background: #0f0f23;
-            border-radius: 20px;
-            margin: 20px;
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 0 20px rgba(0,255,255,0.3);
+
+        button {
+            border: 0;
+            color: inherit;
+            font: inherit;
+            cursor: pointer;
         }
-        
-        .pet-container {
-            width: 200px;
-            height: 200px;
-            background: #16213e;
-            border-radius: 15px;
-            display: flex;
+
+        .app {
+            width: 100%;
+            max-width: 100vw;
+            height: 100dvh;
+            padding: calc(12px + env(safe-area-inset-top)) 14px calc(14px + env(safe-area-inset-bottom));
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: 10px;
+            overflow: hidden;
+        }
+
+        .topbar {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
             align-items: center;
-            justify-content: center;
-            margin: 20px 0;
+        }
+
+        .brand {
+            min-width: 0;
+        }
+
+        .eyebrow {
+            color: var(--cyan);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin-top: 2px;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: 0;
+        }
+
+        .streak {
+            min-width: 74px;
+            padding: 8px 10px;
+            border: 1px solid rgba(255, 200, 87, .5);
+            border-radius: 8px;
+            background: rgba(255, 200, 87, .12);
+            text-align: center;
+        }
+
+        .streak strong {
+            display: block;
+            color: var(--amber);
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .streak span {
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .main {
+            width: 100%;
+            min-height: 0;
+            min-width: 0;
+            display: grid;
+            gap: 10px;
+            grid-template-rows: minmax(230px, 1fr) auto auto;
+        }
+
+        .habitat {
+            min-height: 230px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background:
+                linear-gradient(180deg, rgba(116, 167, 255, .12), transparent 36%),
+                linear-gradient(145deg, #1b2232 0%, #121721 100%);
             position: relative;
+            overflow: hidden;
+            display: grid;
+            place-items: center;
         }
-        
+
+        .grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+            background-size: 34px 34px;
+            mask-image: linear-gradient(to bottom, transparent, black 22%, black 72%, transparent);
+        }
+
+        .pet-card {
+            position: relative;
+            width: min(66vw, 245px);
+            aspect-ratio: 1;
+            display: grid;
+            place-items: center;
+        }
+
+        .pet-shadow {
+            position: absolute;
+            width: 58%;
+            height: 14%;
+            bottom: 20%;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, .33);
+            filter: blur(6px);
+        }
+
         .pet {
-            font-size: 80px;
-            animation: bounce 2s infinite;
+            position: relative;
+            z-index: 1;
+            font-size: clamp(86px, 28vw, 136px);
+            line-height: 1;
+            animation: float 2.4s ease-in-out infinite;
+            transform-origin: center bottom;
+            text-shadow: 0 16px 42px rgba(67, 214, 197, .24);
         }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+
+        .pet.pulse {
+            animation: pop .34s ease-out, float 2.4s ease-in-out infinite .34s;
         }
-        
+
+        .mood {
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            max-width: calc(100% - 24px);
+            padding: 6px 9px;
+            border: 1px solid rgba(255,255,255,.11);
+            border-radius: 8px;
+            background: rgba(16, 19, 26, .72);
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .level-pill {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            padding: 7px 10px;
+            border-radius: 8px;
+            background: rgba(67, 214, 197, .14);
+            border: 1px solid rgba(67, 214, 197, .4);
+            color: var(--cyan);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+
+        @keyframes pop {
+            0% { transform: scale(.9); }
+            55% { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+
         .stats {
             width: 100%;
-            margin: 10px 0;
+            min-width: 0;
+            display: grid;
+            gap: 8px;
         }
-        
-        .stat-row {
-            display: flex;
+
+        .stat {
+            min-width: 0;
+            display: grid;
+            grid-template-columns: 74px 1fr 34px;
             align-items: center;
-            margin: 8px 0;
+            gap: 8px;
+            min-height: 28px;
         }
-        
-        .stat-label {
-            width: 60px;
+
+        .stat label,
+        .stat output {
+            color: var(--muted);
             font-size: 12px;
-            color: #888;
+            font-weight: 750;
         }
-        
-        .stat-bar {
-            flex: 1;
-            height: 20px;
-            background: #333;
-            border-radius: 10px;
+
+        .bar {
+            min-width: 0;
+            height: 10px;
+            border-radius: 999px;
+            background: #2a3140;
             overflow: hidden;
-            margin: 0 10px;
         }
-        
-        .stat-fill {
+
+        .fill {
             height: 100%;
-            border-radius: 10px;
-            transition: width 0.3s;
+            width: 0;
+            border-radius: inherit;
+            transition: width .25s ease;
         }
-        
-        .hunger { background: #ff6b6b; }
-        .happy { background: #4ecdc4; }
-        .energy { background: #45b7d1; }
-        
-        .stat-value {
-            width: 30px;
-            text-align: right;
+
+        .fill.food { background: var(--rose); }
+        .fill.happy { background: var(--green); }
+        .fill.energy { background: var(--blue); }
+        .fill.xp { background: var(--amber); }
+
+        .quest-row {
+            width: 100%;
+            min-width: 0;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+            align-items: center;
+            min-height: 54px;
+            padding: 10px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel);
+        }
+
+        .quest-title {
+            font-size: 13px;
+            font-weight: 850;
+        }
+
+        .quest-copy {
+            margin-top: 3px;
+            color: var(--muted);
             font-size: 12px;
+            line-height: 1.25;
         }
-        
-        .info {
-            text-align: center;
-            margin: 10px 0;
+
+        .claim {
+            min-width: 78px;
+            height: 34px;
+            border-radius: 8px;
+            background: var(--cyan);
+            color: #071213;
+            font-size: 12px;
+            font-weight: 900;
         }
-        
-        .name {
-            font-size: 24px;
-            font-weight: bold;
-            color: #4ecdc4;
+
+        .claim:disabled {
+            background: #30384a;
+            color: #738096;
         }
-        
-        .level {
-            font-size: 14px;
-            color: #888;
-            margin-top: 5px;
-        }
-        
-        .buttons {
+
+        .actions {
+            width: 100%;
+            min-width: 0;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 20px;
+            gap: 8px;
         }
-        
-        .btn {
-            background: #16213e;
-            border: 2px solid #4ecdc4;
-            border-radius: 15px;
-            padding: 15px;
-            color: white;
+
+        .action {
+            min-width: 0;
+            min-height: 72px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel-2);
+            display: grid;
+            place-items: center;
+            gap: 2px;
+            transition: transform .12s ease, border-color .12s ease, background .12s ease;
+        }
+
+        .action:active {
+            transform: scale(.97);
+            border-color: var(--cyan);
+            background: #243042;
+        }
+
+        .action b {
             font-size: 24px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
+            line-height: 1;
         }
-        
-        .btn:active {
-            transform: scale(0.95);
-            background: #4ecdc4;
-        }
-        
-        .btn-label {
+
+        .action span {
+            max-width: 100%;
+            color: var(--muted);
             font-size: 11px;
-            color: #888;
+            font-weight: 800;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
-        
-        .btn:active .btn-label {
-            color: #1a1a2e;
+
+        .dock {
+            width: 100%;
+            min-width: 0;
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 7px;
+        }
+
+        .dock button {
+            min-width: 0;
+            height: 42px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #151b26;
+            color: var(--text);
+            font-size: 11px;
+            font-weight: 850;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dock button.active {
+            border-color: rgba(67, 214, 197, .7);
+            color: var(--cyan);
+        }
+
+        .sheet {
+            position: fixed;
+            inset: auto 12px calc(12px + env(safe-area-inset-bottom));
+            max-height: 58dvh;
+            padding: 12px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #141a24;
+            box-shadow: 0 -20px 60px rgba(0, 0, 0, .45);
+            transform: translateY(calc(100% + 24px));
+            transition: transform .2s ease;
+            z-index: 10;
+            overflow: auto;
+        }
+
+        .sheet.open {
+            transform: translateY(0);
+        }
+
+        .sheet-head {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .sheet h2 {
+            font-size: 16px;
+            letter-spacing: 0;
+        }
+
+        .close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #222a39;
+            color: var(--muted);
+            font-weight: 900;
+        }
+
+        .shop-grid,
+        .badge-grid,
+        .help-grid {
+            display: grid;
+            gap: 8px;
+        }
+
+        .shop-item,
+        .badge {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 8px;
+            min-height: 58px;
+            padding: 10px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel);
+        }
+
+        .shop-item strong,
+        .badge strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .shop-item span,
+        .badge span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.25;
+        }
+
+        .buy {
+            min-width: 70px;
+            height: 34px;
+            border-radius: 8px;
+            background: var(--amber);
+            color: #191100;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .help-action {
+            min-height: 42px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel);
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 850;
+            text-align: left;
+            padding: 10px;
+        }
+
+        .fine-print {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.35;
+        }
+
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: calc(68px + env(safe-area-inset-bottom));
+            z-index: 20;
+            max-width: calc(100vw - 32px);
+            transform: translate(-50%, 18px);
+            opacity: 0;
+            padding: 9px 12px;
+            border-radius: 8px;
+            background: rgba(7, 10, 16, .9);
+            border: 1px solid rgba(255,255,255,.1);
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 800;
+            transition: opacity .16s ease, transform .16s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        @media (max-height: 700px) {
+            h1 { font-size: 21px; }
+            .main { grid-template-rows: minmax(190px, 1fr) auto auto; }
+            .habitat { min-height: 190px; }
+            .action { min-height: 62px; }
+            .quest-row { min-height: 48px; }
         }
     </style>
 </head>
 <body>
-    <div class="screen">
-        <div class="info">
-            <div class="name">Clawdy</div>
-            <div class="level">Level 1 • Egg Stage</div>
-        </div>
-        
-        <div class="pet-container">
-            <div class="pet" id="pet">🥚</div>
-        </div>
-        
-        <div class="stats">
-            <div class="stat-row">
-                <span class="stat-label">Hunger</span>
-                <div class="stat-bar">
-                    <div class="stat-fill hunger" id="hunger-bar" style="width: 50%"></div>
-                </div>
-                <span class="stat-value" id="hunger-val">50</span>
+    <main class="app">
+        <header class="topbar">
+            <div class="brand">
+                <div class="eyebrow">OpenClaw Lab</div>
+                <h1 id="petName">Clawdy</h1>
             </div>
-            <div class="stat-row">
-                <span class="stat-label">Happy</span>
-                <div class="stat-bar">
-                    <div class="stat-fill happy" id="happy-bar" style="width: 50%"></div>
-                </div>
-                <span class="stat-value" id="happy-val">50</span>
+            <div class="streak">
+                <strong id="streak">1</strong>
+                <span>day streak</span>
             </div>
-            <div class="stat-row">
-                <span class="stat-label">Energy</span>
-                <div class="stat-bar">
-                    <div class="stat-fill energy" id="energy-bar" style="width: 100%"></div>
+        </header>
+
+        <section class="main">
+            <div class="habitat" aria-live="polite">
+                <div class="grid"></div>
+                <div class="mood" id="mood">Warming up the terminal</div>
+                <div class="pet-card">
+                    <div class="pet-shadow"></div>
+                    <div class="pet" id="pet">🥚</div>
                 </div>
-                <span class="stat-value" id="energy-val">100</span>
+                <div class="level-pill" id="level">Lv. 1 Egg</div>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <label>Food</label>
+                    <div class="bar"><div class="fill food" id="foodFill"></div></div>
+                    <output id="foodVal">50</output>
+                </div>
+                <div class="stat">
+                    <label>Joy</label>
+                    <div class="bar"><div class="fill happy" id="joyFill"></div></div>
+                    <output id="joyVal">50</output>
+                </div>
+                <div class="stat">
+                    <label>Focus</label>
+                    <div class="bar"><div class="fill energy" id="focusFill"></div></div>
+                    <output id="focusVal">100</output>
+                </div>
+                <div class="stat">
+                    <label>XP</label>
+                    <div class="bar"><div class="fill xp" id="xpFill"></div></div>
+                    <output id="xpVal">0</output>
+                </div>
+            </div>
+
+            <div class="quest-row">
+                <div>
+                    <div class="quest-title" id="questTitle">Daily quest</div>
+                    <div class="quest-copy" id="questCopy">Complete 3 care actions today.</div>
+                </div>
+                <button class="claim" id="claimBtn" onclick="claimQuest()" disabled>Claim</button>
+            </div>
+
+            <div class="actions">
+                <button class="action" onclick="act('feed')"><b>🍜</b><span>Feed</span></button>
+                <button class="action" onclick="act('play')"><b>🎯</b><span>Play</span></button>
+                <button class="action" onclick="act('code')"><b>⌘</b><span>Code</span></button>
+            </div>
+        </section>
+
+        <nav class="dock">
+            <button onclick="openSheet('shop')">⭐ Stars</button>
+            <button onclick="syncOpenClaw()">Sync</button>
+            <button onclick="sharePet()">🔗 Invite</button>
+            <button onclick="shareWhatsApp()">WA</button>
+            <button onclick="openSheet('badges')">🏆 Badges</button>
+            <button onclick="openSheet('help')">Help</button>
+        </nav>
+    </main>
+
+    <section class="sheet" id="shopSheet">
+        <div class="sheet-head">
+            <h2>Supporter Perks</h2>
+            <button class="close" onclick="closeSheets()">×</button>
+        </div>
+        <div class="shop-grid">
+            <div class="shop-item">
+                <div><strong>Star Snack</strong><span>Supporter snack for a polished care moment.</span></div>
+                <button class="buy" onclick="buyBoost('star-snack')">15 ⭐</button>
+            </div>
+            <div class="shop-item">
+                <div><strong>Focus Sprint</strong><span>Prestige boost for the next coding session.</span></div>
+                <button class="buy" onclick="buyBoost('focus-sprint')">25 ⭐</button>
+            </div>
+            <div class="shop-item">
+                <div><strong>Legend Aura</strong><span>Cosmetic supporter glow for evolved pets.</span></div>
+                <button class="buy" onclick="buyBoost('legend-aura')">50 ⭐</button>
             </div>
         </div>
-    </div>
-    
-    <div class="buttons">
-        <button class="btn" onclick="feed()">
-            🍕
-            <span class="btn-label">Feed</span>
-        </button>
-        <button class="btn" onclick="play()">
-            🎮
-            <span class="btn-label">Play</span>
-        </button>
-        <button class="btn" onclick="code()">
-            💻
-            <span class="btn-label">Code</span>
-        </button>
-    </div>
+    </section>
+
+    <section class="sheet" id="badgesSheet">
+        <div class="sheet-head">
+            <h2>Badges</h2>
+            <button class="close" onclick="closeSheets()">×</button>
+        </div>
+        <div class="badge-grid" id="badgeGrid"></div>
+    </section>
+
+    <section class="sheet" id="helpSheet">
+        <div class="sheet-head">
+            <h2>Support & Privacy</h2>
+            <button class="close" onclick="closeSheets()">×</button>
+        </div>
+        <div class="help-grid">
+            <button class="help-action" onclick="openSupport()">🛟 Payment support</button>
+            <button class="help-action" onclick="openPrivacy()">🔒 Privacy note</button>
+            <p class="fine-print">Telegram mode syncs pet progress through OpenClaw memory. Claude/Codex and file previews use local guest progress. WhatsApp is only a share link.</p>
+        </div>
+    </section>
+
+    <div class="toast" id="toast"></div>
 
     <script>
-        // Telegram Web App
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-        
-        // Pet state
-        let pet = {
-            stage: 0,
-            hunger: 50,
-            happy: 50,
-            energy: 100,
-            xp: 0,
-            level: 1
+        const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+        const user = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : {};
+        const hasTelegramInit = Boolean(tg && tg.initData);
+        const staticDemoHost = location.hostname.endsWith("github.io");
+        const demoMode = new URLSearchParams(location.search).get("demo") === "1" || staticDemoHost;
+        const storageKey = `openclaw-pet:${user.id || "guest"}`;
+        const appLink = "https://t.me/OpenClawTamagotchi_bot/pet";
+        let backendMode = hasTelegramInit && !demoMode;
+
+        if (tg) {
+            tg.ready();
+            tg.expand();
+            tg.setHeaderColor("#10131a");
+            tg.setBackgroundColor("#10131a");
+        }
+
+        const stages = [
+            { icon: "🥚", name: "Egg", level: 1 },
+            { icon: "🤖", name: "Baby Bot", level: 3 },
+            { icon: "🧑‍💻", name: "Code Cub", level: 6 },
+            { icon: "🛠️", name: "Build Beast", level: 10 },
+            { icon: "👑", name: "Claw Legend", level: 15 }
+        ];
+
+        const badges = [
+            { id: "first-care", name: "First Care", text: "Use any care action once." },
+            { id: "daily-quest", name: "Quest Finisher", text: "Claim a daily quest." },
+            { id: "openclaw-sync", name: "OpenClaw Sync", text: "Grow from real OpenClaw activity." },
+            { id: "social", name: "Squad Signal", text: "Invite through Telegram or WhatsApp." },
+            { id: "evolved", name: "Evolved", text: "Reach Baby Bot stage." },
+            { id: "star-powered", name: "Star Powered", text: "Use a Telegram Stars boost." }
+        ];
+
+        const boosts = {
+            "star-snack": { title: "Star Snack", stars: 15 },
+            "focus-sprint": { title: "Focus Sprint", stars: 25 },
+            "legend-aura": { title: "Legend Aura", stars: 50 }
         };
-        
-        const stages = ['🥚', '🤖', '💻', '🦖', '👑'];
-        const stageNames = ['Egg', 'Baby Bot', 'Teen Coder', 'Senior Dev', '10x Legend'];
-        
-        function updateUI() {
-            document.getElementById('pet').textContent = stages[pet.stage];
-            document.querySelector('.level').textContent = `Level ${pet.level} • ${stageNames[pet.stage]}`;
-            
-            document.getElementById('hunger-bar').style.width = pet.hunger + '%';
-            document.getElementById('hunger-val').textContent = pet.hunger;
-            
-            document.getElementById('happy-bar').style.width = pet.happy + '%';
-            document.getElementById('happy-val').textContent = pet.happy;
-            
-            document.getElementById('energy-bar').style.width = pet.energy + '%';
-            document.getElementById('energy-val').textContent = pet.energy;
-            
-            // Haptic feedback
-            tg.HapticFeedback.impactOccurred('light');
+
+        const today = () => new Date().toISOString().slice(0, 10);
+        const clamp = (value) => Math.max(0, Math.min(100, Math.round(value)));
+        let state = loadGuestState();
+
+        function defaultState() {
+            return {
+                name: user.first_name ? `${user.first_name}'s Clawdy` : "Clawdy",
+                stage: 0,
+                level: 1,
+                xp: 0,
+                food: 58,
+                joy: 56,
+                focus: 92,
+                streak: 1,
+                actionsToday: 0,
+                lastSeen: Date.now(),
+                lastQuestDate: today(),
+                claimedToday: false,
+                focusBoost: false,
+                aura: false,
+                lastOpenClawSyncDate: "",
+                openclawSignals: {
+                    recentFiles: 0,
+                    awardedXp: 0,
+                    lastSyncedAt: null
+                },
+                badges: []
+            };
         }
-        
-        function feed() {
-            pet.hunger = Math.min(100, pet.hunger + 20);
-            pet.energy = Math.max(0, pet.energy - 5);
-            addXP(5);
-            updateUI();
-            tg.showPopup({
-                title: '🍕 Yummy!',
-                message: 'Your pet enjoyed the food!'
-            });
+
+        function demoState() {
+            return {
+                ...defaultState(),
+                level: 4,
+                xp: 38,
+                food: 82,
+                joy: 76,
+                focus: 88,
+                streak: 5,
+                actionsToday: 2,
+                openclawSignals: {
+                    recentFiles: 3,
+                    awardedXp: 24,
+                    lastSyncedAt: Date.now()
+                },
+                badges: ["first-care", "openclaw-sync", "evolved"]
+            };
         }
-        
-        function play() {
-            pet.happy = Math.min(100, pet.happy + 15);
-            pet.energy = Math.max(0, pet.energy - 10);
-            pet.hunger = Math.max(0, pet.hunger - 10);
-            addXP(10);
-            updateUI();
-            tg.showPopup({
-                title: '🎮 Fun!',
-                message: 'Your pet had a great time!'
-            });
-        }
-        
-        function code() {
-            pet.xp += 10;
-            pet.energy = Math.max(0, pet.energy - 5);
-            pet.hunger = Math.max(0, pet.hunger - 5);
-            addXP(15);
-            updateUI();
-            tg.showPopup({
-                title: '💻 Coding!',
-                message: 'Your pet is proud of you!'
-            });
-        }
-        
-        function addXP(amount) {
-            pet.xp += amount;
-            if (pet.xp >= 100) {
-                pet.level++;
-                pet.xp = 0;
-                checkEvolution();
+
+        function loadGuestState() {
+            if (demoMode) return demoState();
+            try {
+                return applyOfflineDecay({ ...defaultState(), ...JSON.parse(localStorage.getItem(storageKey)) });
+            } catch {
+                return defaultState();
             }
         }
-        
-        function checkEvolution() {
-            const oldStage = pet.stage;
-            if (pet.level >= 20) pet.stage = 4;
-            else if (pet.level >= 15) pet.stage = 3;
-            else if (pet.level >= 10) pet.stage = 2;
-            else if (pet.level >= 5) pet.stage = 1;
-            
-            if (pet.stage > oldStage) {
-                tg.showPopup({
-                    title: '✨ Evolution!',
-                    message: `Your pet evolved into ${stageNames[pet.stage]}!`
+
+        function saveGuestState() {
+            if (backendMode) return;
+            state.lastSeen = Date.now();
+            localStorage.setItem(storageKey, JSON.stringify(state));
+        }
+
+        function applyOfflineDecay(next) {
+            const minutes = Math.max(0, Math.floor((Date.now() - (next.lastSeen || Date.now())) / 60000));
+            if (minutes > 0) {
+                next.food = clamp(next.food - Math.min(24, minutes * 0.6));
+                next.joy = clamp(next.joy - Math.min(18, minutes * 0.35));
+                next.focus = clamp(next.focus + Math.min(30, minutes * 0.8));
+            }
+
+            if (next.lastQuestDate !== today()) {
+                const previous = next.lastQuestDate ? new Date(next.lastQuestDate) : null;
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                next.streak = previous && previous.toISOString().slice(0, 10) === yesterday.toISOString().slice(0, 10)
+                    ? (next.streak || 0) + 1
+                    : 1;
+                next.actionsToday = 0;
+                next.claimedToday = false;
+                next.lastQuestDate = today();
+            }
+
+            return next;
+        }
+
+        async function api(path, options = {}) {
+            const response = await fetch(path, {
+                ...options,
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Telegram-Init-Data": tg.initData,
+                    ...(options.headers || {})
+                }
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error || "Request failed");
+            return data;
+        }
+
+        async function loadServerState(showErrors = true) {
+            if (!backendMode) return;
+            try {
+                const data = await api("/api/state");
+                state = data.state;
+                render();
+            } catch (error) {
+                backendMode = false;
+                state = loadGuestState();
+                render();
+                if (showErrors) toast(`${error.message} Guest preview enabled.`);
+            }
+        }
+
+        function currentStage() {
+            let index = 0;
+            stages.forEach((stage, i) => {
+                if (state.level >= stage.level) index = i;
+            });
+            state.stage = index;
+            return stages[index];
+        }
+
+        function moodText() {
+            if (!backendMode && hasTelegramInit) return "Guest preview: server sync unavailable";
+            if (!hasTelegramInit && !demoMode) return "Preview mode: Telegram unlocks OpenClaw activity sync";
+            if (state.food < 25) return "Needs a snack before the next sprint";
+            if (state.joy < 25) return "Wants a tiny chaos break";
+            if (state.focus < 20) return "Needs recharge time";
+            if (state.focusBoost) return "Focus Sprint armed";
+            if (state.aura) return "Legend Aura online";
+            if (state.openclawSignals && state.openclawSignals.recentFiles > 0) {
+                return `${state.openclawSignals.recentFiles} OpenClaw signal${state.openclawSignals.recentFiles === 1 ? "" : "s"} synced`;
+            }
+            return "Grows from real OpenClaw activity";
+        }
+
+        function render() {
+            const stage = currentStage();
+            document.getElementById("petName").textContent = state.name;
+            document.getElementById("streak").textContent = state.streak;
+            document.getElementById("pet").textContent = stage.icon;
+            document.getElementById("level").textContent = `Lv. ${state.level} ${stage.name}`;
+            document.getElementById("mood").textContent = moodText();
+            document.getElementById("pet").style.textShadow = state.aura
+                ? "0 0 28px rgba(255, 200, 87, .75), 0 18px 48px rgba(67, 214, 197, .35)"
+                : "0 16px 42px rgba(67, 214, 197, .24)";
+            setBar("food", state.food);
+            setBar("joy", state.joy);
+            setBar("focus", state.focus);
+            setBar("xp", state.xp);
+
+            const done = Math.min(3, state.actionsToday);
+            document.getElementById("questTitle").textContent = `Daily quest ${done}/3`;
+            document.getElementById("questCopy").textContent = state.claimedToday
+                ? "Quest claimed. Come back tomorrow."
+                : "Complete 3 care actions today.";
+            document.getElementById("claimBtn").disabled = done < 3 || state.claimedToday;
+            renderBadges();
+            saveGuestState();
+        }
+
+        function setBar(id, value) {
+            const map = {
+                food: ["foodFill", "foodVal"],
+                joy: ["joyFill", "joyVal"],
+                focus: ["focusFill", "focusVal"],
+                xp: ["xpFill", "xpVal"]
+            };
+            document.getElementById(map[id][0]).style.width = `${clamp(value)}%`;
+            document.getElementById(map[id][1]).textContent = clamp(value);
+        }
+
+        function renderBadges() {
+            const grid = document.getElementById("badgeGrid");
+            grid.innerHTML = badges.map((badge) => {
+                const earned = state.badges.includes(badge.id);
+                return `<div class="badge"><div><strong>${earned ? "✅" : "🔒"} ${badge.name}</strong><span>${badge.text}</span></div></div>`;
+            }).join("");
+        }
+
+        async function act(type) {
+            haptic("light");
+            if (backendMode) {
+                try {
+                    const data = await api("/api/action", {
+                        method: "POST",
+                        body: JSON.stringify({ type })
+                    });
+                    state = data.state;
+                    pulsePet();
+                    toast(data.message);
+                    render();
+                } catch (error) {
+                    toast(error.message);
+                }
+                return;
+            }
+
+            runGuestAction(type);
+        }
+
+        function runGuestAction(type) {
+            const beforeStage = state.stage;
+            const xpMap = { feed: 8, play: 12, code: state.focusBoost ? 32 : 16 };
+            const messages = {
+                feed: "Clawdy devoured the build snack.",
+                play: "Joy restored with a quick mini-game.",
+                code: state.focusBoost ? "Focus Sprint doubled your coding XP." : "Clean code energy gained."
+            };
+
+            if (type === "feed") {
+                state.food = clamp(state.food + 22);
+                state.focus = clamp(state.focus - 4);
+            }
+            if (type === "play") {
+                state.joy = clamp(state.joy + 20);
+                state.food = clamp(state.food - 8);
+                state.focus = clamp(state.focus - 8);
+            }
+            if (type === "code") {
+                state.focus = clamp(state.focus - 12);
+                state.food = clamp(state.food - 7);
+                state.joy = clamp(state.joy + 6);
+                state.focusBoost = false;
+            }
+
+            addGuestXp(xpMap[type]);
+            state.actionsToday += 1;
+            earnGuestBadge("first-care");
+            if (state.stage > beforeStage) earnGuestBadge("evolved");
+            pulsePet();
+            toast(messages[type]);
+            render();
+        }
+
+        function addGuestXp(amount) {
+            state.xp += amount;
+            while (state.xp >= 100) {
+                state.xp -= 100;
+                state.level += 1;
+                haptic("success");
+            }
+            currentStage();
+        }
+
+        async function claimQuest() {
+            if (state.actionsToday < 3 || state.claimedToday) return;
+
+            if (backendMode) {
+                try {
+                    const data = await api("/api/quest/claim", { method: "POST", body: "{}" });
+                    state = data.state;
+                    haptic("success");
+                    toast(data.message);
+                    render();
+                } catch (error) {
+                    toast(error.message);
+                }
+                return;
+            }
+
+            state.claimedToday = true;
+            state.joy = clamp(state.joy + 18);
+            earnGuestBadge("daily-quest");
+            addGuestXp(40);
+            haptic("success");
+            toast("Daily quest claimed: +40 XP, +18 Joy");
+            render();
+        }
+
+        function earnGuestBadge(id) {
+            if (!state.badges.includes(id)) state.badges.push(id);
+        }
+
+        async function recordShare() {
+            if (!backendMode) {
+                earnGuestBadge("social");
+                render();
+                return;
+            }
+
+            try {
+                const data = await api("/api/social/share", { method: "POST", body: "{}" });
+                state = data.state;
+                render();
+            } catch {
+                toast("Share badge will sync later");
+            }
+        }
+
+        async function syncOpenClaw() {
+            if (!backendMode) {
+                toast("Open in Telegram to sync real OpenClaw activity");
+                return;
+            }
+
+            try {
+                const data = await api("/api/openclaw/sync", { method: "POST", body: "{}" });
+                state = data.state;
+                pulsePet();
+                haptic(data.signal && data.signal.recentFiles > 0 ? "success" : "medium");
+                toast(data.message);
+                render();
+            } catch (error) {
+                toast(error.message || "OpenClaw sync unavailable");
+            }
+        }
+
+        function openSheet(name) {
+            closeSheets();
+            document.getElementById(`${name}Sheet`).classList.add("open");
+        }
+
+        function closeSheets() {
+            document.querySelectorAll(".sheet").forEach((sheet) => sheet.classList.remove("open"));
+        }
+
+        async function buyBoost(sku) {
+            const boost = boosts[sku];
+            if (!boost) return;
+
+            if (!backendMode || !tg || !tg.openInvoice) {
+                toast("Open in Telegram to pay with Stars");
+                return;
+            }
+
+            haptic("medium");
+            try {
+                const data = await api("/api/create-invoice", {
+                    method: "POST",
+                    body: JSON.stringify({ sku })
                 });
-                tg.HapticFeedback.notificationOccurred('success');
+
+                tg.openInvoice(data.invoiceLink, async (status) => {
+                    if (status === "paid") {
+                        toast(`${boost.title} paid. Syncing boost...`);
+                        await refreshAfterPayment();
+                    } else {
+                        toast("Payment was not completed");
+                    }
+                });
+            } catch (error) {
+                toast(error.message || "Stars checkout unavailable");
             }
         }
-        
-        // Decay over time
-        setInterval(() => {
-            pet.hunger = Math.max(0, pet.hunger - 1);
-            pet.happy = Math.max(0, pet.happy - 1);
-            updateUI();
-        }, 60000); // Every minute
-        
-        updateUI();
+
+        async function refreshAfterPayment() {
+            for (let i = 0; i < 4; i += 1) {
+                await new Promise((resolve) => setTimeout(resolve, 1200));
+                await loadServerState(false);
+                if (state.badges.includes("star-powered")) {
+                    toast("Stars boost synced");
+                    return;
+                }
+            }
+            toast("Payment received. Reopen app if boost is still syncing.");
+        }
+
+        async function sharePet() {
+            await recordShare();
+            const text = `My OpenClaw Pet is Lv. ${state.level}. Can your agent outgrow mine?`;
+            if (tg && tg.openTelegramLink) {
+                tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(appLink)}&text=${encodeURIComponent(text)}`);
+            } else if (navigator.clipboard) {
+                await navigator.clipboard.writeText(`${text} ${appLink}`);
+                toast("Invite copied");
+            }
+            haptic("medium");
+        }
+
+        async function shareWhatsApp() {
+            await recordShare();
+            const text = `My OpenClaw Pet is Lv. ${state.level}. Try it on Telegram: ${appLink}`;
+            openExternal(`https://wa.me/?text=${encodeURIComponent(text)}`);
+            haptic("medium");
+        }
+
+        function openSupport() {
+            if (tg && tg.openTelegramLink) {
+                tg.openTelegramLink("https://t.me/OpenClawTamagotchi_bot?start=support");
+                return;
+            }
+            openExternal("/support");
+        }
+
+        function openPrivacy() {
+            openExternal("/privacy");
+        }
+
+        function openExternal(url) {
+            if (location.protocol === "file:" && url.startsWith("/")) {
+                toast("Available on deployed server");
+                return;
+            }
+            if (tg && tg.openLink && !url.includes("t.me/")) {
+                tg.openLink(url);
+                return;
+            }
+            location.href = url;
+        }
+
+        function haptic(type) {
+            if (!tg || !tg.HapticFeedback) return;
+            if (type === "success") tg.HapticFeedback.notificationOccurred("success");
+            else tg.HapticFeedback.impactOccurred(type);
+        }
+
+        function pulsePet() {
+            const pet = document.getElementById("pet");
+            pet.classList.remove("pulse");
+            void pet.offsetWidth;
+            pet.classList.add("pulse");
+        }
+
+        let toastTimer;
+        function toast(message) {
+            const el = document.getElementById("toast");
+            el.textContent = message;
+            el.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.remove("show"), 1800);
+        }
+
+        setInterval(async () => {
+            if (backendMode) {
+                await loadServerState(false);
+                return;
+            }
+            state.food = clamp(state.food - 1);
+            state.joy = clamp(state.joy - 1);
+            state.focus = clamp(state.focus + 1);
+            render();
+        }, 90000);
+
+        render();
+        loadServerState(false);
+        const initialSheet = location.hash.replace("#", "");
+        if (["shop", "badges", "help"].includes(initialSheet)) {
+            setTimeout(() => openSheet(initialSheet), 250);
+        }
     </script>
 </body>
 </html>

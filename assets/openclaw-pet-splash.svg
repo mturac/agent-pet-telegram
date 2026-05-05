@@ -1,0 +1,13 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#10131A"/>
+  <path d="M0 700C222 600 392 676 574 604C786 520 902 356 1166 404C1326 433 1440 506 1600 456V900H0V700Z" fill="#1B2232"/>
+  <circle cx="800" cy="390" r="208" fill="#202635" stroke="#43D6C5" stroke-width="18"/>
+  <path d="M686 320C686 276 722 240 766 240H834C878 240 914 276 914 320V474C914 518 878 554 834 554H766C722 554 686 518 686 474V320Z" fill="#F7F9FF"/>
+  <path d="M730 348C730 330 745 315 763 315C781 315 796 330 796 348V360H730V348Z" fill="#10131A"/>
+  <path d="M804 348C804 330 819 315 837 315C855 315 870 330 870 348V360H804V348Z" fill="#10131A"/>
+  <path d="M742 430C776 462 824 462 858 430" stroke="#10131A" stroke-width="20" stroke-linecap="round"/>
+  <path d="M800 240V178" stroke="#FFC857" stroke-width="22" stroke-linecap="round"/>
+  <circle cx="800" cy="152" r="24" fill="#FFC857"/>
+  <text x="800" y="666" text-anchor="middle" fill="#F7F9FF" font-family="Arial, sans-serif" font-size="92" font-weight="900">OpenClaw Pet</text>
+  <text x="800" y="738" text-anchor="middle" fill="#9AA6BB" font-family="Arial, sans-serif" font-size="34" font-weight="700">Grow your coding companion with quests, streaks, and Stars boosts.</text>
+</svg>

@@ -1,0 +1,15 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="1024" rx="220" fill="#10131A"/>
+  <circle cx="512" cy="492" r="312" fill="#1B2232" stroke="#43D6C5" stroke-width="24"/>
+  <path d="M344 380C344 314 397 260 463 260H561C627 260 680 314 680 380V604C680 670 627 724 561 724H463C397 724 344 670 344 604V380Z" fill="#F7F9FF"/>
+  <path d="M408 420C408 390 432 366 462 366C492 366 516 390 516 420V436H408V420Z" fill="#10131A"/>
+  <path d="M508 420C508 390 532 366 562 366C592 366 616 390 616 420V436H508V420Z" fill="#10131A"/>
+  <path d="M412 548C460 594 564 594 612 548" stroke="#10131A" stroke-width="28" stroke-linecap="round"/>
+  <path d="M322 486H238" stroke="#43D6C5" stroke-width="32" stroke-linecap="round"/>
+  <path d="M786 486H702" stroke="#43D6C5" stroke-width="32" stroke-linecap="round"/>
+  <path d="M512 260V174" stroke="#FFC857" stroke-width="32" stroke-linecap="round"/>
+  <circle cx="512" cy="144" r="34" fill="#FFC857"/>
+  <path d="M330 766L270 858" stroke="#FF6F91" stroke-width="34" stroke-linecap="round"/>
+  <path d="M694 766L754 858" stroke="#74A7FF" stroke-width="34" stroke-linecap="round"/>
+  <text x="512" y="902" text-anchor="middle" fill="#F7F9FF" font-family="Arial, sans-serif" font-size="76" font-weight="800">OPENCLAW PET</text>
+</svg>

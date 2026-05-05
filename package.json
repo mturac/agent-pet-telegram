@@ -1,18 +1,25 @@
 {
   "name": "agent-pet-telegram",
   "version": "0.1.0",
-  "description": "🐣 Tamagotchi-style pet for Telegram Web App",
+  "description": "Telegram-first OpenClaw coding pet with Stars boosts",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js",
-    "dev": "nodemon bot.js"
+    "dev": "nodemon bot.js",
+    "test": "npm run check",
+    "check": "node scripts/check.js && npm audit --omit=dev",
+    "preflight": "node scripts/preflight.js",
+    "check:deploy": "node scripts/check-deploy.js",
+    "screenshots": "node scripts/capture-screenshots.js"
   },
   "keywords": ["telegram", "bot", "webapp", "pet", "game"],
   "author": "TURAC",
   "license": "MIT",
+  "engines": {
+    "node": ">=18.17"
+  },
   "dependencies": {
     "express": "^4.18.2",
-    "node-telegram-bot-api": "^0.63.0",
     "dotenv": "^16.3.1"
   }
 }
