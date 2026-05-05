@@ -23,6 +23,7 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - Deploy packet: `DEPLOYMENT.md`, `deploy/nginx/openclaw-pet.conf.example`, `deploy/systemd/openclaw-pet.service.example`
 - Telegram setup automation: `npm run telegram:configure` sets commands, menu button, and polling/webhook mode.
 - Production preflight: `npm run preflight`
+- Local submission artifact audit: `npm run audit:submission`
 - Public health endpoint avoids exposing filesystem paths unless `SHOW_HEALTH_DETAILS=1`
 - Runtime requirement: Node.js `>=18.17` in `package.json` and `DEPLOYMENT.md`
 - Submission packet: `APP_CENTER_SUBMISSION.md`, `SUBMISSION_CHECKLIST.md`
@@ -39,6 +40,8 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - `npm run screenshots -- http://localhost:3002`
 - `npm run demo:video`
 - `ffprobe submission/demo-video.mp4` reported 500x900 and 10 seconds
+- `npm run audit:submission` passed locally with production warnings
+- `npm run audit:submission -- --require-production` fails until live production inputs and tests are filled
 - `git diff --check`
 - GitHub Pages workflow `Deploy static demo to GitHub Pages` completed successfully for commit `2f4d878`
 - `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200
@@ -58,6 +61,7 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - Real Stars purchase and reopen-sync verification
 - `/api/health` must return `telegramEnabled: true` on production
 - `LIVE_TEST_RESULTS.md` must be fully checked and filled after production deploy
+- `npm run audit:submission -- --require-production` must pass after live tests are filled
 
 ## Completion Rule
 

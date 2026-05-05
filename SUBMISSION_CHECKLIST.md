@@ -12,6 +12,7 @@
 - Confirm `npm run check` passes and `/api/health` returns `telegramEnabled: true`.
 - Run `npm run screenshots -- WEBAPP_URL` and review the 500x900 PNGs in `submission/screenshots/`.
 - Run `npm run demo:video` and review `submission/demo-video.mp4`.
+- Run `npm run audit:submission -- --require-production` after live Telegram tests are complete.
 
 ## Submission Copy
 

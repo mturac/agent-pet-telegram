@@ -36,6 +36,7 @@ Fill this after production deploy.
 - GitHub Pages run: `Deploy static demo to GitHub Pages` completed successfully for commit `2f4d878`
 - Static demo smoke: `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200
 - Local test smoke: `npm test` passed and `npm audit --omit=dev` found 0 vulnerabilities
+- Local submission audit: `npm run audit:submission` passed with production warnings
 - Current production preflight: blocked because `BOT_TOKEN` is not set in this environment
 - Screen recording:
 - Screenshots:

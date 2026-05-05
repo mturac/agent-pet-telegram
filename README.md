@@ -34,6 +34,7 @@ cp .env.example .env
 ```bash
 npm install
 npm run check
+npm run audit:submission
 npm run telegram:configure
 npm start
 ```

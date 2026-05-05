@@ -22,6 +22,7 @@ npm run telegram:configure
 EXPECT_TELEGRAM=1 npm run check:deploy -- "$WEBAPP_URL"
 npm run screenshots -- "$WEBAPP_URL"
 npm run demo:video
+npm run audit:submission -- --require-production
 ```
 
 ## Required BotFather Actions
