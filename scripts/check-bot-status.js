@@ -24,6 +24,10 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+function normalizeUrl(value) {
+  return value ? new URL(value).toString() : '';
+}
+
 (async () => {
   const me = await callTelegram('getMe');
   assert(me.username === expectedBot, `Expected @${expectedBot}, got @${me.username}.`);
@@ -45,8 +49,9 @@ function assert(condition, message) {
 
   const menuUrl = menu.web_app && menu.web_app.url;
   if (expectedUrl) {
-    assert(menuUrl === expectedUrl, `Menu URL mismatch: ${menuUrl || 'missing'}`);
-    assert(webhook.url === new URL('/telegram/webhook', expectedUrl).toString(), 'Webhook URL mismatch.');
+    const normalizedExpectedUrl = normalizeUrl(expectedUrl);
+    assert(normalizeUrl(menuUrl) === normalizedExpectedUrl, `Menu URL mismatch: ${menuUrl || 'missing'}`);
+    assert(normalizeUrl(webhook.url) === new URL('/telegram/webhook', normalizedExpectedUrl).toString(), 'Webhook URL mismatch.');
   }
 
   const photoCount = photos.total_count || 0;
