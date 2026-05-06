@@ -32,6 +32,8 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - Product critique and next sprint risks: `PRODUCT_REVIEW.md`
 - Production input handoff: `PRODUCTION_INPUTS.md`
 - Live evidence template: `LIVE_TEST_RESULTS.md`
+- HTTPS production deploy: `https://35.224.135.8.sslip.io` on GCP `openclaw-gateway`
+- Production services: `openclaw-pet` systemd service and Caddy are active
 
 ## Verified Commands
 
@@ -55,19 +57,22 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - `BOT_TOKEN='123456:abc_DEF-ghi' WEBAPP_URL='https://pet.example.com' TELEGRAM_UPDATE_MODE='webhook' TELEGRAM_WEBHOOK_SECRET='dev-secret-for-check' npm run preflight` passes
 - `python3 ~/.codex/skills/promptguard/scripts/audit_prompt.py STITCH_OPUS_BRIEF.md --format markdown` returned 0 findings
 - `ffprobe submission/demo-video.mp4` reported 500x900 and 10 seconds after Agent Training regeneration
-- Bot API preview setup verified `@Bombaligrim_bot` commands, description, short description, and web app menu button pointing to the GitHub Pages preview.
+- Earlier Bot API preview setup verified `@Bombaligrim_bot` commands, description, short description, and web app menu button before the production cutover.
+- `curl -fsS https://35.224.135.8.sslip.io/api/health` returned `telegramEnabled: true`, `memoryConfigured: true`, and `activityConfigured: true`
+- `EXPECT_TELEGRAM=1 npm run check:deploy -- https://35.224.135.8.sslip.io` passed
+- `npm run preflight` passed on the production VM with `/etc/openclaw-pet.env`
+- `npm run screenshots -- https://35.224.135.8.sslip.io` regenerated the Apps Center screenshots
+- `npm run demo:video` generated `submission/demo-video.mp4`
+- `getWebhookInfo` reported `https://35.224.135.8.sslip.io/telegram/webhook`, zero pending updates, and no last error
+- Bot API production setup verified `@Bombaligrim_bot` name, description, short description, commands, and web app menu button pointing to `https://35.224.135.8.sslip.io/`
+- Visual review completed for `submission/screenshots/01-home.png`, `02-agent-console.png`, `03-badges.png`, and `04-support-privacy.png`
 
 ## Not Complete Without Live Inputs
 
-- HTTPS production deploy with secure bot token env and backend `WEBAPP_URL`
-- `npm run preflight` must pass on production host
-- `npm run telegram:configure` must pass against the real bot token
 - BotFather Main Mini App configuration
 - Upload bot image, splash screen, screenshots, and demo video
-- Review generated screenshot files in `submission/screenshots/`
 - Real Telegram mobile `/start`, `/agent`, `/sync`, `/privacy` checks
 - Real Telegram mobile Agent Training and reopen-sync verification
-- `/api/health` must return `telegramEnabled: true` on production
 - `LIVE_TEST_RESULTS.md` must be fully checked and filled after production deploy
 - `npm run audit:submission -- --require-production` must pass after live tests are filled
 

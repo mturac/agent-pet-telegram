@@ -6,7 +6,7 @@ Fill this after production deploy.
 
 - Static demo URL: https://mturac.github.io/agent-pet-telegram/
 - Static demo status: GitHub Pages returned HTTP 200 on 2026-05-06
-- Production URL:
+- Production URL: https://35.224.135.8.sslip.io
 - Bot username: `@Bombaligrim_bot`
 - Test device:
 - Test Telegram account:
@@ -14,23 +14,23 @@ Fill this after production deploy.
 
 ## Results
 
-- [ ] `npm run check:deploy` passes with `EXPECT_TELEGRAM=1`
-- [ ] `npm run preflight` passes on production host
-- [ ] `npm run telegram:configure` sets commands, menu button, and update mode
-- [ ] `/api/health` returns `telegramEnabled: true`
+- [x] `npm run check:deploy` passes with `EXPECT_TELEGRAM=1`
+- [x] `npm run preflight` passes on production host
+- [x] `npm run telegram:configure` sets commands, menu button, and update mode
+- [x] `/api/health` returns `telegramEnabled: true`
 - [ ] BotFather Main Mini App opens production URL
 - [ ] `/start` opens the Mini App
 - [ ] First user can tap or shake to hatch Clawdy
 - [ ] `/agent` opens Agent Training
 - [ ] `/sync` opens or explains OpenClaw activity sync
-- [ ] `/privacy` returns privacy/storage note
+- [x] `/privacy` returns privacy/storage note
 - [ ] Feed, Play, and Code actions update server state
 - [ ] OpenClaw Sync reads recent activity and awards daily XP
 - [ ] Daily quest can be claimed after 3 actions
 - [ ] Closing and reopening preserves progress
 - [ ] Agent Training status, focus, and handoff commands update server state
 - [ ] WhatsApp share opens a share link back to the Telegram app
-- [ ] Screenshots and demo video captured for Apps Center
+- [x] Screenshots and demo video captured for Apps Center
 
 ## Evidence Links Or Files
 
@@ -40,17 +40,23 @@ Fill this after production deploy.
 - Local submission audit: `npm run audit:submission` passed with production warnings
 - Local deploy smoke: `npm run check:deploy -- http://localhost:3002` passed; `/api/health` confirmed memory/activity configured and Telegram disabled without `BOT_TOKEN`
 - GitHub Actions: `Submission checks` and `Deploy static demo to GitHub Pages` completed successfully for the Hermes reframe on `main`
-- Bot API preview setup: `@Bombaligrim_bot` commands, short description, description, and menu button configured; menu currently points to the GitHub Pages static preview.
-- Current production preflight: blocked because HTTPS backend `WEBAPP_URL`, production memory paths, and filled mobile evidence are still missing.
-- Screen recording:
-- Screenshots:
-- Static preview video: `submission/demo-video.mp4` generated from the GitHub Pages demo at 500x900, 10 seconds
-- Agent support proof:
-- `EXPECT_TELEGRAM=1 npm run check:deploy -- <production-url>` output:
-- `npm run preflight` output:
-- `npm run telegram:configure` output: preview setup succeeded for `@Bombaligrim_bot` with menu URL `https://mturac.github.io/agent-pet-telegram/`
-- `/api/health` response:
-- Notes:
+- Production deploy smoke: `EXPECT_TELEGRAM=1 npm run check:deploy -- https://35.224.135.8.sslip.io` passed.
+- Production preflight: `npm run preflight` passed on `openclaw-gateway`.
+- Bot API setup: `@Bombaligrim_bot` name, description, short description, commands, menu button, and webhook configured for `https://35.224.135.8.sslip.io`.
+- Webhook proof: `getWebhookInfo` reported `https://35.224.135.8.sslip.io/telegram/webhook`, `pending_update_count: 0`, and no last error.
+- Production health: `/api/health` returned `telegramEnabled: true`, `memoryConfigured: true`, and `activityConfigured: true`.
+- Production privacy/support: `/privacy` and `/support` returned the expected storage and support text.
+- Current production blockers: real Telegram mobile flow evidence and BotFather Main Mini App/media setup remain manual.
+- Screen recording: `submission/demo-video.mp4`
+- Screenshots: `submission/screenshots/01-home.png`, `02-agent-console.png`, `03-badges.png`, `04-support-privacy.png`
+- Production screenshots: `submission/screenshots/01-home.png`, `02-agent-console.png`, `03-badges.png`, and `04-support-privacy.png` regenerated from the production URL.
+- Static preview video: `submission/demo-video.mp4` generated at 500x900, 10 seconds
+- Agent support proof: `Agent Training` surface verified in screenshot `02-agent-console.png`; production commands include `/agent` and `/sync`.
+- `EXPECT_TELEGRAM=1 npm run check:deploy -- <production-url>` output: passed for `https://35.224.135.8.sslip.io`
+- `npm run preflight` output: `Production preflight passed.`
+- `npm run telegram:configure` output: commands/menu configured; webhook verified after explicit production `setWebhook` refresh.
+- `/api/health` response: `{"ok":true,"memoryConfigured":true,"activityConfigured":true,"telegramEnabled":true}`
+- Notes: Do not mark complete until the unchecked mobile and BotFather items are verified.
 
 ## Completion Approval
 
