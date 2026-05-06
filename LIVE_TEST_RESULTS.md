@@ -49,8 +49,8 @@ Fill this after production deploy.
 - Production signed smoke: `LIVE_SMOKE_SEED_ACTIVITY=1 EXPECT_OPENCLAW_SIGNAL=1 npm run live:smoke -- https://35.224.135.8.sslip.io` passed on `openclaw-gateway`.
 - Production signed smoke output: test user hatched, badges included `hatched`, `first-care`, `daily-quest`, `agent-pilot`, `social`, and `openclaw-sync`; OpenClaw sync saw 2 recent files and awarded 16 XP.
 - WhatsApp share proof: `public/index.html` now builds `wa.me` text with `https://t.me/Bombaligrim_bot/pet`; automated checks fail if the retired `OpenClawTamagotchi_bot` link returns.
-- Bot status proof: Telegram API confirmed `@Bombaligrim_bot` commands, menu URL, webhook, name, and descriptions; `photoCount: 0`, so BotFather profile image upload is still missing.
-- Current production blockers: real Telegram mobile flow evidence and BotFather Main Mini App/media setup remain manual.
+- Bot status proof: Telegram API confirmed `@Bombaligrim_bot` commands, menu URL, webhook, name, descriptions, and profile image with `photoCount: 1`.
+- Current production blockers: real Telegram mobile flow evidence and BotFather Main Mini App/splash/media setup remain manual.
 - Screen recording: `submission/demo-video.mp4`
 - Screenshots: `submission/screenshots/01-home.png`, `02-agent-console.png`, `03-badges.png`, `04-support-privacy.png`
 - Production screenshots: `submission/screenshots/01-home.png`, `02-agent-console.png`, `03-badges.png`, and `04-support-privacy.png` regenerated from the production URL.
