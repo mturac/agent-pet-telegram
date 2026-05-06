@@ -1480,8 +1480,16 @@
 
         render();
         loadServerState(false);
+        let initialSyncRequested = false;
         function openInitialSheet() {
             const initialSheet = location.hash.replace("#", "");
+            if (initialSheet === "sync") {
+                if (!initialSyncRequested) {
+                    initialSyncRequested = true;
+                    syncOpenClaw();
+                }
+                return;
+            }
             if (["agent", "badges", "help"].includes(initialSheet)) {
                 openSheet(initialSheet);
             }

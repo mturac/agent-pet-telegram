@@ -348,15 +348,47 @@ async function callTelegram(method, payload) {
   return data.result;
 }
 
+function appUrl(hash = '') {
+  const url = new URL(WEBAPP_URL);
+  if (hash) url.hash = hash.replace(/^#/, '');
+  return url.toString();
+}
+
 async function sendStart(chatId) {
   return callTelegram('sendMessage', {
     chat_id: chatId,
     text: '🐣 OpenClaw Pet is ready. Manage Hermes through Telegram, sync OpenClaw memory, and keep agent progress visible.',
     reply_markup: {
       inline_keyboard: [
-        [{ text: '🎮 Open Pet', web_app: { url: WEBAPP_URL } }],
-        [{ text: '⌁ Agent Training', web_app: { url: `${WEBAPP_URL}#agent` } }],
+        [{ text: '🎮 Open Pet', web_app: { url: appUrl() } }],
+        [{ text: '⌁ Agent Training', web_app: { url: appUrl('agent') } }],
         [{ text: '🛟 Support', callback_data: 'support' }]
+      ]
+    }
+  });
+}
+
+async function sendAgent(chatId) {
+  return callTelegram('sendMessage', {
+    chat_id: chatId,
+    text: '⌁ Agent Training is ready. Open Clawdy and run Hermes status, focus, or memory handoff commands.',
+    reply_markup: {
+      inline_keyboard: [
+        [{ text: '⌁ Open Agent Training', web_app: { url: appUrl('agent') } }],
+        [{ text: '🎮 Open Pet', web_app: { url: appUrl() } }]
+      ]
+    }
+  });
+}
+
+async function sendSync(chatId) {
+  return callTelegram('sendMessage', {
+    chat_id: chatId,
+    text: '↺ OpenClaw Sync reads recent OpenClaw activity from the deploy host and turns it into Clawdy XP.',
+    reply_markup: {
+      inline_keyboard: [
+        [{ text: '↺ Sync OpenClaw', web_app: { url: appUrl('sync') } }],
+        [{ text: '🎮 Open Pet', web_app: { url: appUrl() } }]
       ]
     }
   });
@@ -445,7 +477,17 @@ async function handleUpdate(update) {
     return;
   }
 
-  if (message.text && /^\/(start|agent|sync)/.test(message.text)) {
+  if (message.text && /^\/agent/.test(message.text)) {
+    await sendAgent(message.chat.id);
+    return;
+  }
+
+  if (message.text && /^\/sync/.test(message.text)) {
+    await sendSync(message.chat.id);
+    return;
+  }
+
+  if (message.text && /^\/start/.test(message.text)) {
     await sendStart(message.chat.id);
     return;
   }
@@ -610,6 +652,7 @@ if (require.main === module) {
 module.exports = {
   AGENT_COMMANDS,
   app,
+  appUrl,
   applyAction,
   applyAgentCommand,
   applyOpenClawActivity,

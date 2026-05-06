@@ -41,6 +41,7 @@ fs.writeFileSync(path.join(process.env.OPENCLAW_ACTIVITY_DIR, 'notes', 'build.js
 
 const {
   applyAgentCommand,
+  appUrl,
   app,
   defaultState,
   hatchPet,
@@ -66,6 +67,8 @@ function signedInitData(user) {
 
 (async () => {
   const user = { id: 4242, first_name: 'Check' };
+  assert.strictEqual(appUrl('agent'), 'http://localhost:3000/#agent');
+  assert.strictEqual(appUrl('#sync'), 'http://localhost:3000/#sync');
   assert.strictEqual(validateInitData(signedInitData(user)).id, user.id);
   assert.throws(() => validateInitData('user=%7B%7D&hash=bad'), /invalid|missing/i);
 
