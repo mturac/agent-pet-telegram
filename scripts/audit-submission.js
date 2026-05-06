@@ -195,6 +195,25 @@ if (read('public/index.html').includes('OpenClawTamagotchi_bot')) {
   fail('public/index.html still contains the retired Telegram bot link');
 }
 
+const userVisibleFiles = [
+  'APP_CENTER_SUBMISSION.md',
+  'BOTFATHER_PACKET.md',
+  'DEPLOYMENT.md',
+  'MANUAL_COMPLETION_RUNBOOK.md',
+  'PRODUCTION_INPUTS.md',
+  'PRODUCT_REVIEW.md',
+  'SUBMISSION_CHECKLIST.md',
+  'assets/openclaw-pet-splash.svg',
+  'public/index.html'
+];
+
+const retiredPaymentCopy = /\b(Stars?|XTR|payments?|paid|purchase|boosts?|invoice|pre-checkout|checkout|paysupport)\b/i;
+for (const file of userVisibleFiles.filter(fileExists)) {
+  if (retiredPaymentCopy.test(read(file))) {
+    fail(`${file} contains retired Stars/payment copy`);
+  }
+}
+
 if (failures.length) {
   console.error(`Submission audit failed with ${failures.length} issue(s).`);
   process.exit(1);
