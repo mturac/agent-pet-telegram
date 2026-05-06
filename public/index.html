@@ -222,6 +222,27 @@
             animation: eggWobble 1.6s ease-in-out infinite;
         }
 
+        .pet.hatching {
+            animation: hatchPop .68s ease-out;
+        }
+
+        .pet-card.hatching::before,
+        .pet-card.hatching::after {
+            content: "";
+            position: absolute;
+            inset: 23%;
+            z-index: 0;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 206, 74, .5);
+            animation: hatchRing .72s ease-out forwards;
+        }
+
+        .pet-card.hatching::after {
+            inset: 12%;
+            border-color: rgba(42, 245, 208, .45);
+            animation-delay: .08s;
+        }
+
         .hatch-cta {
             position: absolute;
             z-index: 2;
@@ -291,6 +312,17 @@
         @keyframes eggWobble {
             0%, 100% { transform: translateY(0) rotate(-4deg); }
             50% { transform: translateY(-8px) rotate(5deg); }
+        }
+
+        @keyframes hatchPop {
+            0% { transform: scale(.78) rotate(-8deg); filter: brightness(1.8); }
+            42% { transform: scale(1.22) rotate(5deg); filter: brightness(1.35); }
+            100% { transform: scale(1) rotate(0); filter: brightness(1); }
+        }
+
+        @keyframes hatchRing {
+            0% { opacity: .95; transform: scale(.3); }
+            100% { opacity: 0; transform: scale(1.9); }
         }
 
         .stats {
@@ -1313,7 +1345,7 @@
                     const data = await api("/api/hatch", { method: "POST", body: "{}" });
                     state = data.state;
                     haptic("success");
-                    pulsePet();
+                    hatchBurst();
                     toast(data.message);
                     render();
                 } catch (error) {
@@ -1330,7 +1362,7 @@
             addGuestXp(12);
             earnGuestBadge("hatched");
             haptic("success");
-            pulsePet();
+            hatchBurst();
             toast(`Clawdy hatched as ${creature.name}`);
             render();
         }
@@ -1398,6 +1430,20 @@
             pet.classList.remove("pulse");
             void pet.offsetWidth;
             pet.classList.add("pulse");
+        }
+
+        function hatchBurst() {
+            const pet = document.getElementById("pet");
+            const card = document.querySelector(".pet-card");
+            pet.classList.remove("hatching", "pulse");
+            card.classList.remove("hatching");
+            void pet.offsetWidth;
+            pet.classList.add("hatching");
+            card.classList.add("hatching");
+            setTimeout(() => {
+                pet.classList.remove("hatching");
+                card.classList.remove("hatching");
+            }, 760);
         }
 
         let toastTimer;
