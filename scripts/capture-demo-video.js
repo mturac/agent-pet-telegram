@@ -26,7 +26,7 @@ function escapeConcatPath(filePath) {
 
 const frames = [
   '01-home.png',
-  '02-star-boosts.png',
+  '02-agent-console.png',
   '03-badges.png',
   '04-support-privacy.png'
 ].map((name) => path.join(screenshotDir, name));

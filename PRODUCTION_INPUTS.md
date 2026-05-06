@@ -11,7 +11,7 @@ Use this handoff to finish the active goal.
 - Confirmation of the production OpenClaw activity folder.
 - Choice of `TELEGRAM_UPDATE_MODE`: `polling` or `webhook`.
 - Long random `TELEGRAM_WEBHOOK_SECRET` if webhook mode is used.
-- Telegram account/device for the real mobile Stars test.
+- Telegram account/device for the real mobile Hermes/OpenClaw sync test.
 
 ## Required Commands After Inputs
 

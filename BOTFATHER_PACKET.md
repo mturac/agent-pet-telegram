@@ -3,15 +3,15 @@
 ## Identity
 
 - Bot name: `OpenClaw Pet`
-- Short description: `Raise a coding pet that grows from OpenClaw activity, quests, streaks, and Telegram Stars boosts.`
-- About text: `OpenClaw Pet is a Telegram-first coding companion. Sync real OpenClaw activity, feed, play, code, complete daily quests, unlock badges, invite friends, and use Telegram Stars boosts. Progress syncs through OpenClaw memory on the deploy host.`
+- Short description: `Control Hermes from Telegram and grow a pet from OpenClaw memory activity.`
+- About text: `OpenClaw Pet is a Telegram-first OpenClaw and Hermes companion. Sync real OpenClaw activity, focus the Hermes agent loop, complete daily quests, unlock badges, and share progress. Progress syncs through OpenClaw memory on the deploy host.`
 
 ## Commands
 
 ```text
 start - Open OpenClaw Pet
-shop - Open Star Boosts
-paysupport - Payment help and support
+agent - Open Hermes Console
+sync - Sync OpenClaw activity
 privacy - Privacy and stored data
 help - Support and app help
 ```
@@ -26,5 +26,5 @@ help - Support and app help
 
 - Bot image: `assets/openclaw-pet-avatar.png`
 - Splash screen: `assets/openclaw-pet-splash.png`
-- Screenshots: home, daily quest, Star Boosts, badges, support/privacy, share flow.
-- Demo video: open app, care action, quest claim, Stars boost, close/reopen synced state.
+- Screenshots: home, Hermes Console, badges, support/privacy, share flow.
+- Demo video: open app, focus Hermes, sync OpenClaw activity, claim quest, close/reopen synced state.

@@ -5,7 +5,7 @@ const TOKEN = process.env.BOT_TOKEN;
 const WEBAPP_URL = process.env.WEBAPP_URL;
 const MODE = (process.env.TELEGRAM_UPDATE_MODE || 'polling').toLowerCase();
 const WEBHOOK_SECRET = process.env.TELEGRAM_WEBHOOK_SECRET || '';
-const ALLOWED_UPDATES = ['message', 'callback_query', 'pre_checkout_query'];
+const ALLOWED_UPDATES = ['message', 'callback_query'];
 
 function assertEnv(name, value) {
   if (!value) throw new Error(`${name} is required.`);
@@ -38,8 +38,8 @@ async function main() {
   await callTelegram('setMyCommands', {
     commands: [
       { command: 'start', description: 'Open OpenClaw Pet' },
-      { command: 'shop', description: 'Open Star Boosts' },
-      { command: 'paysupport', description: 'Payment help and support' },
+      { command: 'agent', description: 'Open Hermes Console' },
+      { command: 'sync', description: 'Sync OpenClaw activity' },
       { command: 'privacy', description: 'Privacy and stored data' },
       { command: 'help', description: 'Help and support' }
     ]

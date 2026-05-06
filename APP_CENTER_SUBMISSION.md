@@ -2,12 +2,12 @@
 
 ## Short Pitch
 
-OpenClaw Pet is a Telegram-first coding companion where users raise a pet through real OpenClaw activity sync, care actions, daily quests, streaks, badges, social invites, and Telegram Stars boosts.
+OpenClaw Pet is a Telegram-first OpenClaw and Hermes agent companion. Users manage their agent loop from Telegram, sync real OpenClaw activity into memory, and keep progress visible through a living pet dashboard.
 
 ## What Changed Since Decline
 
-- Stronger mobile UI with a clear pet habitat, stats, quests, badges, and boost shop.
-- Telegram Stars are integrated through XTR invoices for supporter perks: Star Snack, Focus Sprint, and Legend Aura.
+- Stronger mobile UI with a clear pet habitat, Hermes Console, stats, quests, badges, and social actions.
+- The core value is Telegram control for Hermes and OpenClaw memory sync, not a storefront loop.
 - Progress syncs server-side through OpenClaw memory files on the deploy host.
 - A daily OpenClaw Sync action reads recent local OpenClaw activity metadata and turns it into pet XP.
 - Guest web fallback works in Claude, Codex, and normal browsers without claiming non-Telegram native support.
@@ -17,10 +17,10 @@ OpenClaw Pet is a Telegram-first coding companion where users raise a pet throug
 ## Review Notes
 
 - Primary platform: Telegram Mini App.
-- Payment method: Telegram Stars.
-- Stored data: Telegram user id, pet progress, badges, and payment payload status in OpenClaw memory.
+- Monetization: none in v1.
+- Stored data: Telegram user id, pet progress, badges, and OpenClaw activity metadata in OpenClaw memory.
 - No external database is required for v1.
 
 ## Requested Listing Copy
 
-Telegram-first coding pet that grows from OpenClaw activity, synced memory, daily quests, social sharing, and Telegram Stars boosts.
+Telegram-first OpenClaw/Hermes agent companion with synced memory, daily quests, social sharing, and a living agent pet dashboard.

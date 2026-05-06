@@ -85,7 +85,7 @@ const requiredFiles = [
   'scripts/preflight.js',
   'submission/demo-video.mp4',
   'submission/screenshots/01-home.png',
-  'submission/screenshots/02-star-boosts.png',
+  'submission/screenshots/02-agent-console.png',
   'submission/screenshots/03-badges.png',
   'submission/screenshots/04-support-privacy.png'
 ];
@@ -112,19 +112,19 @@ for (const script of [
 }
 
 assertSnippet('bot.js', 'validateInitData', 'Telegram initData validation');
-assertSnippet('bot.js', "currency: 'XTR'", 'Stars XTR invoice currency');
+assertSnippet('bot.js', "app.post('/api/agent/command'", 'Hermes command endpoint');
 assertSnippet('bot.js', "app.post('/api/openclaw/sync'", 'OpenClaw sync endpoint');
 assertSnippet('bot.js', "app.post('/telegram/webhook'", 'Telegram webhook endpoint');
 assertSnippet('public/index.html', 'localStorage', 'guest web fallback');
 assertSnippet('public/index.html', 'shareWhatsApp', 'WhatsApp share link');
-assertSnippet('public/index.html', '/api/create-invoice', 'Stars checkout UI path');
+assertSnippet('public/index.html', 'Hermes Console', 'Hermes agent control surface');
 assertSnippet('APP_CENTER_SUBMISSION.md', 'Telegram-first', 'submission positioning');
-assertSnippet('BOTFATHER_PACKET.md', 'paysupport', 'BotFather payment support command');
+assertSnippet('BOTFATHER_PACKET.md', 'agent - Open Hermes Console', 'BotFather Hermes command');
 assertSnippet('SUBMISSION_CHECKLIST.md', 'npm run telegram:configure', 'Telegram setup gate');
 
 for (const file of [
   'submission/screenshots/01-home.png',
-  'submission/screenshots/02-star-boosts.png',
+  'submission/screenshots/02-agent-console.png',
   'submission/screenshots/03-badges.png',
   'submission/screenshots/04-support-privacy.png'
 ]) {

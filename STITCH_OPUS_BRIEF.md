@@ -6,7 +6,7 @@
 3. File ownership.
 4. Visual polish.
 
-The order is fixed. Later items have less priority. Allowed exception count: zero. Backend behavior, payment logic, Telegram auth validation, deployment scripts, API endpoint names, and production configuration are read-only surfaces for this task.
+The order is fixed. Later items have less priority. Allowed exception count: zero. Backend behavior, Telegram auth validation, deployment scripts, API endpoint names, and production configuration are read-only surfaces for this task.
 
 ## Role And Ownership
 Act as a senior frontend engineer. Apply the approved Stitch visual direction to the OpenClaw Pet Telegram Mini App. Owned file: `public/index.html`.
@@ -16,12 +16,12 @@ Stitch project: `projects/14844442654120528429`.
 
 Reference screens:
 - Pet Home: `projects/14844442654120528429/screens/bf690bca84734b63a0145aff7b728b3a`
-- Supporter Perks: `projects/14844442654120528429/screens/ae14b425a68c4953ad49218dad3f400a`
+- Hermes Console visual reference: `projects/14844442654120528429/screens/ae14b425a68c4953ad49218dad3f400a`
 - Badges Progress: `projects/14844442654120528429/screens/6b596377a16745f7adf920621baccab3`
 
 Local screenshots:
 - `submission/stitch/01-clawdy-lab-bay-dashboard.png`
-- `submission/stitch/02-supporter-perks.png`
+- `submission/stitch/02-hermes-console.png`
 - `submission/stitch/03-badges-progress.png`
 
 ## Product Goal
@@ -39,14 +39,14 @@ Make the app feel Apps Center-ready: Telegram-first, premium, compact, memorable
 - Telegram `initData` backend mode.
 - Guest `localStorage` fallback outside Telegram.
 - GitHub Pages demo mode.
-- Stars checkout path and Telegram-only Stars copy.
+- Hermes Console and Telegram-first agent control copy.
 - WhatsApp share-link only.
 - Support and privacy entry points.
 - Existing API endpoint names and response assumptions.
 
 ## Required UI Coverage
-- Home: brand, Clawdy, streak, OpenClaw sync signal, pet lab bay, level badge, Food/Joy/Focus/XP, daily quest, Feed/Play/Code, bottom actions: Stars, Sync, Invite, WA, Badges, Help.
-- Stars: Supporter Perks, Telegram Stars-only copy, Star Snack 15 XTR, Focus Sprint 25 XTR, Legend Aura 50 XTR, support/privacy links.
+- Home: brand, Clawdy, streak, OpenClaw sync signal, pet lab bay, level badge, Food/Joy/Focus/XP, daily quest, Feed/Play/Code, bottom actions: Agent, Sync, Invite, WA, Badges, Help.
+- Agent: Hermes Console, status check, focus Hermes action, memory handoff, support/privacy links.
 - Badges: evolution progress, unlocked/locked badges, recent OpenClaw signals, Invite and WA share-link actions.
 
 ## Verification Commands

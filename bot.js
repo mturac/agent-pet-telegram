@@ -22,24 +22,6 @@ const ACTIVITY_DIR = expandHome(
 
 const app = express();
 
-const BOOSTS = {
-  'star-snack': {
-    title: 'Star Snack',
-    description: 'Refills Food and Joy for your OpenClaw Pet.',
-    amount: 15
-  },
-  'focus-sprint': {
-    title: 'Focus Sprint',
-    description: 'Doubles XP from the next coding action.',
-    amount: 25
-  },
-  'legend-aura': {
-    title: 'Legend Aura',
-    description: 'Unlocks a premium cosmetic glow for evolved pets.',
-    amount: 50
-  }
-};
-
 const STAGES = [
   { name: 'Egg', level: 1 },
   { name: 'Baby Bot', level: 3 },
@@ -47,6 +29,30 @@ const STAGES = [
   { name: 'Build Beast', level: 10 },
   { name: 'Claw Legend', level: 15 }
 ];
+
+const AGENT_COMMANDS = {
+  status: {
+    title: 'Status Check',
+    message: 'Hermes status check recorded in OpenClaw memory.',
+    xp: 8,
+    focus: 4,
+    joy: 2
+  },
+  focus: {
+    title: 'Focus Hermes',
+    message: 'Hermes focus sprint queued from Telegram.',
+    xp: 16,
+    focus: 14,
+    joy: 4
+  },
+  handoff: {
+    title: 'Memory Handoff',
+    message: 'OpenClaw memory handoff queued for Hermes.',
+    xp: 12,
+    focus: 8,
+    joy: 8
+  }
+};
 
 app.use(express.json({ limit: '32kb' }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -87,16 +93,17 @@ function defaultState(user) {
     lastSeen: Date.now(),
     lastQuestDate: today(),
     claimedToday: false,
-    focusBoost: false,
-    aura: false,
     lastOpenClawSyncDate: '',
     openclawSignals: {
       recentFiles: 0,
       awardedXp: 0,
       lastSyncedAt: null
     },
-    badges: [],
-    payments: {}
+    agent: {
+      lastCommand: null,
+      commands: []
+    },
+    badges: []
   };
 }
 
@@ -128,10 +135,19 @@ function normalizeState(state) {
   state.xp = clamp(state.xp);
   state.stage = currentStageIndex(state);
   state.badges = Array.isArray(state.badges) ? state.badges : [];
-  state.payments = state.payments && typeof state.payments === 'object' ? state.payments : {};
+  if (state.badges.includes('star-powered') && !state.badges.includes('agent-pilot')) {
+    state.badges.push('agent-pilot');
+  }
+  state.badges = state.badges.filter((badge) => badge !== 'star-powered');
+  state.agent = state.agent && typeof state.agent === 'object' ? state.agent : {};
+  state.agent.commands = Array.isArray(state.agent.commands) ? state.agent.commands.slice(-20) : [];
+  state.agent.lastCommand = state.agent.lastCommand || null;
   state.openclawSignals = state.openclawSignals && typeof state.openclawSignals === 'object'
     ? state.openclawSignals
     : { recentFiles: 0, awardedXp: 0, lastSyncedAt: null };
+  delete state.payments;
+  delete state.focusBoost;
+  delete state.aura;
   return state;
 }
 
@@ -305,11 +321,11 @@ async function callTelegram(method, payload) {
 async function sendStart(chatId) {
   return callTelegram('sendMessage', {
     chat_id: chatId,
-    text: '🐣 OpenClaw Pet is ready. Progress syncs through OpenClaw memory, and boosts use Telegram Stars.',
+    text: '🐣 OpenClaw Pet is ready. Manage Hermes through Telegram, sync OpenClaw memory, and keep agent progress visible.',
     reply_markup: {
       inline_keyboard: [
         [{ text: '🎮 Open Pet', web_app: { url: WEBAPP_URL } }],
-        [{ text: '⭐ Star Boosts', web_app: { url: `${WEBAPP_URL}#shop` } }],
+        [{ text: '⌁ Hermes Console', web_app: { url: `${WEBAPP_URL}#agent` } }],
         [{ text: '🛟 Support', callback_data: 'support' }]
       ]
     }
@@ -319,45 +335,17 @@ async function sendStart(chatId) {
 async function sendSupport(chatId) {
   return callTelegram('sendMessage', {
     chat_id: chatId,
-    text: 'Support: reply here with your issue or use /paysupport for payment help. Privacy: only Telegram user id, pet progress, and payment payload status are stored in OpenClaw memory.'
+    text: 'Support: reply here with your issue. Privacy: only Telegram user id, pet progress, OpenClaw activity metadata, and Hermes command metadata are stored in OpenClaw memory.'
   });
-}
-
-async function validatePreCheckout(query) {
-  const parsed = parsePaymentPayload(query.invoice_payload);
-
-  if (!parsed || !BOOSTS[parsed.sku]) {
-    return { ok: false, error_message: 'Unknown OpenClaw Pet boost.' };
-  }
-
-  if (String(query.from.id) !== String(parsed.userId)) {
-    return { ok: false, error_message: 'This invoice belongs to another Telegram account.' };
-  }
-
-  if (query.currency !== 'XTR' || query.total_amount !== BOOSTS[parsed.sku].amount) {
-    return { ok: false, error_message: 'Invoice amount does not match the selected boost.' };
-  }
-
-  try {
-    const state = await readState(query.from);
-    const payment = state.payments[parsed.invoiceId];
-    if (!payment || payment.sku !== parsed.sku || payment.status !== 'pending') {
-      return { ok: false, error_message: 'This invoice is no longer active.' };
-    }
-  } catch {
-    return { ok: false, error_message: 'Could not verify this invoice.' };
-  }
-
-  return { ok: true };
 }
 
 function applyAction(state, type) {
   const beforeStage = state.stage;
-  const xpMap = { feed: 8, play: 12, code: state.focusBoost ? 32 : 16 };
+  const xpMap = { feed: 8, play: 12, code: 16 };
   const messages = {
     feed: 'Clawdy devoured the build snack.',
     play: 'Joy restored with a quick mini-game.',
-    code: state.focusBoost ? 'Focus Sprint doubled your coding XP.' : 'Clean code energy gained.'
+    code: 'Clean code energy gained.'
   };
 
   if (!xpMap[type]) throw Object.assign(new Error('Unknown action.'), { statusCode: 400 });
@@ -377,7 +365,6 @@ function applyAction(state, type) {
     state.focus = clamp(state.focus - 12);
     state.food = clamp(state.food - 7);
     state.joy = clamp(state.joy + 6);
-    state.focusBoost = false;
   }
 
   addXp(state, xpMap[type]);
@@ -388,61 +375,25 @@ function applyAction(state, type) {
   return messages[type];
 }
 
-function applyBoost(state, sku) {
-  if (sku === 'star-snack') {
-    state.food = 100;
-    state.joy = clamp(state.joy + 25);
-  }
+function applyAgentCommand(state, command) {
+  const spec = AGENT_COMMANDS[command];
+  if (!spec) throw Object.assign(new Error('Unknown Hermes command.'), { statusCode: 400 });
 
-  if (sku === 'focus-sprint') {
-    state.focusBoost = true;
-    state.focus = clamp(state.focus + 18);
-  }
-
-  if (sku === 'legend-aura') {
-    state.aura = true;
-  }
-
-  earnBadge(state, 'star-powered');
-}
-
-function parsePaymentPayload(payload) {
-  const parts = String(payload || '').split(':');
-  if (parts.length !== 4 || parts[0] !== 'openclaw-pet') return null;
-  return { userId: parts[1], sku: parts[2], invoiceId: parts[3] };
-}
-
-function applyPaidBoost(state, parsed, successfulPayment) {
-  if (!parsed || !BOOSTS[parsed.sku]) return false;
-
-  const payment = state.payments[parsed.invoiceId];
-  if (!payment || payment.status !== 'pending') return false;
-
-  payment.status = 'paid';
-  payment.paidAt = Date.now();
-  payment.currency = successfulPayment.currency;
-  payment.totalAmount = successfulPayment.total_amount;
-  payment.telegramPaymentChargeId = successfulPayment.telegram_payment_charge_id;
-  payment.providerPaymentChargeId = successfulPayment.provider_payment_charge_id;
-  applyBoost(state, parsed.sku);
-  return true;
-}
-
-async function applySuccessfulPayment(message) {
-  const parsed = parsePaymentPayload(message.successful_payment.invoice_payload);
-  if (!parsed || !BOOSTS[parsed.sku]) return;
-
-  const user = message.from || { id: parsed.userId, first_name: 'Agent' };
-  const state = await readState({ ...user, id: parsed.userId });
-  const applied = applyPaidBoost(state, parsed, message.successful_payment);
-  if (!applied) return;
-
-  await writeState(state);
-
-  await callTelegram('sendMessage', {
-    chat_id: message.chat.id,
-    text: `⭐ ${BOOSTS[parsed.sku].title} activated. Reopen OpenClaw Pet to see the synced boost.`
-  });
+  normalizeState(state);
+  const entry = {
+    command,
+    title: spec.title,
+    createdAt: Date.now(),
+    source: 'telegram'
+  };
+  state.agent.lastCommand = entry;
+  state.agent.commands = [...state.agent.commands, entry].slice(-20);
+  state.focus = clamp(state.focus + spec.focus);
+  state.joy = clamp(state.joy + spec.joy);
+  state.actionsToday += 1;
+  addXp(state, spec.xp);
+  earnBadge(state, 'agent-pilot');
+  return spec.message;
 }
 
 async function handleUpdate(update) {
@@ -452,34 +403,20 @@ async function handleUpdate(update) {
     return;
   }
 
-  if (update.pre_checkout_query) {
-    const checkout = await validatePreCheckout(update.pre_checkout_query);
-    await callTelegram('answerPreCheckoutQuery', {
-      pre_checkout_query_id: update.pre_checkout_query.id,
-      ...checkout
-    });
-    return;
-  }
-
   const message = update.message;
   if (!message) return;
-
-  if (message.successful_payment) {
-    await applySuccessfulPayment(message);
-    return;
-  }
 
   if (message.text && /^\/start support/.test(message.text)) {
     await sendSupport(message.chat.id);
     return;
   }
 
-  if (message.text && /^\/(start|shop)/.test(message.text)) {
+  if (message.text && /^\/(start|agent|sync)/.test(message.text)) {
     await sendStart(message.chat.id);
     return;
   }
 
-  if (message.text && /^\/(help|paysupport|privacy)/.test(message.text)) {
+  if (message.text && /^\/(help|privacy)/.test(message.text)) {
     await sendSupport(message.chat.id);
   }
 }
@@ -493,7 +430,7 @@ async function startPolling() {
       const updates = await callTelegram('getUpdates', {
         offset,
         timeout: 25,
-        allowed_updates: ['message', 'callback_query', 'pre_checkout_query']
+        allowed_updates: ['message', 'callback_query']
       });
 
       for (const update of updates) {
@@ -534,6 +471,17 @@ app.post('/api/action', requireTelegramUser, async (req, res) => {
   try {
     const state = await readState(req.telegramUser);
     const message = applyAction(state, req.body && req.body.type);
+    await writeState(state);
+    res.json({ message, state: publicState(state) });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ error: error.message });
+  }
+});
+
+app.post('/api/agent/command', requireTelegramUser, async (req, res) => {
+  try {
+    const state = await readState(req.telegramUser);
+    const message = applyAgentCommand(state, req.body && req.body.command);
     await writeState(state);
     res.json({ message, state: publicState(state) });
   } catch (error) {
@@ -590,46 +538,12 @@ app.post('/telegram/webhook', async (req, res) => {
   }
 });
 
-app.post('/api/create-invoice', requireTelegramUser, async (req, res) => {
-  const boost = BOOSTS[req.body && req.body.sku];
-  if (!boost) {
-    res.status(400).json({ error: 'Unknown boost.' });
-    return;
-  }
-
-  const state = await readState(req.telegramUser);
-  const invoiceId = crypto.randomUUID();
-  state.payments[invoiceId] = {
-    sku: req.body.sku,
-    status: 'pending',
-    createdAt: Date.now()
-  };
-  await writeState(state);
-
-  try {
-    const invoiceLink = await callTelegram('createInvoiceLink', {
-      title: boost.title,
-      description: boost.description,
-      payload: `openclaw-pet:${req.telegramUser.id}:${req.body.sku}:${invoiceId}`,
-      provider_token: '',
-      currency: 'XTR',
-      prices: [{ label: boost.title, amount: boost.amount }]
-    });
-    res.json({ invoiceLink });
-  } catch (error) {
-    state.payments[invoiceId].status = 'failed';
-    state.payments[invoiceId].error = error.message;
-    await writeState(state);
-    res.status(500).json({ error: 'Could not create Stars invoice.' });
-  }
-});
-
 app.get('/privacy', (req, res) => {
-  res.type('text/plain').send('OpenClaw Pet stores Telegram user id, pet progress, badges, OpenClaw activity metadata, and Stars payment payload status in OpenClaw memory. No external database is used for v1.');
+  res.type('text/plain').send('OpenClaw Pet stores Telegram user id, pet progress, badges, OpenClaw activity metadata, and Hermes command metadata in OpenClaw memory. No external database is used for v1.');
 });
 
 app.get('/support', (req, res) => {
-  res.type('text/plain').send('OpenClaw Pet support: contact the bot chat and use /paysupport for payment issues.');
+  res.type('text/plain').send('OpenClaw Pet support: contact the bot chat for Hermes, OpenClaw sync, or app issues.');
 });
 
 if (require.main === module) {
@@ -642,26 +556,23 @@ if (require.main === module) {
       throw new Error('TELEGRAM_UPDATE_MODE must be polling or webhook.');
     }
   } else {
-    console.warn('BOT_TOKEN is not set. Web app runs locally; Telegram mode and Stars checkout are disabled.');
+    console.warn('BOT_TOKEN is not set. Web app runs locally; Telegram mode is disabled.');
   }
 
   app.listen(PORT, () => console.log(`Server on port ${PORT}`));
 }
 
 module.exports = {
-  BOOSTS,
+  AGENT_COMMANDS,
   app,
   applyAction,
-  applyBoost,
+  applyAgentCommand,
   applyOpenClawActivity,
-  applyPaidBoost,
   defaultState,
-  parsePaymentPayload,
   publicState,
   readState,
   scanOpenClawActivity,
   TELEGRAM_UPDATE_MODE,
   validateInitData,
-  validatePreCheckout,
   writeState
 };

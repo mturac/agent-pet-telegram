@@ -4,7 +4,7 @@
 
 - The care loop is still abstract: feed, play, and code are buttons, not proof of real coding behavior.
 - OpenClaw memory is technically meaningful but not emotionally visible to the user.
-- Stars boosts risk feeling like monetization before value unless they unlock prestige, cosmetics, or meaningful convenience.
+- The primary value proposition is now Telegram-based Hermes/OpenClaw agent control, not monetization.
 - Retention is thin: daily quest and streak help, but the app does not yet create a strong reason to return tomorrow.
 - The pet has a clean visual style, but not enough personality, lore, or surprise to become memorable.
 
@@ -13,7 +13,7 @@
 - Real OpenClaw/Codex/commit activity grows the pet automatically.
 - Daily quests create real outputs: commit summary, shipped task, learning note, streak reflection.
 - Social mechanics show friend pets, streak comparisons, squad goals, or lightweight leaderboards.
-- Stars buy cosmetics, status, collectible habitats, or supporter identity rather than raw progress.
+- The Hermes Console should make agent state, sync, and share loops feel useful on its own.
 - The pet sends useful Telegram nudges tied to actual coding rhythm.
 
 ## What Would Catch Attention
@@ -26,7 +26,7 @@ This is sharper than a generic Tamagotchi. The current product should lean harde
 
 The current version is much stronger than the declined version, but Apps Center reviewers may still see it as a polished mini-game unless the submission demo clearly shows:
 
-- Telegram Stars payment.
+- Telegram-first Hermes/OpenClaw agent control.
 - Server-synced progress.
 - OpenClaw memory positioning.
 - A real reason to return daily.
@@ -36,5 +36,5 @@ The current version is much stronger than the declined version, but Apps Center 
 
 - Done locally: add at least one real OpenClaw activity signal before resubmission.
 - Make the first screen say or imply that progress syncs with real coding flow.
-- Done locally: convert Stars messaging from “boost shop” toward supporter perks, cosmetics, and prestige.
+- Done locally: convert old upgrade messaging into Hermes Console and OpenClaw agent-control language.
 - Add one social proof surface: invite badge, share card, or friend comparison teaser.

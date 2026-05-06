@@ -490,7 +490,7 @@
             font-weight: 900;
         }
 
-        .shop-grid,
+        .agent-grid,
         .badge-grid,
         .help-grid {
             display: grid;
@@ -501,7 +501,7 @@
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
-        .shop-item,
+        .agent-item,
         .badge {
             display: grid;
             grid-template-columns: auto 1fr auto;
@@ -534,21 +534,21 @@
             font-size: 18px;
         }
 
-        .shop-item:nth-child(3) .perk-icon,
+        .agent-item:nth-child(3) .perk-icon,
         .badge.locked .badge-mark {
             border-color: rgba(255, 92, 138, .32);
             background: rgba(255, 92, 138, .08);
             color: var(--rose);
         }
 
-        .shop-item strong,
+        .agent-item strong,
         .badge strong {
             display: block;
             font-family: var(--head);
             font-size: 12px;
         }
 
-        .shop-item span,
+        .agent-item span,
         .badge span {
             display: block;
             margin-top: 3px;
@@ -749,7 +749,7 @@
         </section>
 
         <nav class="dock">
-            <button onclick="openSheet('shop')">⭐ Stars</button>
+            <button onclick="openSheet('agent')">⌁ Agent</button>
             <button onclick="syncOpenClaw()">↺ Sync</button>
             <button onclick="sharePet()">🔗 Invite</button>
             <button onclick="shareWhatsApp()">WA</button>
@@ -758,27 +758,27 @@
         </nav>
     </main>
 
-    <section class="sheet" id="shopSheet">
+    <section class="sheet" id="agentSheet">
         <div class="sheet-head">
-            <h2>Supporter Perks</h2>
+            <h2>Hermes Console</h2>
             <button class="close" onclick="closeSheets()">×</button>
         </div>
-        <div class="sheet-kicker">Telegram Stars only for all transactions.</div>
-        <div class="shop-grid">
-            <div class="shop-item">
+        <div class="sheet-kicker">Control Hermes through Telegram and OpenClaw memory.</div>
+        <div class="agent-grid">
+            <div class="agent-item">
                 <div class="perk-icon">ϟ</div>
-                <div><strong>Star Snack</strong><span>Supporter snack for a polished care moment.</span></div>
-                <button class="buy" onclick="buyBoost('star-snack')">15 ⭐</button>
+                <div><strong>Status Check</strong><span>Record a Telegram command for Hermes status.</span></div>
+                <button class="buy" onclick="agentCommand('status')">Status</button>
             </div>
-            <div class="shop-item">
+            <div class="agent-item">
                 <div class="perk-icon">⏱</div>
-                <div><strong>Focus Sprint</strong><span>Prestige boost for the next coding session.</span></div>
-                <button class="buy" onclick="buyBoost('focus-sprint')">25 ⭐</button>
+                <div><strong>Focus Hermes</strong><span>Queue the active coding sprint from Telegram.</span></div>
+                <button class="buy" onclick="agentCommand('focus')">Focus</button>
             </div>
-            <div class="shop-item">
+            <div class="agent-item">
                 <div class="perk-icon">◇</div>
-                <div><strong>Legend Aura</strong><span>Cosmetic supporter glow for evolved pets.</span></div>
-                <button class="buy" onclick="buyBoost('legend-aura')">50 ⭐</button>
+                <div><strong>Memory Handoff</strong><span>Ask Hermes to pick up the latest OpenClaw memory.</span></div>
+                <button class="buy" onclick="agentCommand('handoff')">Handoff</button>
             </div>
         </div>
     </section>
@@ -813,7 +813,7 @@
             <button class="close" onclick="closeSheets()">×</button>
         </div>
         <div class="help-grid">
-            <button class="help-action" onclick="openSupport()">🛟 Payment support</button>
+            <button class="help-action" onclick="openSupport()">🛟 Agent support</button>
             <button class="help-action" onclick="openPrivacy()">🔒 Privacy note</button>
             <p class="fine-print">Telegram mode syncs pet progress through OpenClaw memory. Claude/Codex and file previews use local guest progress. WhatsApp is only a share link.</p>
         </div>
@@ -852,13 +852,13 @@
             { id: "openclaw-sync", name: "OpenClaw Sync", text: "Grow from real OpenClaw activity." },
             { id: "social", name: "Squad Signal", text: "Invite through Telegram or WhatsApp." },
             { id: "evolved", name: "Evolved", text: "Reach Baby Bot stage." },
-            { id: "star-powered", name: "Star Powered", text: "Use a Telegram Stars boost." }
+            { id: "agent-pilot", name: "Agent Pilot", text: "Run Hermes from Telegram." }
         ];
 
-        const boosts = {
-            "star-snack": { title: "Star Snack", stars: 15 },
-            "focus-sprint": { title: "Focus Sprint", stars: 25 },
-            "legend-aura": { title: "Legend Aura", stars: 50 }
+        const agentCommands = {
+            status: { title: "Status Check", message: "Hermes status check recorded in OpenClaw memory.", xp: 8, focus: 4, joy: 2 },
+            focus: { title: "Focus Hermes", message: "Hermes focus sprint queued from Telegram.", xp: 16, focus: 14, joy: 4 },
+            handoff: { title: "Memory Handoff", message: "OpenClaw memory handoff queued for Hermes.", xp: 12, focus: 8, joy: 8 }
         };
 
         const today = () => new Date().toISOString().slice(0, 10);
@@ -879,13 +879,15 @@
                 lastSeen: Date.now(),
                 lastQuestDate: today(),
                 claimedToday: false,
-                focusBoost: false,
-                aura: false,
                 lastOpenClawSyncDate: "",
                 openclawSignals: {
                     recentFiles: 0,
                     awardedXp: 0,
                     lastSyncedAt: null
+                },
+                agent: {
+                    lastCommand: null,
+                    commands: []
                 },
                 badges: []
             };
@@ -906,7 +908,16 @@
                     awardedXp: 24,
                     lastSyncedAt: Date.now()
                 },
-                badges: ["first-care", "openclaw-sync", "evolved"]
+                agent: {
+                    lastCommand: {
+                        command: "focus",
+                        title: "Focus Hermes",
+                        createdAt: Date.now(),
+                        source: "telegram"
+                    },
+                    commands: []
+                },
+                badges: ["first-care", "openclaw-sync", "evolved", "agent-pilot"]
             };
         }
 
@@ -991,8 +1002,7 @@
             if (state.food < 25) return "Needs a snack before the next sprint";
             if (state.joy < 25) return "Wants a tiny chaos break";
             if (state.focus < 20) return "Needs recharge time";
-            if (state.focusBoost) return "Focus Sprint armed";
-            if (state.aura) return "Legend Aura online";
+            if (state.agent && state.agent.lastCommand) return `${state.agent.lastCommand.title} queued`;
             if (state.openclawSignals && state.openclawSignals.recentFiles > 0) {
                 return `${state.openclawSignals.recentFiles} OpenClaw signal${state.openclawSignals.recentFiles === 1 ? "" : "s"} synced`;
             }
@@ -1006,9 +1016,7 @@
             document.getElementById("pet").textContent = stage.icon;
             document.getElementById("level").textContent = `Lv. ${state.level} ${stage.name}`;
             document.getElementById("mood").textContent = moodText();
-            document.getElementById("pet").style.textShadow = state.aura
-                ? "0 0 28px rgba(255, 206, 74, .75), 0 18px 48px rgba(42, 245, 208, .35)"
-                : "0 16px 42px rgba(42, 245, 208, .34)";
+            document.getElementById("pet").style.textShadow = "0 16px 42px rgba(42, 245, 208, .34)";
             setBar("food", state.food);
             setBar("joy", state.joy);
             setBar("focus", state.focus);
@@ -1069,11 +1077,11 @@
 
         function runGuestAction(type) {
             const beforeStage = state.stage;
-            const xpMap = { feed: 8, play: 12, code: state.focusBoost ? 32 : 16 };
+            const xpMap = { feed: 8, play: 12, code: 16 };
             const messages = {
                 feed: "Clawdy devoured the build snack.",
                 play: "Joy restored with a quick mini-game.",
-                code: state.focusBoost ? "Focus Sprint doubled your coding XP." : "Clean code energy gained."
+                code: "Clean code energy gained."
             };
 
             if (type === "feed") {
@@ -1089,7 +1097,6 @@
                 state.focus = clamp(state.focus - 12);
                 state.food = clamp(state.food - 7);
                 state.joy = clamp(state.joy + 6);
-                state.focusBoost = false;
             }
 
             addGuestXp(xpMap[type]);
@@ -1174,6 +1181,40 @@
             }
         }
 
+        async function agentCommand(command) {
+            haptic("light");
+            if (backendMode) {
+                try {
+                    const data = await api("/api/agent/command", {
+                        method: "POST",
+                        body: JSON.stringify({ command })
+                    });
+                    state = data.state;
+                    pulsePet();
+                    toast(data.message);
+                    render();
+                } catch (error) {
+                    toast(error.message);
+                }
+                return;
+            }
+
+            const spec = agentCommands[command];
+            if (!spec) return;
+            state.agent = state.agent || { lastCommand: null, commands: [] };
+            const entry = { command, title: spec.title, createdAt: Date.now(), source: "guest" };
+            state.agent.lastCommand = entry;
+            state.agent.commands = [...(state.agent.commands || []), entry].slice(-20);
+            state.focus = clamp(state.focus + spec.focus);
+            state.joy = clamp(state.joy + spec.joy);
+            state.actionsToday += 1;
+            addGuestXp(spec.xp);
+            earnGuestBadge("agent-pilot");
+            pulsePet();
+            toast(spec.message);
+            render();
+        }
+
         function openSheet(name) {
             closeSheets();
             document.getElementById(`${name}Sheet`).classList.add("open");
@@ -1181,47 +1222,6 @@
 
         function closeSheets() {
             document.querySelectorAll(".sheet").forEach((sheet) => sheet.classList.remove("open"));
-        }
-
-        async function buyBoost(sku) {
-            const boost = boosts[sku];
-            if (!boost) return;
-
-            if (!backendMode || !tg || !tg.openInvoice) {
-                toast("Open in Telegram to pay with Stars");
-                return;
-            }
-
-            haptic("medium");
-            try {
-                const data = await api("/api/create-invoice", {
-                    method: "POST",
-                    body: JSON.stringify({ sku })
-                });
-
-                tg.openInvoice(data.invoiceLink, async (status) => {
-                    if (status === "paid") {
-                        toast(`${boost.title} paid. Syncing boost...`);
-                        await refreshAfterPayment();
-                    } else {
-                        toast("Payment was not completed");
-                    }
-                });
-            } catch (error) {
-                toast(error.message || "Stars checkout unavailable");
-            }
-        }
-
-        async function refreshAfterPayment() {
-            for (let i = 0; i < 4; i += 1) {
-                await new Promise((resolve) => setTimeout(resolve, 1200));
-                await loadServerState(false);
-                if (state.badges.includes("star-powered")) {
-                    toast("Stars boost synced");
-                    return;
-                }
-            }
-            toast("Payment received. Reopen app if boost is still syncing.");
         }
 
         async function sharePet() {
@@ -1304,7 +1304,7 @@
         loadServerState(false);
         function openInitialSheet() {
             const initialSheet = location.hash.replace("#", "");
-            if (["shop", "badges", "help"].includes(initialSheet)) {
+            if (["agent", "badges", "help"].includes(initialSheet)) {
                 openSheet(initialSheet);
             }
         }

@@ -1,7 +1,7 @@
 {
   "name": "agent-pet-telegram",
   "version": "0.1.0",
-  "description": "Telegram-first OpenClaw coding pet with Stars boosts",
+  "description": "Telegram-first OpenClaw and Hermes agent companion",
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js",

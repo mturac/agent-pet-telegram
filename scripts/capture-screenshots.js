@@ -47,7 +47,7 @@ fs.mkdirSync(outDir, { recursive: true });
 const chrome = findChrome();
 const files = [
   capture(chrome, '01-home'),
-  capture(chrome, '02-star-boosts', '#shop'),
+  capture(chrome, '02-agent-console', '#agent'),
   capture(chrome, '03-badges', '#badges'),
   capture(chrome, '04-support-privacy', '#help')
 ];

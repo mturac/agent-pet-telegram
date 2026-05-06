@@ -20,14 +20,14 @@ Fill this after production deploy.
 - [ ] `/api/health` returns `telegramEnabled: true`
 - [ ] BotFather Main Mini App opens production URL
 - [ ] `/start` opens the Mini App
-- [ ] `/paysupport` returns support/payment help
+- [ ] `/agent` opens Hermes Console
+- [ ] `/sync` opens or explains OpenClaw activity sync
 - [ ] `/privacy` returns privacy/storage note
 - [ ] Feed, Play, and Code actions update server state
 - [ ] OpenClaw Sync reads recent activity and awards daily XP
 - [ ] Daily quest can be claimed after 3 actions
 - [ ] Closing and reopening preserves progress
-- [ ] Telegram Stars invoice opens
-- [ ] Successful Stars payment applies exactly one boost
+- [ ] Hermes Console status, focus, and handoff commands update server state
 - [ ] WhatsApp share opens a share link back to the Telegram app
 - [ ] Screenshots and demo video captured for Apps Center
 
@@ -43,7 +43,7 @@ Fill this after production deploy.
 - Screen recording:
 - Screenshots:
 - Static preview video: `submission/demo-video.mp4` generated from the GitHub Pages demo at 500x900, 10 seconds
-- Payment proof:
+- Agent support proof:
 - `EXPECT_TELEGRAM=1 npm run check:deploy -- <production-url>` output:
 - `npm run preflight` output:
 - `npm run telegram:configure` output:

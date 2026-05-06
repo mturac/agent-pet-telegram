@@ -29,13 +29,10 @@ fs.mkdirSync(path.join(process.env.OPENCLAW_ACTIVITY_DIR, 'notes'), { recursive:
 fs.writeFileSync(path.join(process.env.OPENCLAW_ACTIVITY_DIR, 'notes', 'build.json'), '{"ok":true}');
 
 const {
-  BOOSTS,
-  applyPaidBoost,
+  applyAgentCommand,
   app,
   defaultState,
-  parsePaymentPayload,
   validateInitData,
-  validatePreCheckout,
   writeState
 } = require('../bot');
 
@@ -61,63 +58,11 @@ function signedInitData(user) {
   assert.throws(() => validateInitData('user=%7B%7D&hash=bad'), /invalid|missing/i);
 
   const state = defaultState(user);
-  state.payments.invoice_check = {
-    sku: 'star-snack',
-    status: 'pending',
-    createdAt: Date.now()
-  };
+  const agentMessage = applyAgentCommand(state, 'focus');
+  assert.match(agentMessage, /Hermes focus/i);
+  assert.strictEqual(state.agent.lastCommand.command, 'focus');
+  assert.ok(state.badges.includes('agent-pilot'));
   await writeState(state);
-
-  const payload = 'openclaw-pet:4242:star-snack:invoice_check';
-  assert.deepStrictEqual(parsePaymentPayload(payload), {
-    userId: '4242',
-    sku: 'star-snack',
-    invoiceId: 'invoice_check'
-  });
-
-  const checkout = await validatePreCheckout({
-    from: user,
-    currency: 'XTR',
-    total_amount: BOOSTS['star-snack'].amount,
-    invoice_payload: payload
-  });
-  assert.strictEqual(checkout.ok, true);
-
-  const wrongAmount = await validatePreCheckout({
-    from: user,
-    currency: 'XTR',
-    total_amount: 1,
-    invoice_payload: payload
-  });
-  assert.strictEqual(wrongAmount.ok, false);
-
-  const paymentState = defaultState(user);
-  paymentState.payments.invoice_paid = {
-    sku: 'focus-sprint',
-    status: 'pending',
-    createdAt: Date.now()
-  };
-  const paidPayload = parsePaymentPayload('openclaw-pet:4242:focus-sprint:invoice_paid');
-  const firstApply = applyPaidBoost(paymentState, paidPayload, {
-    currency: 'XTR',
-    total_amount: BOOSTS['focus-sprint'].amount,
-    telegram_payment_charge_id: 'tg_charge',
-    provider_payment_charge_id: 'provider_charge'
-  });
-  assert.strictEqual(firstApply, true);
-  assert.strictEqual(paymentState.focusBoost, true);
-  assert.strictEqual(paymentState.payments.invoice_paid.status, 'paid');
-  assert.strictEqual(paymentState.payments.invoice_paid.telegramPaymentChargeId, 'tg_charge');
-
-  paymentState.focusBoost = false;
-  const secondApply = applyPaidBoost(paymentState, paidPayload, {
-    currency: 'XTR',
-    total_amount: BOOSTS['focus-sprint'].amount,
-    telegram_payment_charge_id: 'tg_charge_2',
-    provider_payment_charge_id: 'provider_charge_2'
-  });
-  assert.strictEqual(secondApply, false);
-  assert.strictEqual(paymentState.focusBoost, false);
 
   const server = app.listen(0);
   const baseUrl = `http://127.0.0.1:${server.address().port}`;
@@ -151,6 +96,20 @@ function signedInitData(user) {
     });
     assert.strictEqual(result.response.status, 200);
   }
+
+  result = await request('/api/agent/command', {
+    method: 'POST',
+    body: JSON.stringify({ command: 'handoff' })
+  });
+  assert.strictEqual(result.response.status, 200);
+  assert.strictEqual(result.body.state.agent.lastCommand.command, 'handoff');
+  assert.ok(result.body.state.badges.includes('agent-pilot'));
+
+  result = await request('/api/agent/command', {
+    method: 'POST',
+    body: JSON.stringify({ command: 'unknown' })
+  });
+  assert.strictEqual(result.response.status, 400);
 
   result = await request('/api/quest/claim', {
     method: 'POST',

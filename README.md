@@ -1,6 +1,6 @@
 # 🐣 OpenClaw Pet - Telegram Mini App
 
-> Telegram-first coding pet with synced OpenClaw memory, daily quests, social sharing, and Telegram Stars boosts.
+> Telegram-first OpenClaw and Hermes agent companion with synced memory, quests, badges, and social sharing.
 
 ![OpenClaw Pet demo](submission/screenshots/01-home.png)
 
@@ -11,7 +11,7 @@
 - 📊 Synced progress via OpenClaw memory files
 - 🔄 Real OpenClaw activity sync from the deploy host
 - 🏆 Daily quests, streaks, badges, and evolution
-- ⭐ Telegram Stars boosts with XTR invoices
+- ⌁ Hermes Console for Telegram-first agent control
 - 🔗 Telegram invite and WhatsApp share link
 - 🧪 Claude/Codex/browser guest fallback
 
@@ -53,14 +53,14 @@ Required production env:
 
 1. Start bot: `/start`
 2. Click "🎮 Open Pet" button
-3. Take care of your pet!
+3. Use Hermes Console, OpenClaw Sync, and daily care actions.
 
 ## 📱 Telegram Mini App
 
 - Works on all platforms (iOS, Android, Desktop)
-- Validates Telegram `initData` for state and Stars endpoints
+- Validates Telegram `initData` for synced state endpoints
 - Uses guest localStorage only outside Telegram
-- Supports `/paysupport`, `/privacy`, and `/help`
+- Supports `/agent`, `/sync`, `/privacy`, and `/help`
 - Configure BotFather Main Mini App, splash screen, screenshots, and demo video before Apps Center resubmission
 
 ## ✅ Resubmission
@@ -69,7 +69,7 @@ Use [`PRODUCTION_INPUTS.md`](./PRODUCTION_INPUTS.md), [`DEPLOYMENT.md`](./DEPLOY
 
 ## GitHub Pages Demo
 
-The GitHub Pages workflow deploys `public/` as a static demo. This is only a preview surface; Telegram Stars, `initData`, and OpenClaw memory sync still require the Node backend described in `DEPLOYMENT.md`.
+The GitHub Pages workflow deploys `public/` as a static demo. This is only a preview surface; Telegram `initData` and OpenClaw memory sync still require the Node backend described in `DEPLOYMENT.md`.
 
 ---
 

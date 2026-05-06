@@ -1,6 +1,6 @@
 # Goal Audit
 
-Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Telegram-first deploy, OpenClaw memory sync, real Stars, guest fallback, WhatsApp share, support/privacy, BotFather setup, and checklist.
+Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Telegram-first deploy, OpenClaw memory sync, Hermes agent control, guest fallback, WhatsApp share, support/privacy, BotFather setup, and checklist.
 
 ## Evidence Complete Locally
 
@@ -9,14 +9,14 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - Real OpenClaw activity sync: `OPENCLAW_ACTIVITY_DIR`, `/api/openclaw/sync`, covered by `npm test`
 - Telegram `initData` validation: `validateInitData` in `bot.js`, covered by `npm test`
 - Server-side pet actions, quest, badges, social share: `/api/action`, `/api/quest/claim`, `/api/social/share`, covered by `npm test`
-- Stars invoice/pre-checkout logic: `/api/create-invoice`, `validatePreCheckout`, covered by `npm test`
-- Successful payment idempotency: `applyPaidBoost`, covered by `npm test`
+- Hermes Console command API: `/api/agent/command`, covered by `npm test`
+- Hermes Console surface: `public/index.html`, `#agent`, `/agent` command setup
 - Guest web fallback: `public/index.html`
 - WhatsApp share-link only: `shareWhatsApp` in `public/index.html`
-- Support/privacy: `/support`, `/privacy`, `/paysupport` handling in `bot.js`
+- Support/privacy: `/support`, `/privacy`, and `/help` handling in `bot.js`
 - BotFather media packet: `BOTFATHER_PACKET.md`, `assets/openclaw-pet-avatar.png`, `assets/openclaw-pet-splash.png`
 - Screenshot capture: `npm run screenshots -- WEBAPP_URL`
-- Local screenshot evidence: `submission/screenshots/01-home.png`, `02-star-boosts.png`, `03-badges.png`, `04-support-privacy.png`
+- Local screenshot evidence: `submission/screenshots/01-home.png`, `02-agent-console.png`, `03-badges.png`, `04-support-privacy.png`
 - Static demo video capture: `npm run demo:video`, output `submission/demo-video.mp4`
 - Screenshot demo mode shows OpenClaw activity signals instead of guest fallback copy.
 - GitHub Pages static demo: `.github/workflows/pages.yml`; preview only, not production backend.
@@ -51,6 +51,8 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - `npm run preflight` without production env fails at `BOT_TOKEN is required`, confirming live inputs are still required
 - `BOT_TOKEN='123456:abc_DEF-ghi' WEBAPP_URL='https://pet.example.com' TELEGRAM_UPDATE_MODE='webhook' npm run preflight` fails without `TELEGRAM_WEBHOOK_SECRET`
 - `BOT_TOKEN='123456:abc_DEF-ghi' WEBAPP_URL='https://pet.example.com' TELEGRAM_UPDATE_MODE='webhook' TELEGRAM_WEBHOOK_SECRET='dev-secret-for-check' npm run preflight` passes
+- `python3 ~/.codex/skills/promptguard/scripts/audit_prompt.py STITCH_OPUS_BRIEF.md --format markdown` returned 0 findings
+- `ffprobe submission/demo-video.mp4` reported 500x900 and 10 seconds after Hermes Console regeneration
 
 ## Not Complete Without Live Inputs
 
@@ -60,8 +62,8 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - BotFather Main Mini App configuration
 - Upload bot image, splash screen, screenshots, and demo video
 - Review generated screenshot files in `submission/screenshots/`
-- Real Telegram mobile `/start`, `/paysupport`, `/privacy` checks
-- Real Stars purchase and reopen-sync verification
+- Real Telegram mobile `/start`, `/agent`, `/sync`, `/privacy` checks
+- Real Telegram mobile Hermes Console and reopen-sync verification
 - `/api/health` must return `telegramEnabled: true` on production
 - `LIVE_TEST_RESULTS.md` must be fully checked and filled after production deploy
 - `npm run audit:submission -- --require-production` must pass after live tests are filled
