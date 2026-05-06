@@ -27,6 +27,7 @@ help - Support and app help
 ## Media Checklist
 
 - Bot image: `assets/openclaw-pet-avatar.png`
+- Bot API profile photo source: `assets/openclaw-pet-avatar.jpg`
 - Splash screen: `assets/openclaw-pet-splash.png`
 - Screenshots: home, Agent Training, badges, support/privacy, share flow.
 - Demo video: open app, hatch Clawdy, train it, sync OpenClaw activity, claim quest, close/reopen synced state.

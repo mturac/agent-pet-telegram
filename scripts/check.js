@@ -19,7 +19,8 @@ for (const file of [
   'scripts/configure-telegram.js',
   'scripts/preflight.js',
   'scripts/live-smoke.js',
-  'scripts/check-bot-status.js'
+  'scripts/check-bot-status.js',
+  'scripts/set-bot-profile-photo.js'
 ]) {
   require('child_process').execFileSync(process.execPath, ['--check', file], {
     stdio: 'inherit'

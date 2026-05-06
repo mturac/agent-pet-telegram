@@ -11,6 +11,7 @@
     "preflight": "node scripts/preflight.js",
     "check:deploy": "node scripts/check-deploy.js",
     "bot:status": "node scripts/check-bot-status.js",
+    "bot:set-photo": "node scripts/set-bot-profile-photo.js",
     "live:smoke": "node scripts/live-smoke.js",
     "telegram:configure": "node scripts/configure-telegram.js",
     "audit:submission": "node scripts/audit-submission.js",

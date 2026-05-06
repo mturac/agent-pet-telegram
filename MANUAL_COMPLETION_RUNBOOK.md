@@ -15,6 +15,7 @@ sudo systemctl restart openclaw-pet
 cd /opt/openclaw-pet
 set -a; . /etc/openclaw-pet.env; set +a
 npm run telegram:configure
+npm run bot:set-photo
 EXPECT_BOT_USERNAME=Bombaligrim_bot npm run bot:status
 ```
 
@@ -25,6 +26,7 @@ EXPECT_BOT_USERNAME=Bombaligrim_bot npm run bot:status
 - Main Mini App URL: `https://35.224.135.8.sslip.io/`
 - Direct app link: `https://t.me/Bombaligrim_bot/pet`
 - Bot image: `assets/openclaw-pet-avatar.png`
+- Bot API profile photo source: `assets/openclaw-pet-avatar.jpg`
 - Splash screen: `assets/openclaw-pet-splash.png`
 - Screenshots: `submission/screenshots/`
 - Demo video: `submission/demo-video.mp4`
