@@ -33,6 +33,7 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - Submission packet: `APP_CENTER_SUBMISSION.md`, `SUBMISSION_CHECKLIST.md`
 - Product critique and next sprint risks: `PRODUCT_REVIEW.md`
 - Production input handoff: `PRODUCTION_INPUTS.md`
+- Manual completion handoff: `MANUAL_COMPLETION_RUNBOOK.md`
 - Live evidence template: `LIVE_TEST_RESULTS.md`
 - HTTPS production deploy: `https://35.224.135.8.sslip.io` on GCP `openclaw-gateway`
 - Production services: `openclaw-pet` systemd service and Caddy are active

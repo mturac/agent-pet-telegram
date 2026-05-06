@@ -70,6 +70,7 @@ const requiredFiles = [
   'DEPLOYMENT.md',
   'GOAL_AUDIT.md',
   'LIVE_TEST_RESULTS.md',
+  'MANUAL_COMPLETION_RUNBOOK.md',
   'PRODUCTION_INPUTS.md',
   'PRODUCT_REVIEW.md',
   'SUBMISSION_CHECKLIST.md',
@@ -130,6 +131,8 @@ assertSnippet('BOTFATHER_PACKET.md', 'Bombaligrim_bot', 'active BotFather bot us
 assertSnippet('BOTFATHER_PACKET.md', 'https://35.224.135.8.sslip.io/', 'production BotFather Mini App URL');
 assertSnippet('SUBMISSION_CHECKLIST.md', 'npm run telegram:configure', 'Telegram setup gate');
 assertSnippet('SUBMISSION_CHECKLIST.md', 'npm run live:smoke', 'production signed smoke gate');
+assertSnippet('MANUAL_COMPLETION_RUNBOOK.md', 'REQUIRE_BOT_PHOTO=1', 'BotFather profile photo gate');
+assertSnippet('MANUAL_COMPLETION_RUNBOOK.md', 'https://t.me/Bombaligrim_bot/pet', 'active direct Mini App link');
 
 for (const file of [
   'submission/screenshots/01-home.png',
