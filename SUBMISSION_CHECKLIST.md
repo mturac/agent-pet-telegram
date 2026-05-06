@@ -4,9 +4,11 @@
 
 - Deploy HTTPS URL with `BOT_TOKEN`, `WEBAPP_URL`, `PORT`, `OPENCLAW_PET_MEMORY_DIR`, and `OPENCLAW_ACTIVITY_DIR`.
 - Run `npm run telegram:configure` after HTTPS is live to set bot commands, menu button, and polling/webhook mode.
+- Run `EXPECT_BOT_USERNAME=Bombaligrim_bot npm run bot:status` to verify commands, menu, webhook, descriptions, and profile photo count.
 - In BotFather, enable Main Mini App for `https://35.224.135.8.sslip.io/` on `@Bombaligrim_bot`.
 - Configure BotFather using `BOTFATHER_PACKET.md` and the PNG assets in `assets/`.
 - Configure splash screen, bot image, screenshots, and a short demo video.
+- After uploading the bot image, run `REQUIRE_BOT_PHOTO=1 EXPECT_BOT_USERNAME=Bombaligrim_bot npm run bot:status`.
 - Test `/start`, `/agent`, `/sync`, `/privacy`, and reopen sync on Telegram mobile.
 - Test OpenClaw Sync after recent activity exists in `OPENCLAW_ACTIVITY_DIR`.
 - Confirm `npm run check` passes and `/api/health` returns `telegramEnabled: true`.

@@ -25,6 +25,7 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - Deploy packet: `DEPLOYMENT.md`, `deploy/nginx/openclaw-pet.conf.example`, `deploy/systemd/openclaw-pet.service.example`
 - Telegram setup automation: `npm run telegram:configure` sets commands, menu button, and polling/webhook mode.
 - Production preflight: `npm run preflight`
+- Bot API status audit: `npm run bot:status`
 - Production signed smoke: `npm run live:smoke`
 - Local submission artifact audit: `npm run audit:submission`
 - Public health endpoint avoids exposing filesystem paths unless `SHOW_HEALTH_DETAILS=1`
@@ -70,11 +71,12 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - `LIVE_SMOKE_SEED_ACTIVITY=1 EXPECT_OPENCLAW_SIGNAL=1 npm run live:smoke -- https://35.224.135.8.sslip.io` passed on `openclaw-gateway`
 - Production signed smoke verified hatch, persisted reopen state, Feed/Play/Code state updates, daily quest claim, Agent Training `status`/`focus`/`handoff`, social badge, and OpenClaw sync with 2 recent files and 16 XP
 - WhatsApp share link verified in `public/index.html`: it uses `https://wa.me/` text pointing to `https://t.me/Bombaligrim_bot/pet`; automated checks reject the retired bot link
+- Bot API status audit verified commands, menu URL, webhook, name, and descriptions for `@Bombaligrim_bot`; `photoCount: 0`, so BotFather profile image remains incomplete
 
 ## Not Complete Without Live Inputs
 
 - BotFather Main Mini App configuration
-- Upload bot image, splash screen, screenshots, and demo video
+- Upload bot image, splash screen, screenshots, and demo video; `REQUIRE_BOT_PHOTO=1 npm run bot:status` must pass after profile image upload
 - Real Telegram mobile `/start`, `/agent`, `/sync`, `/privacy` checks
 - Real Telegram mobile hatch, Agent Training, OpenClaw sync, and reopen verification
 - `LIVE_TEST_RESULTS.md` must be fully checked and filled after production deploy
