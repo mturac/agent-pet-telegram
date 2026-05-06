@@ -124,7 +124,10 @@ assertSnippet('public/index.html', 'Bombaligrim_bot', 'active Telegram bot link'
 assertSnippet('public/index.html', 'Agent Training', 'agent virtual pet training surface');
 assertSnippet('APP_CENTER_SUBMISSION.md', 'Telegram-first', 'submission positioning');
 assertSnippet('BOTFATHER_PACKET.md', 'agent - Open Agent Training', 'BotFather agent command');
+assertSnippet('BOTFATHER_PACKET.md', 'Bombaligrim_bot', 'active BotFather bot username');
+assertSnippet('BOTFATHER_PACKET.md', 'https://35.224.135.8.sslip.io/', 'production BotFather Mini App URL');
 assertSnippet('SUBMISSION_CHECKLIST.md', 'npm run telegram:configure', 'Telegram setup gate');
+assertSnippet('SUBMISSION_CHECKLIST.md', 'npm run live:smoke', 'production signed smoke gate');
 
 for (const file of [
   'submission/screenshots/01-home.png',

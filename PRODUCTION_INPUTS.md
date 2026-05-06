@@ -1,17 +1,22 @@
 # Production Inputs Needed
 
-Use this handoff to finish the active goal.
+Use this handoff to finish the remaining manual Apps Center work.
 
-## Required From User
+## Provided Production Inputs
 
-- `BOT_TOKEN` from BotFather.
-- HTTPS domain for `WEBAPP_URL`.
-- VPS/OpenClaw machine access where Node.js 18.17+ can run.
-- Confirmation of the production OpenClaw memory folder.
-- Confirmation of the production OpenClaw activity folder.
-- Choice of `TELEGRAM_UPDATE_MODE`: `polling` or `webhook`.
-- Long random `TELEGRAM_WEBHOOK_SECRET` if webhook mode is used.
+- Bot: `@Bombaligrim_bot`
+- `WEBAPP_URL`: `https://35.224.135.8.sslip.io/`
+- VPS/OpenClaw machine: `openclaw-gateway`
+- Production memory folder: `/var/lib/openclaw-pet/users`
+- Production activity folder: `/var/lib/openclaw-pet/activity`
+- `TELEGRAM_UPDATE_MODE`: `webhook`
+- `TELEGRAM_WEBHOOK_SECRET`: configured in `/etc/openclaw-pet.env`
+
+## Still Required From User
+
+- Rotate `BOT_TOKEN` before final public submission because the original token appeared in chat.
 - Telegram account/device for the real mobile Hermes/OpenClaw sync test.
+- BotFather manual media/Main Mini App confirmation.
 
 ## Required Commands After Inputs
 
@@ -20,6 +25,7 @@ npm run preflight
 npm test
 npm run telegram:configure
 EXPECT_TELEGRAM=1 npm run check:deploy -- "$WEBAPP_URL"
+LIVE_SMOKE_SEED_ACTIVITY=1 EXPECT_OPENCLAW_SIGNAL=1 npm run live:smoke -- "$WEBAPP_URL"
 npm run screenshots -- "$WEBAPP_URL"
 npm run demo:video
 npm run audit:submission -- --require-production
@@ -27,7 +33,7 @@ npm run audit:submission -- --require-production
 
 ## Required BotFather Actions
 
-- Set Main Mini App URL to `WEBAPP_URL`.
+- Set Main Mini App URL to `https://35.224.135.8.sslip.io/`.
 - Upload `assets/openclaw-pet-avatar.png`.
 - Upload `assets/openclaw-pet-splash.png`.
 - Add command list from `BOTFATHER_PACKET.md`.
