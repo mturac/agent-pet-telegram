@@ -50,6 +50,7 @@ Fill this after production deploy.
 - Production signed smoke output: test user hatched, badges included `hatched`, `first-care`, `daily-quest`, `agent-pilot`, `social`, and `openclaw-sync`; OpenClaw sync saw 2 recent files and awarded 16 XP.
 - WhatsApp share proof: `public/index.html` now builds `wa.me` text with `https://t.me/Bombaligrim_bot/pet`; automated checks fail if the retired `OpenClawTamagotchi_bot` link returns.
 - Bot status proof: Telegram API confirmed `@Bombaligrim_bot` commands, menu URL, webhook, name, descriptions, and profile image with `photoCount: 1`.
+- Focused command proof: code now routes `/agent` to `https://35.224.135.8.sslip.io/#agent` and `/sync` to `https://35.224.135.8.sslip.io/#sync`; production bot status and signed smoke passed after deploy.
 - Current production blockers: real Telegram mobile flow evidence and BotFather Main Mini App/splash/media setup remain manual.
 - Screen recording: `submission/demo-video.mp4`
 - Screenshots: `submission/screenshots/01-home.png`, `02-agent-console.png`, `03-badges.png`, `04-support-privacy.png`

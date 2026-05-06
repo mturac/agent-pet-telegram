@@ -73,6 +73,7 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - Production signed smoke verified hatch, persisted reopen state, Feed/Play/Code state updates, daily quest claim, Agent Training `status`/`focus`/`handoff`, social badge, and OpenClaw sync with 2 recent files and 16 XP
 - WhatsApp share link verified in `public/index.html`: it uses `https://wa.me/` text pointing to `https://t.me/Bombaligrim_bot/pet`; automated checks reject the retired bot link
 - Bot API status audit verified commands, menu URL, webhook, name, descriptions, and profile image for `@Bombaligrim_bot`; `photoCount: 1`
+- Focused bot command routing verified in code: `/agent` opens `#agent`, `/sync` opens `#sync`, and the app triggers OpenClaw Sync once from the `#sync` hash
 
 ## Not Complete Without Live Inputs
 
