@@ -24,11 +24,11 @@ Fill this after production deploy.
 - [ ] `/agent` opens Agent Training
 - [ ] `/sync` opens or explains OpenClaw activity sync
 - [x] `/privacy` returns privacy/storage note
-- [ ] Feed, Play, and Code actions update server state
-- [ ] OpenClaw Sync reads recent activity and awards daily XP
-- [ ] Daily quest can be claimed after 3 actions
-- [ ] Closing and reopening preserves progress
-- [ ] Agent Training status, focus, and handoff commands update server state
+- [x] Feed, Play, and Code actions update server state
+- [x] OpenClaw Sync reads recent activity and awards daily XP
+- [x] Daily quest can be claimed after 3 actions
+- [x] Closing and reopening preserves progress
+- [x] Agent Training status, focus, and handoff commands update server state
 - [ ] WhatsApp share opens a share link back to the Telegram app
 - [x] Screenshots and demo video captured for Apps Center
 
@@ -46,6 +46,8 @@ Fill this after production deploy.
 - Webhook proof: `getWebhookInfo` reported `https://35.224.135.8.sslip.io/telegram/webhook`, `pending_update_count: 0`, and no last error.
 - Production health: `/api/health` returned `telegramEnabled: true`, `memoryConfigured: true`, and `activityConfigured: true`.
 - Production privacy/support: `/privacy` and `/support` returned the expected storage and support text.
+- Production signed smoke: `LIVE_SMOKE_SEED_ACTIVITY=1 EXPECT_OPENCLAW_SIGNAL=1 npm run live:smoke -- https://35.224.135.8.sslip.io` passed on `openclaw-gateway`.
+- Production signed smoke output: test user hatched, badges included `hatched`, `first-care`, `daily-quest`, `agent-pilot`, `social`, and `openclaw-sync`; OpenClaw sync saw 2 recent files and awarded 16 XP.
 - Current production blockers: real Telegram mobile flow evidence and BotFather Main Mini App/media setup remain manual.
 - Screen recording: `submission/demo-video.mp4`
 - Screenshots: `submission/screenshots/01-home.png`, `02-agent-console.png`, `03-badges.png`, `04-support-privacy.png`
@@ -56,7 +58,8 @@ Fill this after production deploy.
 - `npm run preflight` output: `Production preflight passed.`
 - `npm run telegram:configure` output: commands/menu configured; webhook verified after explicit production `setWebhook` refresh.
 - `/api/health` response: `{"ok":true,"memoryConfigured":true,"activityConfigured":true,"telegramEnabled":true}`
-- Notes: Do not mark complete until the unchecked mobile and BotFather items are verified.
+- `npm run live:smoke` output: passed with signed Telegram initData against production.
+- Notes: Do not mark complete until the unchecked mobile, WhatsApp, and BotFather items are verified.
 
 ## Completion Approval
 

@@ -25,6 +25,7 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - Deploy packet: `DEPLOYMENT.md`, `deploy/nginx/openclaw-pet.conf.example`, `deploy/systemd/openclaw-pet.service.example`
 - Telegram setup automation: `npm run telegram:configure` sets commands, menu button, and polling/webhook mode.
 - Production preflight: `npm run preflight`
+- Production signed smoke: `npm run live:smoke`
 - Local submission artifact audit: `npm run audit:submission`
 - Public health endpoint avoids exposing filesystem paths unless `SHOW_HEALTH_DETAILS=1`
 - Runtime requirement: Node.js `>=18.17` in `package.json` and `DEPLOYMENT.md`
@@ -66,13 +67,16 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - `getWebhookInfo` reported `https://35.224.135.8.sslip.io/telegram/webhook`, zero pending updates, and no last error
 - Bot API production setup verified `@Bombaligrim_bot` name, description, short description, commands, and web app menu button pointing to `https://35.224.135.8.sslip.io/`
 - Visual review completed for `submission/screenshots/01-home.png`, `02-agent-console.png`, `03-badges.png`, and `04-support-privacy.png`
+- `LIVE_SMOKE_SEED_ACTIVITY=1 EXPECT_OPENCLAW_SIGNAL=1 npm run live:smoke -- https://35.224.135.8.sslip.io` passed on `openclaw-gateway`
+- Production signed smoke verified hatch, persisted reopen state, Feed/Play/Code state updates, daily quest claim, Agent Training `status`/`focus`/`handoff`, social badge, and OpenClaw sync with 2 recent files and 16 XP
 
 ## Not Complete Without Live Inputs
 
 - BotFather Main Mini App configuration
 - Upload bot image, splash screen, screenshots, and demo video
 - Real Telegram mobile `/start`, `/agent`, `/sync`, `/privacy` checks
-- Real Telegram mobile Agent Training and reopen-sync verification
+- Real Telegram mobile hatch, Agent Training, OpenClaw sync, and reopen verification
+- Real Telegram mobile WhatsApp share-link verification
 - `LIVE_TEST_RESULTS.md` must be fully checked and filled after production deploy
 - `npm run audit:submission -- --require-production` must pass after live tests are filled
 
