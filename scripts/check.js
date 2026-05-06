@@ -32,6 +32,7 @@ const {
   applyAgentCommand,
   app,
   defaultState,
+  hatchPet,
   validateInitData,
   writeState
 } = require('../bot');
@@ -58,6 +59,10 @@ function signedInitData(user) {
   assert.throws(() => validateInitData('user=%7B%7D&hash=bad'), /invalid|missing/i);
 
   const state = defaultState(user);
+  const hatchMessage = hatchPet(state);
+  assert.match(hatchMessage, /hatched/i);
+  assert.strictEqual(state.hatched, true);
+  assert.ok(state.creature && state.creature.name);
   const agentMessage = applyAgentCommand(state, 'focus');
   assert.match(agentMessage, /Clawdy focus training/i);
   assert.strictEqual(state.agent.lastCommand.command, 'focus');
@@ -88,6 +93,22 @@ function signedInitData(user) {
   result = await request('/api/state');
   assert.strictEqual(result.response.status, 200);
   assert.strictEqual(result.body.state.userId, String(user.id));
+  assert.strictEqual(result.body.state.hatched, true);
+
+  const freshUser = { id: 5252, first_name: 'Fresh' };
+  const freshInitData = signedInitData(freshUser);
+  const hatchResponse = await fetch(`${baseUrl}/api/hatch`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Telegram-Init-Data': freshInitData
+    },
+    body: '{}'
+  });
+  const hatchBody = await hatchResponse.json();
+  assert.strictEqual(hatchResponse.status, 200);
+  assert.strictEqual(hatchBody.state.hatched, true);
+  assert.ok(hatchBody.state.creature.name);
 
   for (const type of ['feed', 'play', 'code']) {
     result = await request('/api/action', {

@@ -25,9 +25,9 @@ function findChrome() {
   throw new Error('Chrome/Chromium was not found. Set CHROME_BIN.');
 }
 
-function capture(chrome, name, hash = '') {
+function capture(chrome, name, hash = '', demoValue = '1') {
   const pageUrl = new URL(baseUrl);
-  pageUrl.searchParams.set('demo', '1');
+  pageUrl.searchParams.set('demo', demoValue);
   if (hash) pageUrl.hash = hash.replace(/^#/, '');
   const url = pageUrl.toString();
   const output = path.join(outDir, `${name}.png`);
@@ -46,7 +46,7 @@ function capture(chrome, name, hash = '') {
 fs.mkdirSync(outDir, { recursive: true });
 const chrome = findChrome();
 const files = [
-  capture(chrome, '01-home'),
+  capture(chrome, '01-home', '', 'hatch'),
   capture(chrome, '02-agent-console', '#agent'),
   capture(chrome, '03-badges', '#badges'),
   capture(chrome, '04-support-privacy', '#help')

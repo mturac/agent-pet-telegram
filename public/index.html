@@ -191,6 +191,7 @@
             aspect-ratio: 1;
             display: grid;
             place-items: center;
+            cursor: pointer;
         }
 
         .pet-shadow {
@@ -215,6 +216,33 @@
 
         .pet.pulse {
             animation: pop .34s ease-out, float 2.4s ease-in-out infinite .34s;
+        }
+
+        .pet.egg {
+            animation: eggWobble 1.6s ease-in-out infinite;
+        }
+
+        .hatch-cta {
+            position: absolute;
+            z-index: 2;
+            left: 50%;
+            bottom: 50px;
+            transform: translateX(-50%);
+            min-width: 128px;
+            min-height: 34px;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 206, 74, .5);
+            border-radius: 8px;
+            background: rgba(255, 206, 74, .16);
+            color: var(--amber);
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 850;
+            box-shadow: 0 0 24px rgba(255, 206, 74, .12);
+        }
+
+        .hatch-cta[hidden] {
+            display: none;
         }
 
         .mood {
@@ -258,6 +286,11 @@
             0% { transform: scale(.9); }
             55% { transform: scale(1.12); }
             100% { transform: scale(1); }
+        }
+
+        @keyframes eggWobble {
+            0%, 100% { transform: translateY(0) rotate(-4deg); }
+            50% { transform: translateY(-8px) rotate(5deg); }
         }
 
         .stats {
@@ -381,6 +414,10 @@
             transform: scale(.97);
             border-color: var(--cyan);
             background: #243042;
+        }
+
+        .action:disabled {
+            opacity: .55;
         }
 
         .action:nth-child(1) { border-color: rgba(42, 245, 208, .32); }
@@ -703,10 +740,11 @@
             <div class="habitat" aria-live="polite">
                 <div class="grid"></div>
                 <div class="mood" id="mood">Warming up the terminal</div>
-                <div class="pet-card">
+                <div class="pet-card" onclick="hatchPet(event)">
                     <div class="pet-shadow"></div>
                     <div class="pet" id="pet">🥚</div>
                 </div>
+                <button class="hatch-cta" id="hatchCta" onclick="hatchPet(event)">Tap or shake</button>
                 <div class="level-pill" id="level">Lv. 1 Tiny Claw</div>
             </div>
 
@@ -826,7 +864,8 @@
         const user = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : {};
         const hasTelegramInit = Boolean(tg && tg.initData);
         const staticDemoHost = location.hostname.endsWith("github.io");
-        const demoMode = new URLSearchParams(location.search).get("demo") === "1" || staticDemoHost;
+        const demoParam = new URLSearchParams(location.search).get("demo");
+        const demoMode = demoParam === "1" || demoParam === "hatch" || staticDemoHost;
         const storageKey = `openclaw-pet:${user.id || "guest"}`;
         const appLink = "https://t.me/OpenClawTamagotchi_bot/pet";
         let backendMode = hasTelegramInit && !demoMode;
@@ -846,7 +885,15 @@
             { icon: "👑", name: "Claw Legend", level: 15 }
         ];
 
+        const creatures = [
+            { id: "spark-pup", name: "Spark Pup", icon: "🐶" },
+            { id: "byte-kit", name: "Byte Kit", icon: "🐱" },
+            { id: "claw-cub", name: "Claw Cub", icon: "🐾" },
+            { id: "shell-drake", name: "Shell Drake", icon: "🐲" }
+        ];
+
         const badges = [
+            { id: "hatched", name: "First Hatch", text: "Wake Clawdy from the mystery egg." },
             { id: "first-care", name: "First Care", text: "Use any care action once." },
             { id: "daily-quest", name: "Quest Finisher", text: "Claim a daily quest." },
             { id: "openclaw-sync", name: "OpenClaw Sync", text: "Grow from real OpenClaw activity." },
@@ -879,6 +926,8 @@
                 lastSeen: Date.now(),
                 lastQuestDate: today(),
                 claimedToday: false,
+                hatched: false,
+                creature: null,
                 lastOpenClawSyncDate: "",
                 openclawSignals: {
                     recentFiles: 0,
@@ -894,6 +943,8 @@
         }
 
         function demoState() {
+            if (demoParam === "hatch") return defaultState();
+
             return {
                 ...defaultState(),
                 level: 1,
@@ -903,6 +954,8 @@
                 focus: 86,
                 streak: 5,
                 actionsToday: 2,
+                hatched: true,
+                creature: creatures[0],
                 openclawSignals: {
                     recentFiles: 3,
                     awardedXp: 24,
@@ -937,6 +990,8 @@
         }
 
         function applyOfflineDecay(next) {
+            if (!next.hatched) return next;
+
             const minutes = Math.max(0, Math.floor((Date.now() - (next.lastSeen || Date.now())) / 60000));
             if (minutes > 0) {
                 next.food = clamp(next.food - Math.min(24, minutes * 0.6));
@@ -988,6 +1043,8 @@
         }
 
         function currentStage() {
+            if (!state.hatched) return { icon: "🥚", name: "Mystery Egg", level: 1 };
+
             let index = 0;
             stages.forEach((stage, i) => {
                 if (state.level >= stage.level) index = i;
@@ -997,6 +1054,7 @@
         }
 
         function moodText() {
+            if (!state.hatched) return "Tap or shake to hatch your first Clawdy";
             if (!backendMode && hasTelegramInit) return "Guest preview: server sync unavailable";
             if (!hasTelegramInit && !demoMode) return "Preview mode: Telegram unlocks OpenClaw activity sync";
             if (state.food < 25) return "Needs a snack before the next sprint";
@@ -1011,10 +1069,13 @@
 
         function render() {
             const stage = currentStage();
+            const hatched = Boolean(state.hatched);
             document.getElementById("petName").textContent = state.name;
             document.getElementById("streak").textContent = state.streak;
-            document.getElementById("pet").textContent = stage.icon;
-            document.getElementById("level").textContent = `Lv. ${state.level} ${stage.name}`;
+            const pet = document.getElementById("pet");
+            pet.textContent = hatched && state.creature ? state.creature.icon : stage.icon;
+            pet.classList.toggle("egg", !hatched);
+            document.getElementById("level").textContent = hatched ? `Lv. ${state.level} ${stage.name}` : "Mystery Egg";
             document.getElementById("mood").textContent = moodText();
             document.getElementById("pet").style.textShadow = "0 16px 42px rgba(42, 245, 208, .34)";
             setBar("food", state.food);
@@ -1026,11 +1087,15 @@
             document.getElementById("badgeXpFill").style.width = `${clamp(state.xp)}%`;
 
             const done = Math.min(3, state.actionsToday);
-            document.getElementById("questTitle").textContent = `Daily quest ${done}/3`;
-            document.getElementById("questCopy").textContent = state.claimedToday
+            document.getElementById("hatchCta").hidden = hatched;
+            document.querySelectorAll(".action").forEach((button) => { button.disabled = !hatched; });
+            document.getElementById("questTitle").textContent = hatched ? `Daily quest ${done}/3` : "First quest";
+            document.getElementById("questCopy").textContent = !hatched
+                ? "Tap the egg or shake your phone."
+                : state.claimedToday
                 ? "Quest claimed. Come back tomorrow."
                 : "Complete 3 care actions today.";
-            document.getElementById("claimBtn").disabled = done < 3 || state.claimedToday;
+            document.getElementById("claimBtn").disabled = !hatched || done < 3 || state.claimedToday;
             renderBadges();
             saveGuestState();
         }
@@ -1056,6 +1121,11 @@
 
         async function act(type) {
             haptic("light");
+            if (!state.hatched) {
+                await hatchPet();
+                return;
+            }
+
             if (backendMode) {
                 try {
                     const data = await api("/api/action", {
@@ -1119,6 +1189,11 @@
         }
 
         async function claimQuest() {
+            if (!state.hatched) {
+                await hatchPet();
+                return;
+            }
+
             if (state.actionsToday < 3 || state.claimedToday) return;
 
             if (backendMode) {
@@ -1164,6 +1239,11 @@
         }
 
         async function syncOpenClaw() {
+            if (!state.hatched) {
+                await hatchPet();
+                return;
+            }
+
             if (!backendMode) {
                 toast("Open in Telegram to sync real OpenClaw activity");
                 return;
@@ -1183,6 +1263,11 @@
 
         async function agentCommand(command) {
             haptic("light");
+            if (!state.hatched) {
+                await hatchPet();
+                return;
+            }
+
             if (backendMode) {
                 try {
                     const data = await api("/api/agent/command", {
@@ -1212,6 +1297,41 @@
             earnGuestBadge("agent-pilot");
             pulsePet();
             toast(spec.message);
+            render();
+        }
+
+        async function hatchPet(event) {
+            if (event) event.stopPropagation();
+            if (state.hatched) {
+                pulsePet();
+                toast(`${state.creature ? state.creature.name : "Clawdy"} is ready`);
+                return;
+            }
+
+            if (backendMode) {
+                try {
+                    const data = await api("/api/hatch", { method: "POST", body: "{}" });
+                    state = data.state;
+                    haptic("success");
+                    pulsePet();
+                    toast(data.message);
+                    render();
+                } catch (error) {
+                    toast(error.message);
+                }
+                return;
+            }
+
+            const creature = creatures[Math.floor(Math.random() * creatures.length)];
+            state.hatched = true;
+            state.creature = creature;
+            state.joy = clamp(state.joy + 18);
+            state.focus = clamp(state.focus + 6);
+            addGuestXp(12);
+            earnGuestBadge("hatched");
+            haptic("success");
+            pulsePet();
+            toast(`Clawdy hatched as ${creature.name}`);
             render();
         }
 
@@ -1289,7 +1409,18 @@
             toastTimer = setTimeout(() => el.classList.remove("show"), 1800);
         }
 
+        let lastShakeAt = 0;
+        window.addEventListener("devicemotion", (event) => {
+            if (state.hatched) return;
+            const acceleration = event.accelerationIncludingGravity || {};
+            const power = Math.abs(acceleration.x || 0) + Math.abs(acceleration.y || 0) + Math.abs(acceleration.z || 0);
+            if (power < 28 || Date.now() - lastShakeAt < 1400) return;
+            lastShakeAt = Date.now();
+            hatchPet();
+        });
+
         setInterval(async () => {
+            if (!state.hatched) return;
             if (backendMode) {
                 await loadServerState(false);
                 return;

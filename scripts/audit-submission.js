@@ -112,6 +112,7 @@ for (const script of [
 }
 
 assertSnippet('bot.js', 'validateInitData', 'Telegram initData validation');
+assertSnippet('bot.js', "app.post('/api/hatch'", 'server-side hatch endpoint');
 assertSnippet('bot.js', "app.post('/api/agent/command'", 'Hermes command endpoint');
 assertSnippet('bot.js', "app.post('/api/openclaw/sync'", 'OpenClaw sync endpoint');
 assertSnippet('bot.js', "app.post('/telegram/webhook'", 'Telegram webhook endpoint');

@@ -7,6 +7,7 @@
 ## 🎮 Features
 
 - 🐣 5 Evolution Stages (Tiny Claw → Baby Bot → Code Cub → Build Beast → Claw Legend)
+- 🥚 Tap-or-shake hatch moment for first-time users
 - 🍕 Feed, 🎮 Play, 💻 Code care loop
 - 📊 Synced progress via OpenClaw memory files
 - 🔄 Real OpenClaw activity sync from the deploy host

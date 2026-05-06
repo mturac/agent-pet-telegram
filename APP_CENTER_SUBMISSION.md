@@ -6,7 +6,7 @@ OpenClaw Pet is a Telegram-first agent virtual pet. Users raise Clawdy from a ti
 
 ## What Changed Since Decline
 
-- Stronger mobile UI with a clear pet habitat, Agent Training, stats, quests, badges, and social actions.
+- Stronger mobile UI with a tap/shake hatch moment, clear pet habitat, Agent Training, stats, quests, badges, and social actions.
 - The core value is a living agent pet that grows from Hermes and OpenClaw memory sync.
 - Progress syncs server-side through OpenClaw memory files on the deploy host.
 - A daily OpenClaw Sync action reads recent local OpenClaw activity metadata and turns it into pet XP.

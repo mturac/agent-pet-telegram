@@ -30,6 +30,13 @@ const STAGES = [
   { name: 'Claw Legend', level: 15 }
 ];
 
+const CREATURES = [
+  { id: 'spark-pup', name: 'Spark Pup', icon: '🐶' },
+  { id: 'byte-kit', name: 'Byte Kit', icon: '🐱' },
+  { id: 'claw-cub', name: 'Claw Cub', icon: '🐾' },
+  { id: 'shell-drake', name: 'Shell Drake', icon: '🐲' }
+];
+
 const AGENT_COMMANDS = {
   status: {
     title: 'Status Check',
@@ -93,6 +100,8 @@ function defaultState(user) {
     lastSeen: Date.now(),
     lastQuestDate: today(),
     claimedToday: false,
+    hatched: false,
+    creature: null,
     lastOpenClawSyncDate: '',
     openclawSignals: {
       recentFiles: 0,
@@ -142,6 +151,11 @@ function normalizeState(state) {
   state.agent = state.agent && typeof state.agent === 'object' ? state.agent : {};
   state.agent.commands = Array.isArray(state.agent.commands) ? state.agent.commands.slice(-20) : [];
   state.agent.lastCommand = state.agent.lastCommand || null;
+  state.hatched = Boolean(state.hatched);
+  if (state.hatched && !CREATURES.some((creature) => creature.id === (state.creature && state.creature.id))) {
+    state.creature = CREATURES[0];
+  }
+  if (!state.hatched) state.creature = null;
   state.openclawSignals = state.openclawSignals && typeof state.openclawSignals === 'object'
     ? state.openclawSignals
     : { recentFiles: 0, awardedXp: 0, lastSyncedAt: null };
@@ -234,6 +248,8 @@ async function scanOpenClawActivity(dir = ACTIVITY_DIR, now = Date.now()) {
 }
 
 function applyOpenClawActivity(state, signal) {
+  if (!state.hatched) throw Object.assign(new Error('Hatch Clawdy first.'), { statusCode: 400 });
+
   state.openclawSignals = {
     recentFiles: signal.recentFiles,
     awardedXp: 0,
@@ -263,6 +279,20 @@ function applyOpenClawActivity(state, signal) {
 function publicState(state) {
   const { payments, ...safe } = state;
   return safe;
+}
+
+function hatchPet(state) {
+  normalizeState(state);
+  if (state.hatched) return 'Clawdy is already hatched.';
+
+  const creature = CREATURES[crypto.randomInt(CREATURES.length)];
+  state.hatched = true;
+  state.creature = creature;
+  state.joy = clamp(state.joy + 18);
+  state.focus = clamp(state.focus + 6);
+  addXp(state, 12);
+  earnBadge(state, 'hatched');
+  return `Clawdy hatched as ${creature.name}.`;
 }
 
 function validateInitData(initData) {
@@ -340,6 +370,8 @@ async function sendSupport(chatId) {
 }
 
 function applyAction(state, type) {
+  if (!state.hatched) throw Object.assign(new Error('Hatch Clawdy first.'), { statusCode: 400 });
+
   const beforeStage = state.stage;
   const xpMap = { feed: 8, play: 12, code: 16 };
   const messages = {
@@ -376,6 +408,8 @@ function applyAction(state, type) {
 }
 
 function applyAgentCommand(state, command) {
+  if (!state.hatched) throw Object.assign(new Error('Hatch Clawdy first.'), { statusCode: 400 });
+
   const spec = AGENT_COMMANDS[command];
   if (!spec) throw Object.assign(new Error('Unknown Hermes command.'), { statusCode: 400 });
 
@@ -478,6 +512,17 @@ app.post('/api/action', requireTelegramUser, async (req, res) => {
   }
 });
 
+app.post('/api/hatch', requireTelegramUser, async (req, res) => {
+  try {
+    const state = await readState(req.telegramUser);
+    const message = hatchPet(state);
+    await writeState(state);
+    res.json({ message, state: publicState(state) });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({ error: error.message });
+  }
+});
+
 app.post('/api/agent/command', requireTelegramUser, async (req, res) => {
   try {
     const state = await readState(req.telegramUser);
@@ -519,7 +564,7 @@ app.post('/api/openclaw/sync', requireTelegramUser, async (req, res) => {
     await writeState(state);
     res.json({ message, state: publicState(state), signal });
   } catch (error) {
-    res.status(500).json({ error: 'Could not sync OpenClaw activity.' });
+    res.status(error.statusCode || 500).json({ error: error.statusCode ? error.message : 'Could not sync OpenClaw activity.' });
   }
 });
 
@@ -568,6 +613,7 @@ module.exports = {
   applyAction,
   applyAgentCommand,
   applyOpenClawActivity,
+  hatchPet,
   defaultState,
   publicState,
   readState,

@@ -20,7 +20,7 @@ Telegram-first agent virtual pet with synced OpenClaw/Hermes memory, daily quest
 
 ## Evidence To Capture
 
-- Mobile screen recording: open app, train Clawdy, sync OpenClaw activity, claim quest, share status, close/reopen.
+- Mobile screen recording: open app, tap or shake to hatch Clawdy, train it, sync OpenClaw activity, claim quest, share status, close/reopen.
 - Static preview video: `submission/demo-video.mp4`.
 - Screenshot set: home, Agent Training, badges, support/privacy, share flow.
 - Agent support proof: bot responds to `/help` or Support.

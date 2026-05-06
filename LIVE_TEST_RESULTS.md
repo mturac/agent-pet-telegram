@@ -20,6 +20,7 @@ Fill this after production deploy.
 - [ ] `/api/health` returns `telegramEnabled: true`
 - [ ] BotFather Main Mini App opens production URL
 - [ ] `/start` opens the Mini App
+- [ ] First user can tap or shake to hatch Clawdy
 - [ ] `/agent` opens Agent Training
 - [ ] `/sync` opens or explains OpenClaw activity sync
 - [ ] `/privacy` returns privacy/storage note

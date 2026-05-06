@@ -27,4 +27,4 @@ help - Support and app help
 - Bot image: `assets/openclaw-pet-avatar.png`
 - Splash screen: `assets/openclaw-pet-splash.png`
 - Screenshots: home, Agent Training, badges, support/privacy, share flow.
-- Demo video: open app, train Clawdy, sync OpenClaw activity, claim quest, close/reopen synced state.
+- Demo video: open app, hatch Clawdy, train it, sync OpenClaw activity, claim quest, close/reopen synced state.

@@ -8,6 +8,7 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - OpenClaw memory sync: `OPENCLAW_PET_MEMORY_DIR`, file-backed state APIs in `bot.js`
 - Real OpenClaw activity sync: `OPENCLAW_ACTIVITY_DIR`, `/api/openclaw/sync`, covered by `npm test`
 - Telegram `initData` validation: `validateInitData` in `bot.js`, covered by `npm test`
+- Server-side hatch moment: `/api/hatch`, `hatched` state, random creature form, covered by `npm test`
 - Server-side pet actions, quest, badges, social share: `/api/action`, `/api/quest/claim`, `/api/social/share`, covered by `npm test`
 - Agent Training command API: `/api/agent/command`, covered by `npm test`
 - Agent Training surface: `public/index.html`, `#agent`, `/agent` command setup
@@ -17,6 +18,7 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - BotFather media packet: `BOTFATHER_PACKET.md`, `assets/openclaw-pet-avatar.png`, `assets/openclaw-pet-splash.png`
 - Screenshot capture: `npm run screenshots -- WEBAPP_URL`
 - Local screenshot evidence: `submission/screenshots/01-home.png`, `02-agent-console.png`, `03-badges.png`, `04-support-privacy.png`
+- First screenshot shows the tap/shake mystery egg; later screenshots show the hatched Tiny Claw pet loop.
 - Static demo video capture: `npm run demo:video`, output `submission/demo-video.mp4`
 - Screenshot demo mode shows OpenClaw activity signals instead of guest fallback copy.
 - GitHub Pages static demo: `.github/workflows/pages.yml`; preview only, not production backend.
