@@ -1,17 +1,17 @@
 # 🐣 OpenClaw Pet - Telegram Mini App
 
-> Telegram-first OpenClaw and Hermes agent companion with synced memory, quests, badges, and social sharing.
+> Telegram-first agent virtual pet that grows from OpenClaw and Hermes activity.
 
 ![OpenClaw Pet demo](submission/screenshots/01-home.png)
 
 ## 🎮 Features
 
-- 🥚 5 Evolution Stages (Egg → Baby → Teen → Adult → Legend)
+- 🐣 5 Evolution Stages (Tiny Claw → Baby Bot → Code Cub → Build Beast → Claw Legend)
 - 🍕 Feed, 🎮 Play, 💻 Code care loop
 - 📊 Synced progress via OpenClaw memory files
 - 🔄 Real OpenClaw activity sync from the deploy host
 - 🏆 Daily quests, streaks, badges, and evolution
-- ⌁ Hermes Console for Telegram-first agent control
+- ⌁ Agent Training for Telegram-first pet growth
 - 🔗 Telegram invite and WhatsApp share link
 - 🧪 Claude/Codex/browser guest fallback
 
@@ -53,7 +53,7 @@ Required production env:
 
 1. Start bot: `/start`
 2. Click "🎮 Open Pet" button
-3. Use Hermes Console, OpenClaw Sync, and daily care actions.
+3. Use Agent Training, OpenClaw Sync, and daily care actions.
 
 ## 📱 Telegram Mini App
 

@@ -16,12 +16,12 @@
 
 ## Submission Copy
 
-Telegram-first OpenClaw/Hermes agent companion with synced memory, daily quests, social sharing, and a living pet dashboard.
+Telegram-first agent virtual pet with synced OpenClaw/Hermes memory, daily quests, social sharing, and Clawdy evolution.
 
 ## Evidence To Capture
 
-- Mobile screen recording: open app, focus Hermes, sync OpenClaw activity, claim quest, share status, close/reopen.
+- Mobile screen recording: open app, train Clawdy, sync OpenClaw activity, claim quest, share status, close/reopen.
 - Static preview video: `submission/demo-video.mp4`.
-- Screenshot set: home, Hermes Console, badges, support/privacy, share flow.
+- Screenshot set: home, Agent Training, badges, support/privacy, share flow.
 - Agent support proof: bot responds to `/help` or Support.
 - Filled production evidence: `LIVE_TEST_RESULTS.md`.

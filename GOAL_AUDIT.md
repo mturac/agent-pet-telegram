@@ -9,8 +9,8 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - Real OpenClaw activity sync: `OPENCLAW_ACTIVITY_DIR`, `/api/openclaw/sync`, covered by `npm test`
 - Telegram `initData` validation: `validateInitData` in `bot.js`, covered by `npm test`
 - Server-side pet actions, quest, badges, social share: `/api/action`, `/api/quest/claim`, `/api/social/share`, covered by `npm test`
-- Hermes Console command API: `/api/agent/command`, covered by `npm test`
-- Hermes Console surface: `public/index.html`, `#agent`, `/agent` command setup
+- Agent Training command API: `/api/agent/command`, covered by `npm test`
+- Agent Training surface: `public/index.html`, `#agent`, `/agent` command setup
 - Guest web fallback: `public/index.html`
 - WhatsApp share-link only: `shareWhatsApp` in `public/index.html`
 - Support/privacy: `/support`, `/privacy`, and `/help` handling in `bot.js`
@@ -47,12 +47,12 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - GitHub Actions `Submission checks` completed successfully for the Hermes reframe on `main`
 - `git diff --check`
 - GitHub Pages workflow `Deploy static demo to GitHub Pages` completed successfully for the Hermes reframe on `main`
-- `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200 and served the Hermes Console / Status Check copy
+- `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200 and served the Agent Training / Status Check copy
 - `npm run preflight` without production env fails at `BOT_TOKEN is required`, confirming live inputs are still required
 - `BOT_TOKEN='123456:abc_DEF-ghi' WEBAPP_URL='https://pet.example.com' TELEGRAM_UPDATE_MODE='webhook' npm run preflight` fails without `TELEGRAM_WEBHOOK_SECRET`
 - `BOT_TOKEN='123456:abc_DEF-ghi' WEBAPP_URL='https://pet.example.com' TELEGRAM_UPDATE_MODE='webhook' TELEGRAM_WEBHOOK_SECRET='dev-secret-for-check' npm run preflight` passes
 - `python3 ~/.codex/skills/promptguard/scripts/audit_prompt.py STITCH_OPUS_BRIEF.md --format markdown` returned 0 findings
-- `ffprobe submission/demo-video.mp4` reported 500x900 and 10 seconds after Hermes Console regeneration
+- `ffprobe submission/demo-video.mp4` reported 500x900 and 10 seconds after Agent Training regeneration
 
 ## Not Complete Without Live Inputs
 
@@ -63,7 +63,7 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - Upload bot image, splash screen, screenshots, and demo video
 - Review generated screenshot files in `submission/screenshots/`
 - Real Telegram mobile `/start`, `/agent`, `/sync`, `/privacy` checks
-- Real Telegram mobile Hermes Console and reopen-sync verification
+- Real Telegram mobile Agent Training and reopen-sync verification
 - `/api/health` must return `telegramEnabled: true` on production
 - `LIVE_TEST_RESULTS.md` must be fully checked and filled after production deploy
 - `npm run audit:submission -- --require-production` must pass after live tests are filled

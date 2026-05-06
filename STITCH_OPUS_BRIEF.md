@@ -16,7 +16,7 @@ Stitch project: `projects/14844442654120528429`.
 
 Reference screens:
 - Pet Home: `projects/14844442654120528429/screens/bf690bca84734b63a0145aff7b728b3a`
-- Hermes Console visual reference: `projects/14844442654120528429/screens/ae14b425a68c4953ad49218dad3f400a`
+- Agent Training visual reference: `projects/14844442654120528429/screens/ae14b425a68c4953ad49218dad3f400a`
 - Badges Progress: `projects/14844442654120528429/screens/6b596377a16745f7adf920621baccab3`
 
 Local screenshots:
@@ -39,14 +39,14 @@ Make the app feel Apps Center-ready: Telegram-first, premium, compact, memorable
 - Telegram `initData` backend mode.
 - Guest `localStorage` fallback outside Telegram.
 - GitHub Pages demo mode.
-- Hermes Console and Telegram-first agent control copy.
+- Agent Training and Telegram-first virtual pet growth copy.
 - WhatsApp share-link only.
 - Support and privacy entry points.
 - Existing API endpoint names and response assumptions.
 
 ## Required UI Coverage
 - Home: brand, Clawdy, streak, OpenClaw sync signal, pet lab bay, level badge, Food/Joy/Focus/XP, daily quest, Feed/Play/Code, bottom actions: Agent, Sync, Invite, WA, Badges, Help.
-- Agent: Hermes Console, status check, focus Hermes action, memory handoff, support/privacy links.
+- Agent: Agent Training, status check, focus run action, memory handoff, support/privacy links.
 - Badges: evolution progress, unlocked/locked badges, recent OpenClaw signals, Invite and WA share-link actions.
 
 ## Verification Commands

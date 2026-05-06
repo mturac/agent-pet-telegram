@@ -38,7 +38,7 @@ async function main() {
   await callTelegram('setMyCommands', {
     commands: [
       { command: 'start', description: 'Open OpenClaw Pet' },
-      { command: 'agent', description: 'Open Hermes Console' },
+      { command: 'agent', description: 'Open Agent Training' },
       { command: 'sync', description: 'Sync OpenClaw activity' },
       { command: 'privacy', description: 'Privacy and stored data' },
       { command: 'help', description: 'Help and support' }

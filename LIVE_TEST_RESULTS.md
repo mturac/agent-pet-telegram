@@ -20,21 +20,21 @@ Fill this after production deploy.
 - [ ] `/api/health` returns `telegramEnabled: true`
 - [ ] BotFather Main Mini App opens production URL
 - [ ] `/start` opens the Mini App
-- [ ] `/agent` opens Hermes Console
+- [ ] `/agent` opens Agent Training
 - [ ] `/sync` opens or explains OpenClaw activity sync
 - [ ] `/privacy` returns privacy/storage note
 - [ ] Feed, Play, and Code actions update server state
 - [ ] OpenClaw Sync reads recent activity and awards daily XP
 - [ ] Daily quest can be claimed after 3 actions
 - [ ] Closing and reopening preserves progress
-- [ ] Hermes Console status, focus, and handoff commands update server state
+- [ ] Agent Training status, focus, and handoff commands update server state
 - [ ] WhatsApp share opens a share link back to the Telegram app
 - [ ] Screenshots and demo video captured for Apps Center
 
 ## Evidence Links Or Files
 
 - GitHub Pages run: `Deploy static demo to GitHub Pages` completed successfully for the Hermes reframe on `main`
-- Static demo smoke: `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200 and served `Hermes Console` / `Status Check`
+- Static demo smoke: `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200 and served `Agent Training` / `Status Check`
 - Local test smoke: `npm test` passed and `npm audit --omit=dev` found 0 vulnerabilities
 - Local submission audit: `npm run audit:submission` passed with production warnings
 - Local deploy smoke: `npm run check:deploy -- http://localhost:3002` passed; `/api/health` confirmed memory/activity configured and Telegram disabled without `BOT_TOKEN`

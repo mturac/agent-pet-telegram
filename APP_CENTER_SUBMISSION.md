@@ -2,12 +2,12 @@
 
 ## Short Pitch
 
-OpenClaw Pet is a Telegram-first OpenClaw and Hermes agent companion. Users manage their agent loop from Telegram, sync real OpenClaw activity into memory, and keep progress visible through a living pet dashboard.
+OpenClaw Pet is a Telegram-first agent virtual pet. Users raise Clawdy from a tiny companion into a stronger coding creature, sync real OpenClaw/Hermes activity into memory, and watch the pet evolve through daily care, training, quests, badges, and sharing.
 
 ## What Changed Since Decline
 
-- Stronger mobile UI with a clear pet habitat, Hermes Console, stats, quests, badges, and social actions.
-- The core value is Telegram control for Hermes and OpenClaw memory sync, not a storefront loop.
+- Stronger mobile UI with a clear pet habitat, Agent Training, stats, quests, badges, and social actions.
+- The core value is a living agent pet that grows from Hermes and OpenClaw memory sync.
 - Progress syncs server-side through OpenClaw memory files on the deploy host.
 - A daily OpenClaw Sync action reads recent local OpenClaw activity metadata and turns it into pet XP.
 - Guest web fallback works in Claude, Codex, and normal browsers without claiming non-Telegram native support.
@@ -23,4 +23,4 @@ OpenClaw Pet is a Telegram-first OpenClaw and Hermes agent companion. Users mana
 
 ## Requested Listing Copy
 
-Telegram-first OpenClaw/Hermes agent companion with synced memory, daily quests, social sharing, and a living agent pet dashboard.
+Telegram-first agent virtual pet with synced OpenClaw/Hermes memory, daily quests, social sharing, and Clawdy evolution.

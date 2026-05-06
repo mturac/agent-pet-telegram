@@ -59,7 +59,7 @@ function signedInitData(user) {
 
   const state = defaultState(user);
   const agentMessage = applyAgentCommand(state, 'focus');
-  assert.match(agentMessage, /Hermes focus/i);
+  assert.match(agentMessage, /Clawdy focus training/i);
   assert.strictEqual(state.agent.lastCommand.command, 'focus');
   assert.ok(state.badges.includes('agent-pilot'));
   await writeState(state);

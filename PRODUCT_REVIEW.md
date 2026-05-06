@@ -13,7 +13,7 @@
 - Real OpenClaw/Codex/commit activity grows the pet automatically.
 - Daily quests create real outputs: commit summary, shipped task, learning note, streak reflection.
 - Social mechanics show friend pets, streak comparisons, squad goals, or lightweight leaderboards.
-- The Hermes Console should make agent state, sync, and share loops feel useful on its own.
+- Agent Training should make care, sync, and training loops feel useful on their own.
 - The pet sends useful Telegram nudges tied to actual coding rhythm.
 
 ## What Would Catch Attention
@@ -36,5 +36,5 @@ The current version is much stronger than the declined version, but Apps Center 
 
 - Done locally: add at least one real OpenClaw activity signal before resubmission.
 - Make the first screen say or imply that progress syncs with real coding flow.
-- Done locally: convert old upgrade messaging into Hermes Console and OpenClaw agent-control language.
+- Done locally: convert old upgrade messaging into Agent Training and OpenClaw growth language.
 - Add one social proof surface: invite badge, share card, or friend comparison teaser.

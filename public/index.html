@@ -707,7 +707,7 @@
                     <div class="pet-shadow"></div>
                     <div class="pet" id="pet">🥚</div>
                 </div>
-                <div class="level-pill" id="level">Lv. 1 Egg</div>
+                <div class="level-pill" id="level">Lv. 1 Tiny Claw</div>
             </div>
 
             <div class="stats">
@@ -749,7 +749,7 @@
         </section>
 
         <nav class="dock">
-            <button onclick="openSheet('agent')">⌁ Agent</button>
+            <button onclick="openSheet('agent')">⌁ Train</button>
             <button onclick="syncOpenClaw()">↺ Sync</button>
             <button onclick="sharePet()">🔗 Invite</button>
             <button onclick="shareWhatsApp()">WA</button>
@@ -760,24 +760,24 @@
 
     <section class="sheet" id="agentSheet">
         <div class="sheet-head">
-            <h2>Hermes Console</h2>
+            <h2>Agent Training</h2>
             <button class="close" onclick="closeSheets()">×</button>
         </div>
-        <div class="sheet-kicker">Control Hermes through Telegram and OpenClaw memory.</div>
+        <div class="sheet-kicker">Train Clawdy with Hermes signals and OpenClaw memory.</div>
         <div class="agent-grid">
             <div class="agent-item">
                 <div class="perk-icon">ϟ</div>
-                <div><strong>Status Check</strong><span>Record a Telegram command for Hermes status.</span></div>
+                <div><strong>Status Check</strong><span>Teach Clawdy to read the current Hermes state.</span></div>
                 <button class="buy" onclick="agentCommand('status')">Status</button>
             </div>
             <div class="agent-item">
                 <div class="perk-icon">⏱</div>
-                <div><strong>Focus Hermes</strong><span>Queue the active coding sprint from Telegram.</span></div>
+                <div><strong>Focus Run</strong><span>Turn the next coding sprint into pet training.</span></div>
                 <button class="buy" onclick="agentCommand('focus')">Focus</button>
             </div>
             <div class="agent-item">
                 <div class="perk-icon">◇</div>
-                <div><strong>Memory Handoff</strong><span>Ask Hermes to pick up the latest OpenClaw memory.</span></div>
+                <div><strong>Memory Handoff</strong><span>Feed Clawdy the latest OpenClaw memory signal.</span></div>
                 <button class="buy" onclick="agentCommand('handoff')">Handoff</button>
             </div>
         </div>
@@ -813,7 +813,7 @@
             <button class="close" onclick="closeSheets()">×</button>
         </div>
         <div class="help-grid">
-            <button class="help-action" onclick="openSupport()">🛟 Agent support</button>
+            <button class="help-action" onclick="openSupport()">🛟 Pet support</button>
             <button class="help-action" onclick="openPrivacy()">🔒 Privacy note</button>
             <p class="fine-print">Telegram mode syncs pet progress through OpenClaw memory. Claude/Codex and file previews use local guest progress. WhatsApp is only a share link.</p>
         </div>
@@ -839,7 +839,7 @@
         }
 
         const stages = [
-            { icon: "🥚", name: "Egg", level: 1 },
+            { icon: "🐣", name: "Tiny Claw", level: 1 },
             { icon: "🤖", name: "Baby Bot", level: 3 },
             { icon: "🧑‍💻", name: "Code Cub", level: 6 },
             { icon: "🛠️", name: "Build Beast", level: 10 },
@@ -857,7 +857,7 @@
 
         const agentCommands = {
             status: { title: "Status Check", message: "Hermes status check recorded in OpenClaw memory.", xp: 8, focus: 4, joy: 2 },
-            focus: { title: "Focus Hermes", message: "Hermes focus sprint queued from Telegram.", xp: 16, focus: 14, joy: 4 },
+            focus: { title: "Focus Run", message: "Clawdy focus training queued from Telegram.", xp: 16, focus: 14, joy: 4 },
             handoff: { title: "Memory Handoff", message: "OpenClaw memory handoff queued for Hermes.", xp: 12, focus: 8, joy: 8 }
         };
 
@@ -896,11 +896,11 @@
         function demoState() {
             return {
                 ...defaultState(),
-                level: 4,
-                xp: 38,
-                food: 82,
-                joy: 76,
-                focus: 88,
+                level: 1,
+                xp: 42,
+                food: 84,
+                joy: 78,
+                focus: 86,
                 streak: 5,
                 actionsToday: 2,
                 openclawSignals: {
@@ -911,7 +911,7 @@
                 agent: {
                     lastCommand: {
                         command: "focus",
-                        title: "Focus Hermes",
+                        title: "Focus Run",
                         createdAt: Date.now(),
                         source: "telegram"
                     },

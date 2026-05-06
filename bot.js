@@ -23,7 +23,7 @@ const ACTIVITY_DIR = expandHome(
 const app = express();
 
 const STAGES = [
-  { name: 'Egg', level: 1 },
+  { name: 'Tiny Claw', level: 1 },
   { name: 'Baby Bot', level: 3 },
   { name: 'Code Cub', level: 6 },
   { name: 'Build Beast', level: 10 },
@@ -39,8 +39,8 @@ const AGENT_COMMANDS = {
     joy: 2
   },
   focus: {
-    title: 'Focus Hermes',
-    message: 'Hermes focus sprint queued from Telegram.',
+    title: 'Focus Run',
+    message: 'Clawdy focus training queued from Telegram.',
     xp: 16,
     focus: 14,
     joy: 4
@@ -325,7 +325,7 @@ async function sendStart(chatId) {
     reply_markup: {
       inline_keyboard: [
         [{ text: '🎮 Open Pet', web_app: { url: WEBAPP_URL } }],
-        [{ text: '⌁ Hermes Console', web_app: { url: `${WEBAPP_URL}#agent` } }],
+        [{ text: '⌁ Agent Training', web_app: { url: `${WEBAPP_URL}#agent` } }],
         [{ text: '🛟 Support', callback_data: 'support' }]
       ]
     }
