@@ -50,4 +50,4 @@ For webhook mode, set `TELEGRAM_UPDATE_MODE=webhook`, add a long random
 
 - Configure the HTTPS URL as the Main Mini App.
 - Add bot image, description, splash screen, screenshots, and a short demo video.
-- Test `/start`, `/paysupport`, `/privacy`, Stars purchase, and app reopen sync.
+- Test `/start`, `/agent`, `/sync`, `/privacy`, hatch, OpenClaw sync, and app reopen sync.

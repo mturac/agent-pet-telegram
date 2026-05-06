@@ -9,5 +9,5 @@
   <path d="M800 240V178" stroke="#FFC857" stroke-width="22" stroke-linecap="round"/>
   <circle cx="800" cy="152" r="24" fill="#FFC857"/>
   <text x="800" y="666" text-anchor="middle" fill="#F7F9FF" font-family="Arial, sans-serif" font-size="92" font-weight="900">OpenClaw Pet</text>
-  <text x="800" y="738" text-anchor="middle" fill="#9AA6BB" font-family="Arial, sans-serif" font-size="34" font-weight="700">Grow your coding companion with quests, streaks, and Stars boosts.</text>
+  <text x="800" y="738" text-anchor="middle" fill="#9AA6BB" font-family="Arial, sans-serif" font-size="34" font-weight="700">Grow your coding companion with quests, streaks, and OpenClaw sync.</text>
 </svg>
