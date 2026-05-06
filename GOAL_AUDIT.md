@@ -55,10 +55,11 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - `BOT_TOKEN='123456:abc_DEF-ghi' WEBAPP_URL='https://pet.example.com' TELEGRAM_UPDATE_MODE='webhook' TELEGRAM_WEBHOOK_SECRET='dev-secret-for-check' npm run preflight` passes
 - `python3 ~/.codex/skills/promptguard/scripts/audit_prompt.py STITCH_OPUS_BRIEF.md --format markdown` returned 0 findings
 - `ffprobe submission/demo-video.mp4` reported 500x900 and 10 seconds after Agent Training regeneration
+- Bot API preview setup verified `@Bombaligrim_bot` commands, description, short description, and web app menu button pointing to the GitHub Pages preview.
 
 ## Not Complete Without Live Inputs
 
-- HTTPS production deploy with real `BOT_TOKEN` and `WEBAPP_URL`
+- HTTPS production deploy with secure bot token env and backend `WEBAPP_URL`
 - `npm run preflight` must pass on production host
 - `npm run telegram:configure` must pass against the real bot token
 - BotFather Main Mini App configuration

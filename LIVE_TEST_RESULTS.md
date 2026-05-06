@@ -7,7 +7,7 @@ Fill this after production deploy.
 - Static demo URL: https://mturac.github.io/agent-pet-telegram/
 - Static demo status: GitHub Pages returned HTTP 200 on 2026-05-06
 - Production URL:
-- Bot username:
+- Bot username: `@Bombaligrim_bot`
 - Test device:
 - Test Telegram account:
 - Test date:
@@ -40,14 +40,15 @@ Fill this after production deploy.
 - Local submission audit: `npm run audit:submission` passed with production warnings
 - Local deploy smoke: `npm run check:deploy -- http://localhost:3002` passed; `/api/health` confirmed memory/activity configured and Telegram disabled without `BOT_TOKEN`
 - GitHub Actions: `Submission checks` and `Deploy static demo to GitHub Pages` completed successfully for the Hermes reframe on `main`
-- Current production preflight: blocked because `BOT_TOKEN` is not set in this environment
+- Bot API preview setup: `@Bombaligrim_bot` commands, short description, description, and menu button configured; menu currently points to the GitHub Pages static preview.
+- Current production preflight: blocked because HTTPS backend `WEBAPP_URL`, production memory paths, and filled mobile evidence are still missing.
 - Screen recording:
 - Screenshots:
 - Static preview video: `submission/demo-video.mp4` generated from the GitHub Pages demo at 500x900, 10 seconds
 - Agent support proof:
 - `EXPECT_TELEGRAM=1 npm run check:deploy -- <production-url>` output:
 - `npm run preflight` output:
-- `npm run telegram:configure` output:
+- `npm run telegram:configure` output: preview setup succeeded for `@Bombaligrim_bot` with menu URL `https://mturac.github.io/agent-pet-telegram/`
 - `/api/health` response:
 - Notes:
 
