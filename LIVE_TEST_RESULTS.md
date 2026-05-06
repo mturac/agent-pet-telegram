@@ -47,9 +47,10 @@ Fill this after production deploy.
 - Production health: `/api/health` returned `telegramEnabled: true`, `memoryConfigured: true`, and `activityConfigured: true`.
 - Production privacy/support: `/privacy` and `/support` returned the expected storage and support text.
 - Production signed smoke: `LIVE_SMOKE_SEED_ACTIVITY=1 EXPECT_OPENCLAW_SIGNAL=1 npm run live:smoke -- https://35.224.135.8.sslip.io` passed on `openclaw-gateway`.
-- Production signed smoke output: test user hatched, badges included `hatched`, `first-care`, `daily-quest`, `agent-pilot`, `social`, and `openclaw-sync`; OpenClaw sync saw 2 recent files and awarded 16 XP.
+- Production signed smoke output on 2026-05-07: test user hatched, badges included `hatched`, `first-care`, `daily-quest`, `agent-pilot`, `social`, and `openclaw-sync`; OpenClaw sync saw 7 recent files and awarded 40 XP.
 - WhatsApp share proof: `public/index.html` now builds `wa.me` text with `https://t.me/Bombaligrim_bot/pet`; automated checks fail if the retired `OpenClawTamagotchi_bot` link returns.
 - Bot status proof: Telegram API confirmed `@Bombaligrim_bot` commands, menu URL, webhook, name, descriptions, and profile image with `photoCount: 1`.
+- Drift refresh proof on 2026-05-07: `npm run bot:status` initially caught a webhook URL mismatch; rerunning `npm run telegram:configure` restored `https://35.224.135.8.sslip.io/telegram/webhook`, and bot status plus signed smoke passed.
 - Focused command proof: code now routes `/agent` to `https://35.224.135.8.sslip.io/#agent` and `/sync` to `https://35.224.135.8.sslip.io/#sync`; production bot status and signed smoke passed after deploy.
 - Current production blockers: real Telegram mobile flow evidence and BotFather Main Mini App/splash/media setup remain manual.
 - Screen recording: `submission/demo-video.mp4`

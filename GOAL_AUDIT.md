@@ -70,7 +70,8 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - Bot API production setup verified `@Bombaligrim_bot` name, description, short description, commands, and web app menu button pointing to `https://35.224.135.8.sslip.io/`
 - Visual review completed for `submission/screenshots/01-home.png`, `02-agent-console.png`, `03-badges.png`, and `04-support-privacy.png`
 - `LIVE_SMOKE_SEED_ACTIVITY=1 EXPECT_OPENCLAW_SIGNAL=1 npm run live:smoke -- https://35.224.135.8.sslip.io` passed on `openclaw-gateway`
-- Production signed smoke verified hatch, persisted reopen state, Feed/Play/Code state updates, daily quest claim, Agent Training `status`/`focus`/`handoff`, social badge, and OpenClaw sync with 2 recent files and 16 XP
+- Production signed smoke verified hatch, persisted reopen state, Feed/Play/Code state updates, daily quest claim, Agent Training `status`/`focus`/`handoff`, social badge, and OpenClaw sync with 7 recent files and 40 XP on the 2026-05-07 refresh
+- 2026-05-07 drift refresh: `npm run bot:status` caught a webhook URL mismatch; `npm run telegram:configure` restored the webhook, then bot status and signed smoke passed
 - WhatsApp share link verified in `public/index.html`: it uses `https://wa.me/` text pointing to `https://t.me/Bombaligrim_bot/pet`; automated checks reject the retired bot link
 - Bot API status audit verified commands, menu URL, webhook, name, descriptions, and profile image for `@Bombaligrim_bot`; `photoCount: 1`
 - Focused bot command routing verified in code: `/agent` opens `#agent`, `/sync` opens `#sync`, and the app triggers OpenClaw Sync once from the `#sync` hash
