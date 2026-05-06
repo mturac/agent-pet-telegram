@@ -11,7 +11,7 @@ if (!scriptMatch) {
   throw new Error('public/index.html must include an inline script.');
 }
 
-for (const file of ['bot.js', 'scripts/configure-telegram.js', 'scripts/preflight.js']) {
+for (const file of ['bot.js', 'scripts/configure-telegram.js', 'scripts/preflight.js', 'scripts/live-smoke.js']) {
   require('child_process').execFileSync(process.execPath, ['--check', file], {
     stdio: 'inherit'
   });
