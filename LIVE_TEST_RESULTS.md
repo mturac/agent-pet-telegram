@@ -29,7 +29,7 @@ Fill this after production deploy.
 - [x] Daily quest can be claimed after 3 actions
 - [x] Closing and reopening preserves progress
 - [x] Agent Training status, focus, and handoff commands update server state
-- [ ] WhatsApp share opens a share link back to the Telegram app
+- [x] WhatsApp share opens a share link back to the Telegram app
 - [x] Screenshots and demo video captured for Apps Center
 
 ## Evidence Links Or Files
@@ -48,6 +48,7 @@ Fill this after production deploy.
 - Production privacy/support: `/privacy` and `/support` returned the expected storage and support text.
 - Production signed smoke: `LIVE_SMOKE_SEED_ACTIVITY=1 EXPECT_OPENCLAW_SIGNAL=1 npm run live:smoke -- https://35.224.135.8.sslip.io` passed on `openclaw-gateway`.
 - Production signed smoke output: test user hatched, badges included `hatched`, `first-care`, `daily-quest`, `agent-pilot`, `social`, and `openclaw-sync`; OpenClaw sync saw 2 recent files and awarded 16 XP.
+- WhatsApp share proof: `public/index.html` now builds `wa.me` text with `https://t.me/Bombaligrim_bot/pet`; automated checks fail if the retired `OpenClawTamagotchi_bot` link returns.
 - Current production blockers: real Telegram mobile flow evidence and BotFather Main Mini App/media setup remain manual.
 - Screen recording: `submission/demo-video.mp4`
 - Screenshots: `submission/screenshots/01-home.png`, `02-agent-console.png`, `03-badges.png`, `04-support-privacy.png`
@@ -59,7 +60,7 @@ Fill this after production deploy.
 - `npm run telegram:configure` output: commands/menu configured; webhook verified after explicit production `setWebhook` refresh.
 - `/api/health` response: `{"ok":true,"memoryConfigured":true,"activityConfigured":true,"telegramEnabled":true}`
 - `npm run live:smoke` output: passed with signed Telegram initData against production.
-- Notes: Do not mark complete until the unchecked mobile, WhatsApp, and BotFather items are verified.
+- Notes: Do not mark complete until the unchecked mobile and BotFather items are verified.
 
 ## Completion Approval
 

@@ -11,6 +11,9 @@ if (!scriptMatch) {
   throw new Error('public/index.html must include an inline script.');
 }
 
+assert.ok(html.includes('Bombaligrim_bot'), 'public/index.html must share the active Telegram bot link.');
+assert.ok(!html.includes('OpenClawTamagotchi_bot'), 'public/index.html must not share the retired Telegram bot link.');
+
 for (const file of ['bot.js', 'scripts/configure-telegram.js', 'scripts/preflight.js', 'scripts/live-smoke.js']) {
   require('child_process').execFileSync(process.execPath, ['--check', file], {
     stdio: 'inherit'

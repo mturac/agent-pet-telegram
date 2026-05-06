@@ -120,6 +120,7 @@ assertSnippet('bot.js', "app.post('/api/openclaw/sync'", 'OpenClaw sync endpoint
 assertSnippet('bot.js', "app.post('/telegram/webhook'", 'Telegram webhook endpoint');
 assertSnippet('public/index.html', 'localStorage', 'guest web fallback');
 assertSnippet('public/index.html', 'shareWhatsApp', 'WhatsApp share link');
+assertSnippet('public/index.html', 'Bombaligrim_bot', 'active Telegram bot link');
 assertSnippet('public/index.html', 'Agent Training', 'agent virtual pet training surface');
 assertSnippet('APP_CENTER_SUBMISSION.md', 'Telegram-first', 'submission positioning');
 assertSnippet('BOTFATHER_PACKET.md', 'agent - Open Agent Training', 'BotFather agent command');
@@ -174,6 +175,10 @@ if (read('LIVE_TEST_RESULTS.md').includes('- [ ]')) {
   const message = 'LIVE_TEST_RESULTS.md still contains unchecked production tests';
   if (requireProduction) fail(message);
   else warn(message);
+}
+
+if (read('public/index.html').includes('OpenClawTamagotchi_bot')) {
+  fail('public/index.html still contains the retired Telegram bot link');
 }
 
 if (failures.length) {

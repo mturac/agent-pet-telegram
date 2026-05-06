@@ -899,7 +899,8 @@
         const demoParam = new URLSearchParams(location.search).get("demo");
         const demoMode = demoParam === "1" || demoParam === "hatch" || staticDemoHost;
         const storageKey = `openclaw-pet:${user.id || "guest"}`;
-        const appLink = "https://t.me/OpenClawTamagotchi_bot/pet";
+        const botUsername = "Bombaligrim_bot";
+        const appLink = `https://t.me/${botUsername}/pet`;
         let backendMode = hasTelegramInit && !demoMode;
 
         if (tg) {
@@ -1397,7 +1398,7 @@
 
         function openSupport() {
             if (tg && tg.openTelegramLink) {
-                tg.openTelegramLink("https://t.me/OpenClawTamagotchi_bot?start=support");
+                tg.openTelegramLink(`https://t.me/${botUsername}?start=support`);
                 return;
             }
             openExternal("/support");
