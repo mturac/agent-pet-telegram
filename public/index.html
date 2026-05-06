@@ -8,17 +8,23 @@
     <style>
         :root {
             color-scheme: dark;
-            --bg: #10131a;
-            --panel: #181d27;
-            --panel-2: #202635;
-            --line: #30384a;
+            --bg: #070a10;
+            --panel: #101722;
+            --panel-2: #131d2a;
+            --panel-3: #182334;
+            --line: #26364a;
             --text: #f7f9ff;
-            --muted: #9aa6bb;
-            --cyan: #43d6c5;
+            --muted: #91a0b7;
+            --dim: #5f7088;
+            --cyan: #2af5d0;
             --green: #7bd66f;
-            --amber: #ffc857;
-            --rose: #ff6f91;
+            --amber: #ffce4a;
+            --rose: #ff5c8a;
             --blue: #74a7ff;
+            --steel: #9fb2ce;
+            --mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+            --head: "Space Grotesk", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         * {
@@ -38,10 +44,10 @@
             min-height: 100dvh;
             overflow: hidden;
             background:
-                radial-gradient(circle at 50% -10%, rgba(67, 214, 197, .18), transparent 32%),
-                linear-gradient(180deg, #151924 0%, var(--bg) 100%);
+                linear-gradient(135deg, rgba(42, 245, 208, .08) 0 1px, transparent 1px 48px),
+                linear-gradient(180deg, #061017 0%, var(--bg) 62%, #05070b 100%);
             color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: var(--body);
         }
 
         button {
@@ -53,13 +59,18 @@
 
         .app {
             width: 100%;
-            max-width: 100vw;
+            max-width: 520px;
             height: 100dvh;
+            margin: 0 auto;
             padding: calc(12px + env(safe-area-inset-top)) 14px calc(14px + env(safe-area-inset-bottom));
             display: grid;
             grid-template-rows: auto 1fr auto;
             gap: 10px;
             overflow: hidden;
+            background:
+                linear-gradient(180deg, rgba(42, 245, 208, .04), transparent 18%),
+                linear-gradient(180deg, rgba(255, 206, 74, .035), transparent 34%),
+                var(--bg);
         }
 
         .topbar {
@@ -75,9 +86,10 @@
 
         .eyebrow {
             color: var(--cyan);
-            font-size: 11px;
+            font-family: var(--mono);
+            font-size: 10px;
             font-weight: 800;
-            letter-spacing: .08em;
+            letter-spacing: .04em;
             text-transform: uppercase;
         }
 
@@ -86,27 +98,30 @@
             font-size: 24px;
             line-height: 1;
             letter-spacing: 0;
+            font-family: var(--head);
         }
 
         .streak {
-            min-width: 74px;
-            padding: 8px 10px;
+            min-width: 58px;
+            padding: 6px 8px;
             border: 1px solid rgba(255, 200, 87, .5);
-            border-radius: 8px;
-            background: rgba(255, 200, 87, .12);
+            border-radius: 999px;
+            background: rgba(255, 206, 74, .1);
             text-align: center;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .04);
         }
 
         .streak strong {
             display: block;
             color: var(--amber);
-            font-size: 18px;
+            font-family: var(--mono);
+            font-size: 14px;
             line-height: 1;
         }
 
         .streak span {
             color: var(--muted);
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 700;
         }
 
@@ -124,20 +139,48 @@
             border: 1px solid var(--line);
             border-radius: 8px;
             background:
-                linear-gradient(180deg, rgba(116, 167, 255, .12), transparent 36%),
-                linear-gradient(145deg, #1b2232 0%, #121721 100%);
+                linear-gradient(90deg, rgba(42, 245, 208, .12), transparent 18%, transparent 82%, rgba(255, 92, 138, .1)),
+                linear-gradient(180deg, rgba(116, 167, 255, .1), transparent 34%),
+                linear-gradient(145deg, #111b28 0%, #080d14 100%);
             position: relative;
             overflow: hidden;
             display: grid;
             place-items: center;
+            box-shadow:
+                inset 0 0 0 1px rgba(255,255,255,.03),
+                inset 0 -28px 70px rgba(42, 245, 208, .08);
+        }
+
+        .habitat::before,
+        .habitat::after {
+            content: "";
+            position: absolute;
+            top: 18%;
+            bottom: 16%;
+            width: 34px;
+            border: 1px solid rgba(42, 245, 208, .22);
+            background:
+                linear-gradient(180deg, rgba(42, 245, 208, .16), transparent),
+                repeating-linear-gradient(180deg, transparent 0 9px, rgba(42, 245, 208, .18) 10px 11px);
+            opacity: .8;
+        }
+
+        .habitat::before {
+            left: -14px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .habitat::after {
+            right: -14px;
+            border-radius: 8px 0 0 8px;
         }
 
         .grid {
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+                linear-gradient(rgba(159, 178, 206, .07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(159, 178, 206, .07) 1px, transparent 1px);
             background-size: 34px 34px;
             mask-image: linear-gradient(to bottom, transparent, black 22%, black 72%, transparent);
         }
@@ -156,8 +199,8 @@
             height: 14%;
             bottom: 20%;
             border-radius: 50%;
-            background: rgba(0, 0, 0, .33);
-            filter: blur(6px);
+            background: rgba(42, 245, 208, .16);
+            filter: blur(10px);
         }
 
         .pet {
@@ -167,7 +210,7 @@
             line-height: 1;
             animation: float 2.4s ease-in-out infinite;
             transform-origin: center bottom;
-            text-shadow: 0 16px 42px rgba(67, 214, 197, .24);
+            text-shadow: 0 16px 42px rgba(42, 245, 208, .34);
         }
 
         .pet.pulse {
@@ -180,11 +223,12 @@
             top: 12px;
             max-width: calc(100% - 24px);
             padding: 6px 9px;
-            border: 1px solid rgba(255,255,255,.11);
+            border: 1px solid rgba(42, 245, 208, .32);
             border-radius: 8px;
-            background: rgba(16, 19, 26, .72);
-            color: var(--muted);
-            font-size: 12px;
+            background: rgba(7, 10, 16, .78);
+            color: var(--steel);
+            font-family: var(--mono);
+            font-size: 11px;
             font-weight: 700;
             white-space: nowrap;
             overflow: hidden;
@@ -200,7 +244,8 @@
             background: rgba(67, 214, 197, .14);
             border: 1px solid rgba(67, 214, 197, .4);
             color: var(--cyan);
-            font-size: 12px;
+            font-family: var(--mono);
+            font-size: 11px;
             font-weight: 800;
         }
 
@@ -220,29 +265,36 @@
             min-width: 0;
             display: grid;
             gap: 8px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .stat {
             min-width: 0;
             display: grid;
-            grid-template-columns: 74px 1fr 34px;
+            grid-template-columns: 1fr auto;
             align-items: center;
             gap: 8px;
-            min-height: 28px;
+            min-height: 48px;
+            padding: 9px 10px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: linear-gradient(180deg, rgba(255,255,255,.035), transparent), var(--panel);
         }
 
         .stat label,
         .stat output {
             color: var(--muted);
-            font-size: 12px;
+            font-family: var(--mono);
+            font-size: 11px;
             font-weight: 750;
         }
 
         .bar {
+            grid-column: 1 / -1;
             min-width: 0;
-            height: 10px;
+            height: 6px;
             border-radius: 999px;
-            background: #2a3140;
+            background: #263247;
             overflow: hidden;
         }
 
@@ -253,9 +305,9 @@
             transition: width .25s ease;
         }
 
-        .fill.food { background: var(--rose); }
-        .fill.happy { background: var(--green); }
-        .fill.energy { background: var(--blue); }
+        .fill.food { background: var(--cyan); }
+        .fill.happy { background: var(--amber); }
+        .fill.energy { background: var(--rose); }
         .fill.xp { background: var(--amber); }
 
         .quest-row {
@@ -269,10 +321,13 @@
             padding: 10px;
             border: 1px solid var(--line);
             border-radius: 8px;
-            background: var(--panel);
+            background:
+                linear-gradient(90deg, rgba(42, 245, 208, .08), transparent 48%),
+                var(--panel);
         }
 
         .quest-title {
+            font-family: var(--head);
             font-size: 13px;
             font-weight: 850;
         }
@@ -290,7 +345,8 @@
             border-radius: 8px;
             background: var(--cyan);
             color: #071213;
-            font-size: 12px;
+            font-family: var(--mono);
+            font-size: 11px;
             font-weight: 900;
         }
 
@@ -312,7 +368,9 @@
             min-height: 72px;
             border: 1px solid var(--line);
             border-radius: 8px;
-            background: var(--panel-2);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,.04), transparent),
+                var(--panel-2);
             display: grid;
             place-items: center;
             gap: 2px;
@@ -325,6 +383,10 @@
             background: #243042;
         }
 
+        .action:nth-child(1) { border-color: rgba(42, 245, 208, .32); }
+        .action:nth-child(2) { border-color: rgba(255, 206, 74, .32); }
+        .action:nth-child(3) { border-color: rgba(255, 92, 138, .32); }
+
         .action b {
             font-size: 24px;
             line-height: 1;
@@ -333,6 +395,7 @@
         .action span {
             max-width: 100%;
             color: var(--muted);
+            font-family: var(--mono);
             font-size: 11px;
             font-weight: 800;
             overflow: hidden;
@@ -346,6 +409,7 @@
             display: grid;
             grid-template-columns: repeat(6, minmax(0, 1fr));
             gap: 7px;
+            padding-top: 2px;
         }
 
         .dock button {
@@ -353,9 +417,10 @@
             height: 42px;
             border: 1px solid var(--line);
             border-radius: 8px;
-            background: #151b26;
+            background: rgba(12, 18, 27, .92);
             color: var(--text);
-            font-size: 11px;
+            font-family: var(--mono);
+            font-size: 10px;
             font-weight: 850;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -374,7 +439,9 @@
             padding: 12px;
             border: 1px solid var(--line);
             border-radius: 8px;
-            background: #141a24;
+            background:
+                linear-gradient(180deg, rgba(42, 245, 208, .045), transparent 32%),
+                #0d141f;
             box-shadow: 0 -20px 60px rgba(0, 0, 0, .45);
             transform: translateY(calc(100% + 24px));
             transition: transform .2s ease;
@@ -395,8 +462,23 @@
         }
 
         .sheet h2 {
-            font-size: 16px;
+            font-family: var(--head);
+            font-size: 18px;
             letter-spacing: 0;
+        }
+
+        .sheet-kicker {
+            display: inline-flex;
+            width: fit-content;
+            margin-bottom: 10px;
+            padding: 5px 8px;
+            border: 1px solid rgba(42, 245, 208, .35);
+            border-radius: 8px;
+            background: rgba(42, 245, 208, .1);
+            color: var(--cyan);
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 800;
         }
 
         .close {
@@ -415,23 +497,55 @@
             gap: 8px;
         }
 
+        .badge-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
         .shop-item,
         .badge {
             display: grid;
-            grid-template-columns: 1fr auto;
+            grid-template-columns: auto 1fr auto;
             align-items: center;
             gap: 8px;
             min-height: 58px;
             padding: 10px;
             border: 1px solid var(--line);
             border-radius: 8px;
-            background: var(--panel);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,.035), transparent),
+                var(--panel);
+        }
+
+        .badge {
+            grid-template-columns: auto 1fr;
+            min-height: 64px;
+        }
+
+        .perk-icon,
+        .badge-mark {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(42, 245, 208, .35);
+            border-radius: 8px;
+            background: rgba(42, 245, 208, .08);
+            color: var(--cyan);
+            font-size: 18px;
+        }
+
+        .shop-item:nth-child(3) .perk-icon,
+        .badge.locked .badge-mark {
+            border-color: rgba(255, 92, 138, .32);
+            background: rgba(255, 92, 138, .08);
+            color: var(--rose);
         }
 
         .shop-item strong,
         .badge strong {
             display: block;
-            font-size: 13px;
+            font-family: var(--head);
+            font-size: 12px;
         }
 
         .shop-item span,
@@ -439,7 +553,7 @@
             display: block;
             margin-top: 3px;
             color: var(--muted);
-            font-size: 11px;
+            font-size: 10px;
             line-height: 1.25;
         }
 
@@ -449,8 +563,73 @@
             border-radius: 8px;
             background: var(--amber);
             color: #191100;
-            font-size: 12px;
+            font-family: var(--mono);
+            font-size: 11px;
             font-weight: 900;
+        }
+
+        .evolution-card,
+        .signal-list,
+        .social-row {
+            margin-bottom: 8px;
+        }
+
+        .evolution-card,
+        .signal-list {
+            padding: 10px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel);
+        }
+
+        .evolution-card span,
+        .signal-list span {
+            display: block;
+            color: var(--dim);
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .evolution-card strong {
+            display: block;
+            margin: 4px 0 8px;
+            font-family: var(--head);
+            font-size: 18px;
+        }
+
+        .evolution-meta,
+        .signal-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            color: var(--muted);
+            font-family: var(--mono);
+            font-size: 10px;
+        }
+
+        .signal-row {
+            margin-top: 7px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255,255,255,.06);
+        }
+
+        .social-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .social-row button {
+            min-height: 40px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel-2);
+            color: var(--text);
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 850;
         }
 
         .help-action {
@@ -571,11 +750,11 @@
 
         <nav class="dock">
             <button onclick="openSheet('shop')">⭐ Stars</button>
-            <button onclick="syncOpenClaw()">Sync</button>
+            <button onclick="syncOpenClaw()">↺ Sync</button>
             <button onclick="sharePet()">🔗 Invite</button>
             <button onclick="shareWhatsApp()">WA</button>
             <button onclick="openSheet('badges')">🏆 Badges</button>
-            <button onclick="openSheet('help')">Help</button>
+            <button onclick="openSheet('help')">? Help</button>
         </nav>
     </main>
 
@@ -584,16 +763,20 @@
             <h2>Supporter Perks</h2>
             <button class="close" onclick="closeSheets()">×</button>
         </div>
+        <div class="sheet-kicker">Telegram Stars only for all transactions.</div>
         <div class="shop-grid">
             <div class="shop-item">
+                <div class="perk-icon">ϟ</div>
                 <div><strong>Star Snack</strong><span>Supporter snack for a polished care moment.</span></div>
                 <button class="buy" onclick="buyBoost('star-snack')">15 ⭐</button>
             </div>
             <div class="shop-item">
+                <div class="perk-icon">⏱</div>
                 <div><strong>Focus Sprint</strong><span>Prestige boost for the next coding session.</span></div>
                 <button class="buy" onclick="buyBoost('focus-sprint')">25 ⭐</button>
             </div>
             <div class="shop-item">
+                <div class="perk-icon">◇</div>
                 <div><strong>Legend Aura</strong><span>Cosmetic supporter glow for evolved pets.</span></div>
                 <button class="buy" onclick="buyBoost('legend-aura')">50 ⭐</button>
             </div>
@@ -605,7 +788,23 @@
             <h2>Badges</h2>
             <button class="close" onclick="closeSheets()">×</button>
         </div>
+        <div class="evolution-card">
+            <span>Evolution stage</span>
+            <strong id="badgeStage">Baby Bot</strong>
+            <div class="bar"><div class="fill xp" id="badgeXpFill"></div></div>
+            <div class="evolution-meta"><em id="badgeLevelCopy">Lv. 1</em><em>Code Cub</em></div>
+        </div>
         <div class="badge-grid" id="badgeGrid"></div>
+        <div class="social-row">
+            <button onclick="sharePet()">▷ Invite</button>
+            <button onclick="shareWhatsApp()">↗ WA share link</button>
+        </div>
+        <div class="signal-list">
+            <span>OpenClaw signals</span>
+            <div class="signal-row"><b>Code Sync</b><em>+50 XP</em></div>
+            <div class="signal-row"><b>Daily Reward</b><em>+20 XP</em></div>
+            <div class="signal-row"><b>Feed Success</b><em>+10 XP</em></div>
+        </div>
     </section>
 
     <section class="sheet" id="helpSheet">
@@ -808,12 +1007,15 @@
             document.getElementById("level").textContent = `Lv. ${state.level} ${stage.name}`;
             document.getElementById("mood").textContent = moodText();
             document.getElementById("pet").style.textShadow = state.aura
-                ? "0 0 28px rgba(255, 200, 87, .75), 0 18px 48px rgba(67, 214, 197, .35)"
-                : "0 16px 42px rgba(67, 214, 197, .24)";
+                ? "0 0 28px rgba(255, 206, 74, .75), 0 18px 48px rgba(42, 245, 208, .35)"
+                : "0 16px 42px rgba(42, 245, 208, .34)";
             setBar("food", state.food);
             setBar("joy", state.joy);
             setBar("focus", state.focus);
             setBar("xp", state.xp);
+            document.getElementById("badgeStage").textContent = stage.name;
+            document.getElementById("badgeLevelCopy").textContent = `Lv. ${state.level} · ${state.xp}/100 XP`;
+            document.getElementById("badgeXpFill").style.width = `${clamp(state.xp)}%`;
 
             const done = Math.min(3, state.actionsToday);
             document.getElementById("questTitle").textContent = `Daily quest ${done}/3`;
@@ -840,7 +1042,7 @@
             const grid = document.getElementById("badgeGrid");
             grid.innerHTML = badges.map((badge) => {
                 const earned = state.badges.includes(badge.id);
-                return `<div class="badge"><div><strong>${earned ? "✅" : "🔒"} ${badge.name}</strong><span>${badge.text}</span></div></div>`;
+                return `<div class="badge ${earned ? "earned" : "locked"}"><div class="badge-mark">${earned ? "✓" : "☆"}</div><div><strong>${badge.name}</strong><span>${badge.text}</span></div></div>`;
             }).join("");
         }
 
@@ -1100,9 +1302,19 @@
 
         render();
         loadServerState(false);
-        const initialSheet = location.hash.replace("#", "");
-        if (["shop", "badges", "help"].includes(initialSheet)) {
-            setTimeout(() => openSheet(initialSheet), 250);
+        function openInitialSheet() {
+            const initialSheet = location.hash.replace("#", "");
+            if (["shop", "badges", "help"].includes(initialSheet)) {
+                openSheet(initialSheet);
+            }
+        }
+
+        openInitialSheet();
+        window.addEventListener("hashchange", openInitialSheet);
+        if (document.readyState === "complete") {
+            openInitialSheet();
+        } else {
+            window.addEventListener("load", openInitialSheet, { once: true });
         }
     </script>
 </body>
