@@ -33,12 +33,12 @@ Fill this after production deploy.
 
 ## Evidence Links Or Files
 
-- GitHub Pages run: `Deploy static demo to GitHub Pages` completed successfully for commit `2f4d878`
-- Static demo smoke: `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200
+- GitHub Pages run: `Deploy static demo to GitHub Pages` completed successfully for the Hermes reframe on `main`
+- Static demo smoke: `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200 and served `Hermes Console` / `Status Check`
 - Local test smoke: `npm test` passed and `npm audit --omit=dev` found 0 vulnerabilities
 - Local submission audit: `npm run audit:submission` passed with production warnings
 - Local deploy smoke: `npm run check:deploy -- http://localhost:3002` passed; `/api/health` confirmed memory/activity configured and Telegram disabled without `BOT_TOKEN`
-- GitHub Actions: `Submission checks` and `Deploy static demo to GitHub Pages` completed successfully for commit `765d8ff`
+- GitHub Actions: `Submission checks` and `Deploy static demo to GitHub Pages` completed successfully for the Hermes reframe on `main`
 - Current production preflight: blocked because `BOT_TOKEN` is not set in this environment
 - Screen recording:
 - Screenshots:

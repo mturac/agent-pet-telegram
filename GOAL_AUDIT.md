@@ -44,10 +44,10 @@ Objective: prepare OpenClaw Pet for Telegram Apps Center resubmission with Teleg
 - `npm run audit:submission -- --require-production` fails until live production inputs and tests are filled
 - `npm run check:deploy -- http://localhost:3002` passed against a live local server
 - `curl http://localhost:3002/api/health` returned `memoryConfigured: true`, `activityConfigured: true`, and `telegramEnabled: false`
-- GitHub Actions `Submission checks` completed successfully for commit `765d8ff`
+- GitHub Actions `Submission checks` completed successfully for the Hermes reframe on `main`
 - `git diff --check`
-- GitHub Pages workflow `Deploy static demo to GitHub Pages` completed successfully for commit `2f4d878`
-- `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200
+- GitHub Pages workflow `Deploy static demo to GitHub Pages` completed successfully for the Hermes reframe on `main`
+- `curl -L https://mturac.github.io/agent-pet-telegram/` returned HTTP 200 and served the Hermes Console / Status Check copy
 - `npm run preflight` without production env fails at `BOT_TOKEN is required`, confirming live inputs are still required
 - `BOT_TOKEN='123456:abc_DEF-ghi' WEBAPP_URL='https://pet.example.com' TELEGRAM_UPDATE_MODE='webhook' npm run preflight` fails without `TELEGRAM_WEBHOOK_SECRET`
 - `BOT_TOKEN='123456:abc_DEF-ghi' WEBAPP_URL='https://pet.example.com' TELEGRAM_UPDATE_MODE='webhook' TELEGRAM_WEBHOOK_SECRET='dev-secret-for-check' npm run preflight` passes
