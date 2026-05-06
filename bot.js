@@ -354,8 +354,8 @@ function appUrl(hash = '') {
   return url.toString();
 }
 
-async function sendStart(chatId) {
-  return callTelegram('sendMessage', {
+function startMessage(chatId) {
+  return {
     chat_id: chatId,
     text: '🐣 OpenClaw Pet is ready. Manage Hermes through Telegram, sync OpenClaw memory, and keep agent progress visible.',
     reply_markup: {
@@ -365,11 +365,15 @@ async function sendStart(chatId) {
         [{ text: '🛟 Support', callback_data: 'support' }]
       ]
     }
-  });
+  };
 }
 
-async function sendAgent(chatId) {
-  return callTelegram('sendMessage', {
+async function sendStart(chatId) {
+  return callTelegram('sendMessage', startMessage(chatId));
+}
+
+function agentMessage(chatId) {
+  return {
     chat_id: chatId,
     text: '⌁ Agent Training is ready. Open Clawdy and run Hermes status, focus, or memory handoff commands.',
     reply_markup: {
@@ -378,11 +382,15 @@ async function sendAgent(chatId) {
         [{ text: '🎮 Open Pet', web_app: { url: appUrl() } }]
       ]
     }
-  });
+  };
 }
 
-async function sendSync(chatId) {
-  return callTelegram('sendMessage', {
+async function sendAgent(chatId) {
+  return callTelegram('sendMessage', agentMessage(chatId));
+}
+
+function syncMessage(chatId) {
+  return {
     chat_id: chatId,
     text: '↺ OpenClaw Sync reads recent OpenClaw activity from the deploy host and turns it into Clawdy XP.',
     reply_markup: {
@@ -391,14 +399,22 @@ async function sendSync(chatId) {
         [{ text: '🎮 Open Pet', web_app: { url: appUrl() } }]
       ]
     }
-  });
+  };
+}
+
+async function sendSync(chatId) {
+  return callTelegram('sendMessage', syncMessage(chatId));
+}
+
+function supportMessage(chatId) {
+  return {
+    chat_id: chatId,
+    text: 'Support: reply here with your issue. Privacy: only Telegram user id, pet progress, OpenClaw activity metadata, and Hermes command metadata are stored in OpenClaw memory.'
+  };
 }
 
 async function sendSupport(chatId) {
-  return callTelegram('sendMessage', {
-    chat_id: chatId,
-    text: 'Support: reply here with your issue. Privacy: only Telegram user id, pet progress, OpenClaw activity metadata, and Hermes command metadata are stored in OpenClaw memory.'
-  });
+  return callTelegram('sendMessage', supportMessage(chatId));
 }
 
 function applyAction(state, type) {
@@ -651,6 +667,7 @@ if (require.main === module) {
 
 module.exports = {
   AGENT_COMMANDS,
+  agentMessage,
   app,
   appUrl,
   applyAction,
@@ -661,6 +678,9 @@ module.exports = {
   publicState,
   readState,
   scanOpenClawActivity,
+  startMessage,
+  supportMessage,
+  syncMessage,
   TELEGRAM_UPDATE_MODE,
   validateInitData,
   writeState

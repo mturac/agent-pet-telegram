@@ -40,11 +40,15 @@ fs.mkdirSync(path.join(process.env.OPENCLAW_ACTIVITY_DIR, 'notes'), { recursive:
 fs.writeFileSync(path.join(process.env.OPENCLAW_ACTIVITY_DIR, 'notes', 'build.json'), '{"ok":true}');
 
 const {
+  agentMessage: buildAgentMessage,
   applyAgentCommand,
   appUrl,
   app,
   defaultState,
   hatchPet,
+  startMessage: buildStartMessage,
+  supportMessage: buildSupportMessage,
+  syncMessage: buildSyncMessage,
   validateInitData,
   writeState
 } = require('../bot');
@@ -69,6 +73,10 @@ function signedInitData(user) {
   const user = { id: 4242, first_name: 'Check' };
   assert.strictEqual(appUrl('agent'), 'http://localhost:3000/#agent');
   assert.strictEqual(appUrl('#sync'), 'http://localhost:3000/#sync');
+  assert.strictEqual(buildStartMessage(1).reply_markup.inline_keyboard[1][0].web_app.url, 'http://localhost:3000/#agent');
+  assert.strictEqual(buildAgentMessage(1).reply_markup.inline_keyboard[0][0].web_app.url, 'http://localhost:3000/#agent');
+  assert.strictEqual(buildSyncMessage(1).reply_markup.inline_keyboard[0][0].web_app.url, 'http://localhost:3000/#sync');
+  assert.match(buildSupportMessage(1).text, /Privacy/);
   assert.strictEqual(validateInitData(signedInitData(user)).id, user.id);
   assert.throws(() => validateInitData('user=%7B%7D&hash=bad'), /invalid|missing/i);
 
