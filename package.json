@@ -15,6 +15,7 @@
     "live:smoke": "node scripts/live-smoke.js",
     "telegram:configure": "node scripts/configure-telegram.js",
     "audit:submission": "node scripts/audit-submission.js",
+    "submission:package": "node scripts/package-submission.js",
     "screenshots": "node scripts/capture-screenshots.js",
     "demo:video": "node scripts/capture-demo-video.js"
   },

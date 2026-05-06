@@ -21,6 +21,12 @@ EXPECT_BOT_USERNAME=Bombaligrim_bot npm run bot:status
 
 ## 2. BotFather Media
 
+Prepare the upload package:
+
+```bash
+npm run submission:package
+```
+
 - Bot: `@Bombaligrim_bot`
 - Name: `OpenClaw Pet`
 - Main Mini App URL: `https://35.224.135.8.sslip.io/`

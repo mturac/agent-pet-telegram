@@ -17,6 +17,7 @@
 - Run `LIVE_SMOKE_SEED_ACTIVITY=1 EXPECT_OPENCLAW_SIGNAL=1 npm run live:smoke -- "$WEBAPP_URL"`.
 - Run `npm run screenshots -- WEBAPP_URL` and review the 500x900 PNGs in `submission/screenshots/`.
 - Run `npm run demo:video` and review `submission/demo-video.mp4`.
+- Run `npm run submission:package` to prepare the Apps Center upload folder.
 - Run `npm run audit:submission -- --require-production` after live Telegram tests are complete.
 
 ## Submission Copy

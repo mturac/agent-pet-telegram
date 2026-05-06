@@ -86,6 +86,7 @@ const requiredFiles = [
   'scripts/check.js',
   'scripts/configure-telegram.js',
   'scripts/live-smoke.js',
+  'scripts/package-submission.js',
   'scripts/preflight.js',
   'scripts/set-bot-profile-photo.js',
   'submission/demo-video.mp4',
@@ -113,6 +114,7 @@ for (const script of [
   'live:smoke',
   'telegram:configure',
   'audit:submission',
+  'submission:package',
   'screenshots',
   'demo:video'
 ]) {
@@ -134,6 +136,7 @@ assertSnippet('BOTFATHER_PACKET.md', 'Bombaligrim_bot', 'active BotFather bot us
 assertSnippet('BOTFATHER_PACKET.md', 'https://35.224.135.8.sslip.io/', 'production BotFather Mini App URL');
 assertSnippet('SUBMISSION_CHECKLIST.md', 'npm run telegram:configure', 'Telegram setup gate');
 assertSnippet('SUBMISSION_CHECKLIST.md', 'npm run live:smoke', 'production signed smoke gate');
+assertSnippet('SUBMISSION_CHECKLIST.md', 'npm run submission:package', 'Apps Center upload package gate');
 assertSnippet('MANUAL_COMPLETION_RUNBOOK.md', 'REQUIRE_BOT_PHOTO=1', 'BotFather profile photo gate');
 assertSnippet('MANUAL_COMPLETION_RUNBOOK.md', 'https://t.me/Bombaligrim_bot/pet', 'active direct Mini App link');
 
