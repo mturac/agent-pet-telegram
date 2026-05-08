@@ -12,7 +12,10 @@ The order is fixed. Later items have less priority. Allowed exception count: zer
 Act as a senior frontend engineer. Apply the approved Stitch visual direction to the OpenClaw Pet Telegram Mini App. Owned file: `public/index.html`.
 
 ## Source Design
-Stitch project: `projects/14844442654120528429`.
+Primary submission project: `projects/6806142477079318602`.
+Uploaded design brief screen: `projects/6806142477079318602/screens/14152463793698920508`.
+
+Original visual reference project: `projects/14844442654120528429`.
 
 Reference screens:
 - Pet Home: `projects/14844442654120528429/screens/bf690bca84734b63a0145aff7b728b3a`
